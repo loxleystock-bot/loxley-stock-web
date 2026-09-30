@@ -36,7 +36,7 @@
     .nav{border:0;background:transparent;color:#8a92a6;font-size:10px;padding:6px 2px}.nav b{display:block;font-size:21px;line-height:1.1;margin-bottom:3px}.nav.active{color:var(--blue);font-weight:800}.nav.active b{transform:translateY(-1px)}
     .modal{position:fixed;inset:0;z-index:100;background:rgba(10,16,38,.55);display:none;align-items:flex-end}.modal.show{display:flex}.sheet{background:#fff;width:100%;max-height:91vh;overflow:auto;border-radius:24px 24px 0 0;padding:18px 18px calc(22px + env(safe-area-inset-bottom));box-shadow:0 -15px 40px rgba(0,0,0,.18)}.handle{width:42px;height:4px;background:#d8dbe4;border-radius:5px;margin:0 auto 14px}.sheet h3{margin:0 0 15px;color:var(--blue)}.field{margin:11px 0}.field label{display:block;font-size:12px;font-weight:700;margin-bottom:6px}.field input,.field select,.field textarea{width:100%;border:1px solid #dfe3ee;border-radius:12px;padding:11px 12px;outline:none;background:#fff}.field textarea{min-height:88px;resize:vertical}
     .checklist{max-height:230px;overflow:auto;border:1px solid var(--line);border-radius:14px;padding:6px}.checkitem{display:flex;gap:10px;align-items:flex-start;padding:10px;border-bottom:1px solid #f0f1f5}.checkitem:last-child{border-bottom:0}.checkitem input{margin-top:4px}.modal-actions{display:flex;gap:8px;margin-top:16px}.modal-actions button{flex:1}
-    .toast{position:fixed;left:16px;right:16px;bottom:calc(90px + env(safe-area-inset-bottom));z-index:200;background:#17203a;color:white;padding:12px 14px;border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.2);display:none;font-size:12px}.toast.show{display:block}.toast.err{background:#8e262b}
+    .toast{position:fixed;left:16px;right:16px;bottom:calc(90px + env(safe-area-inset-bottom));z-index:200;background:#17203a;color:white;padding:12px 14px;border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.2);display:none;font-size:12px}.toast.show{display:block}.toast.err{background:#8e262b}.sync-indicator{position:fixed;top:calc(8px + env(safe-area-inset-top));right:10px;z-index:250;background:rgba(255,255,255,.94);color:var(--blue);border:1px solid #dfe4f3;border-radius:999px;padding:5px 9px;font-size:10px;font-weight:700;box-shadow:0 4px 14px rgba(0,0,0,.10);display:none}.sync-indicator.show{display:block}
     .timeline{border-left:2px solid #dfe4f3;margin:12px 0 0 8px;padding-left:14px}.event{position:relative;margin:0 0 12px}.event:before{content:"";position:absolute;width:9px;height:9px;border-radius:50%;background:var(--blue);left:-19px;top:5px}.event b{font-size:11px}.event div{font-size:11px;color:var(--muted);margin-top:2px}
     @media(min-width:700px){.stats{grid-template-columns:repeat(4,1fr)}.quick{grid-template-columns:repeat(3,1fr)}.list{grid-template-columns:repeat(2,1fr)}.modal{align-items:center;justify-content:center}.sheet{max-width:560px;border-radius:24px;padding-bottom:22px}}
   
@@ -205,6 +205,7 @@
   <div class="modal-actions"><button class="secondary" onclick="closeModal('updateModal')">ยกเลิก</button><button class="primary" onclick="submitClaimUpdate()">บันทึก</button></div>
 </div></div>
 
+<div class="sync-indicator" id="syncIndicator">กำลังซิงก์…</div>
 <div class="toast" id="toast"></div>
 
 <script>
@@ -216,7 +217,23 @@ const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&
 const fmt=d=>{if(!d)return '-'; const x=new Date(d); return isNaN(x)?esc(d):x.toLocaleDateString('th-TH',{day:'2-digit',month:'short',year:'2-digit'})};
 function badge(s){let c='blue'; if(['Available','Approved','Returned','Completed'].includes(s))c='ok'; else if(['PendingApproval','WaitingVendor','WaitingParts','Reserved','HandedOver'].includes(s))c='warn'; else if(['Rejected','Cancelled','Lost','Retired'].includes(s))c='bad'; return '<span class="badge '+c+'">'+esc(s||'-')+'</span>'}
 function toast(msg,err=false){const e=document.getElementById('toast');e.textContent=msg;e.className='toast show'+(err?' err':'');setTimeout(()=>e.className='toast',2800)}
-function busy(on){document.body.style.pointerEvents=on?'none':'';document.body.style.opacity=on?'.86':''}
+let BUSY_COUNT=0;
+const INFLIGHT=new Set();
+let REFRESHING=false;
+const CACHE_KEY='loxleyBootstrapCacheV2';
+function busy(on){
+  BUSY_COUNT=Math.max(0,BUSY_COUNT+(on?1:-1));
+  const e=document.getElementById('syncIndicator');
+  if(e)e.classList.toggle('show',BUSY_COUNT>0);
+}
+function saveCache(){try{localStorage.setItem(CACHE_KEY,JSON.stringify({at:Date.now(),data:DATA}))}catch(_){}}
+function loadCache(){
+  try{
+    const x=JSON.parse(localStorage.getItem(CACHE_KEY)||'null');
+    if(x&&x.data&&Date.now()-Number(x.at||0)<12*60*60*1000){DATA=x.data;hydrate();closeModal('loginModal');return true}
+  }catch(_){}
+  return false;
+}
 const API_URL='https://script.google.com/macros/s/AKfycbw7zd0yZqoY5iQrrQxQsGvzNWMGqADfqx0r_w93quCUoO8vTTt4OD_kQN0th5gwtimq/exec';
 async function api(body){
   const r=await fetch(API_URL,{method:'POST',mode:'cors',credentials:'omit',headers:{'Content-Type':'text/plain;charset=UTF-8'},body:JSON.stringify(body)});
@@ -228,11 +245,11 @@ async function api(body){
 function authFail(msg){TOKEN='';localStorage.removeItem('loxleyAuthToken');showLogin();toast(msg||'กรุณาเข้าสู่ระบบใหม่',true)}
 async function call(name,args,ok){
   if(!TOKEN){showLogin();return}
-  busy(true);
+  if(INFLIGHT.has(name)){toast('รายการนี้กำลังบันทึกอยู่');return}
+  INFLIGHT.add(name);busy(true);
   try{
     let body={token:TOKEN};
-    if(name==='getBootstrapData') body.action='bootstrap';
-    else if(name==='createLoanRequest') {body.action='createLoanRequest';body.payload=args||{}}
+    if(name==='createLoanRequest') {body.action='createLoanRequest';body.payload=args||{}}
     else if(name==='decideLoan') {body.action='decideLoan';body.loanId=args[0];body.approve=args[1];body.reason=args[2]||''}
     else if(name==='handoverLoan') {body.action='handoverLoan';body.loanId=args}
     else if(name==='returnLoan') {body.action='returnLoan';body.loanId=args[0];body.condition=args[1]||''}
@@ -240,23 +257,42 @@ async function call(name,args,ok){
     else if(name==='addClaimUpdate') {body.action='addClaimUpdate';body.payload=args||{}}
     else if(name==='setUserCredentials') {body.action='setUserCredentials';body.payload=args||{}}
     else throw new Error('UNKNOWN_ACTION');
-    const result=await api(body); busy(false); if(ok) ok(result);
-  }catch(e){busy(false);const msg=e.message||String(e);if(msg.includes('AUTH_'))authFail('เซสชันหมดอายุ กรุณาเข้าสู่ระบบใหม่');else toast(msg,true)}
+    const result=await api(body); if(ok) ok(result);
+  }catch(e){
+    const msg=e.message||String(e);
+    if(msg.includes('AUTH_'))authFail('เซสชันหมดอายุ กรุณาเข้าสู่ระบบใหม่');else toast(msg,true);
+  }finally{INFLIGHT.delete(name);busy(false)}
 }
-function refresh(done){if(!TOKEN){showLogin();return}call('getBootstrapData',undefined,d=>{DATA=d;hydrate();closeModal('loginModal');done&&done()})}
+async function refresh(done){
+  if(!TOKEN){showLogin();return}
+  if(REFRESHING)return;
+  REFRESHING=true;busy(true);
+  try{
+    const d=await api({action:'bootstrap',token:TOKEN});
+    DATA=d;hydrate();saveCache();closeModal('loginModal');if(done)done();
+  }catch(e){
+    const msg=e.message||String(e);
+    if(msg.includes('AUTH_'))authFail('เซสชันหมดอายุ กรุณาเข้าสู่ระบบใหม่');else toast('ซิงก์ข้อมูลไม่สำเร็จ ลองใหม่อีกครั้ง',true);
+  }finally{REFRESHING=false;busy(false)}
+}
 function showLogin(){document.getElementById('loginModal').classList.add('show')}
 async function submitLogin(){
   const username=document.getElementById('loginUsername').value.trim();
   const pin=document.getElementById('loginPin').value.trim();
   if(!username||!pin){toast('กรุณากรอก Username และ PIN',true);return}
-  busy(true);
+  if(INFLIGHT.has('login'))return;
+  INFLIGHT.add('login');busy(true);
   try{
     const r=await api({action:'login',username,pin});
-    TOKEN=r.token;localStorage.setItem('loxleyAuthToken',TOKEN);document.getElementById('loginPin').value='';closeModal('loginModal');busy(false);refresh(()=>go('home'));
-  }catch(e){busy(false);toast(e.message||String(e),true)}
+    TOKEN=r.token;localStorage.setItem('loxleyAuthToken',TOKEN);
+    document.getElementById('loginPin').value='';
+    if(r.data){DATA=r.data;hydrate();saveCache();closeModal('loginModal');go('home')}
+    else{closeModal('loginModal');refresh(()=>go('home'))}
+  }catch(e){toast(e.message||String(e),true)}
+  finally{INFLIGHT.delete('login');busy(false)}
 }
 function logout(){
-  TOKEN='';localStorage.removeItem('loxleyAuthToken');DATA={user:{},dashboard:{},items:[],loans:[],claims:[],users:[]};
+  TOKEN='';localStorage.removeItem('loxleyAuthToken');localStorage.removeItem(CACHE_KEY);DATA={user:{},dashboard:{},items:[],loans:[],claims:[],users:[]};
   document.getElementById('userPill').textContent='ยังไม่ได้เข้าสู่ระบบ';showLogin()
 }
 function hydrate(){
@@ -318,7 +354,7 @@ function submitClaim(){call('createClaim',{itemId:document.getElementById('claim
 function openUpdate(id){document.getElementById('updateClaimId').value=id;const c=DATA.claims.find(x=>x.ClaimID===id);if(c)document.getElementById('updateStatus').value=c.Status;showModal('updateModal')}
 function submitClaimUpdate(){call('addClaimUpdate',{claimId:document.getElementById('updateClaimId').value,status:document.getElementById('updateStatus').value,channel:document.getElementById('updateChannel').value,detail:document.getElementById('updateDetail').value,nextDate:document.getElementById('updateNext').value,itemStatus:document.getElementById('updateItemStatus').value},()=>{closeModal('updateModal');toast('อัปเดตเคสแล้ว');refresh()})}
 document.querySelectorAll('.modal').forEach(m=>m.addEventListener('click',e=>{if(e.target===m && m.id!=='loginModal')closeModal(m.id)}));
-refresh();
+if(TOKEN){loadCache();refresh()}else{showLogin()}
 </script>
 </body>
 </html>
