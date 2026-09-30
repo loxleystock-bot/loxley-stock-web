@@ -123,6 +123,10 @@
       <button class="qbtn" onclick="go('items')"><span class="ico">▣</span>ค้นหาอุปกรณ์<small>ดูสถานะ/ตำแหน่ง</small></button>
       <button class="qbtn" onclick="openClaim()"><span class="ico">⚒</span>แจ้งเคลม<small>เปิดเคสใหม่</small></button>
     </div>
+    <div id="adminUserSection" style="display:none">
+      <div class="section-head"><h3>ผู้ดูแลระบบ</h3><span id="adminUserCount"></span></div>
+      <div class="card"><div class="row"><div class="grow"><div class="title">จัดการ Username / PIN</div><div class="sub">กำหนดชื่อผู้ใช้และตั้งหรือรีเซ็ต PIN 6 หลัก โดยไม่แสดง PIN เดิม</div></div><button class="primary" onclick="openUserAdmin()">จัดการ</button></div></div>
+    </div>
     <div class="section-head"><h3>รายการล่าสุด</h3><span id="homeHint"></span></div>
     <div class="list" id="homeLatest"></div>
   </section>
@@ -160,10 +164,18 @@
     <h3 style="margin:0;color:#1B3280">เข้าสู่ระบบ Loxley Stock</h3>
     <div class="sub" style="margin-top:4px">ใช้บัญชีที่มีอยู่ในตาราง USERS</div>
   </div>
-  <div class="field"><label>อีเมล</label><input type="email" id="loginEmail" autocomplete="username" placeholder="name@company.com"></div>
-  <div class="field"><label>PIN 6 หลัก</label><input type="password" inputmode="numeric" maxlength="6" id="loginPin" autocomplete="current-password" placeholder="••••••"></div>
+  <div class="field"><label>Username</label><input type="text" id="loginUsername" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="เช่น admin"></div>
+  <div class="field"><label>PIN 6 หลัก</label><input type="password" inputmode="numeric" pattern="[0-9]*" maxlength="6" id="loginPin" autocomplete="current-password" placeholder="••••••"></div>
   <div class="modal-actions"><button class="primary" onclick="submitLogin()">เข้าสู่ระบบ</button></div>
   <div class="sub" style="text-align:center;margin-top:12px">ติดต่อผู้ดูแลระบบหากยังไม่มี PIN</div>
+</div></div>
+
+<div class="modal" id="userAdminModal"><div class="sheet"><div class="handle"></div><h3>จัดการผู้ใช้งาน</h3>
+  <div class="field"><label>ผู้ใช้งาน</label><select id="adminUserSelect" onchange="fillAdminUser()"></select></div>
+  <div class="field"><label>Username</label><input id="adminUsername" autocapitalize="none" spellcheck="false" placeholder="เช่น stock01"></div>
+  <div class="field"><label>ตั้ง / รีเซ็ต PIN 6 หลัก</label><input type="password" inputmode="numeric" pattern="[0-9]*" maxlength="6" id="adminUserPin" placeholder="เว้นว่างถ้าไม่เปลี่ยน PIN"></div>
+  <div class="sub">ระบบจะเก็บเฉพาะค่า hash ของ PIN และไม่สามารถดู PIN เดิมย้อนหลังได้</div>
+  <div class="modal-actions"><button class="secondary" onclick="closeModal('userAdminModal')">ยกเลิก</button><button class="primary" onclick="submitUserCredentials()">บันทึก</button></div>
 </div></div>
 
 <div class="modal" id="loanModal"><div class="sheet"><div class="handle"></div><h3>สร้างคำขอยืม</h3>
@@ -196,7 +208,7 @@
 <div class="toast" id="toast"></div>
 
 <script>
-let DATA={user:{},dashboard:{},items:[],loans:[],claims:[]};
+let DATA={user:{},dashboard:{},items:[],loans:[],claims:[],users:[]};
 let TOKEN=localStorage.getItem('loxleyAuthToken')||'';
 const staff=()=>['Admin','StockOfficer','Approver'].includes(DATA.user.role);
 const stock=()=>['Admin','StockOfficer'].includes(DATA.user.role);
@@ -226,6 +238,7 @@ async function call(name,args,ok){
     else if(name==='returnLoan') {body.action='returnLoan';body.loanId=args[0];body.condition=args[1]||''}
     else if(name==='createClaim') {body.action='createClaim';body.payload=args||{}}
     else if(name==='addClaimUpdate') {body.action='addClaimUpdate';body.payload=args||{}}
+    else if(name==='setUserCredentials') {body.action='setUserCredentials';body.payload=args||{}}
     else throw new Error('UNKNOWN_ACTION');
     const result=await api(body); busy(false); if(ok) ok(result);
   }catch(e){busy(false);const msg=e.message||String(e);if(msg.includes('AUTH_'))authFail('เซสชันหมดอายุ กรุณาเข้าสู่ระบบใหม่');else toast(msg,true)}
@@ -233,26 +246,48 @@ async function call(name,args,ok){
 function refresh(done){if(!TOKEN){showLogin();return}call('getBootstrapData',undefined,d=>{DATA=d;hydrate();closeModal('loginModal');done&&done()})}
 function showLogin(){document.getElementById('loginModal').classList.add('show')}
 async function submitLogin(){
-  const email=document.getElementById('loginEmail').value.trim();
+  const username=document.getElementById('loginUsername').value.trim();
   const pin=document.getElementById('loginPin').value.trim();
-  if(!email||!pin){toast('กรุณากรอกอีเมลและ PIN',true);return}
+  if(!username||!pin){toast('กรุณากรอก Username และ PIN',true);return}
   busy(true);
   try{
-    const r=await api({action:'login',email,pin});
+    const r=await api({action:'login',username,pin});
     TOKEN=r.token;localStorage.setItem('loxleyAuthToken',TOKEN);document.getElementById('loginPin').value='';closeModal('loginModal');busy(false);refresh(()=>go('home'));
   }catch(e){busy(false);toast(e.message||String(e),true)}
 }
 function logout(){
-  TOKEN='';localStorage.removeItem('loxleyAuthToken');DATA={user:{},dashboard:{},items:[],loans:[],claims:[]};
+  TOKEN='';localStorage.removeItem('loxleyAuthToken');DATA={user:{},dashboard:{},items:[],loans:[],claims:[],users:[]};
   document.getElementById('userPill').textContent='ยังไม่ได้เข้าสู่ระบบ';showLogin()
 }
 function hydrate(){
   document.getElementById('userPill').textContent=(DATA.user.name||DATA.user.email||'ผู้ใช้งาน')+' · '+(DATA.user.role||'');
   document.getElementById('hello').textContent='สวัสดี '+(DATA.user.name||'');
   ['Total','Available','Pending','Claims'].forEach(k=>document.getElementById('s'+k).textContent=({Total:DATA.dashboard.total,Available:DATA.dashboard.available,Pending:DATA.dashboard.pending,Claims:DATA.dashboard.openClaims})[k]??0);
-  renderItems();renderLoans();renderClaims();renderHome();fillForms();
+  renderItems();renderLoans();renderClaims();renderHome();fillForms();renderAdminUsers();
 }
 function go(p){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById(p+'Page').classList.add('active');document.querySelectorAll('.nav').forEach(x=>x.classList.toggle('active',x.dataset.page===p));scrollTo(0,0)}
+function renderAdminUsers(){
+  const sec=document.getElementById('adminUserSection'); if(!sec)return;
+  const isAdmin=DATA.user.role==='Admin';
+  sec.style.display=isAdmin?'block':'none';
+  document.getElementById('adminUserCount').textContent=isAdmin?(DATA.users||[]).length+' คน':'';
+}
+function openUserAdmin(){
+  if(DATA.user.role!=='Admin')return;
+  const sel=document.getElementById('adminUserSelect');
+  sel.innerHTML=(DATA.users||[]).map(u=>'<option value="'+esc(u.UserID)+'">'+esc((u.FullName||u.Email)+' · '+(u.Role||''))+'</option>').join('');
+  fillAdminUser(); showModal('userAdminModal');
+}
+function fillAdminUser(){
+  const id=document.getElementById('adminUserSelect').value;
+  const u=(DATA.users||[]).find(x=>x.UserID===id)||{};
+  document.getElementById('adminUsername').value=u.Username||'';
+  document.getElementById('adminUserPin').value='';
+}
+function submitUserCredentials(){
+  const p={userId:document.getElementById('adminUserSelect').value,username:document.getElementById('adminUsername').value.trim(),pin:document.getElementById('adminUserPin').value.trim()};
+  call('setUserCredentials',p,()=>{toast('บันทึก Username / PIN แล้ว');document.getElementById('adminUserPin').value='';refresh(()=>{fillAdminUser();})})
+}
 function renderHome(){
   const x=[...DATA.loans].sort((a,b)=>String(b.CreatedAt||'').localeCompare(String(a.CreatedAt||''))).slice(0,2);
   const c=[...DATA.claims].sort((a,b)=>String(b.OpenedAt||'').localeCompare(String(a.OpenedAt||''))).slice(0,2);
@@ -286,4 +321,4 @@ document.querySelectorAll('.modal').forEach(m=>m.addEventListener('click',e=>{if
 refresh();
 </script>
 </body>
-      </html>
+</html>
