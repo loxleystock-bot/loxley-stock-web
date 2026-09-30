@@ -42,7 +42,7 @@ body.auth-locked>.topbar,body.auth-locked>main.wrap,body.auth-locked>nav.bottom{
 body.auth-locked #loginModal{display:flex!important;align-items:center;justify-content:center;background:var(--bg);padding:20px}
 body.auth-locked #loginModal .sheet{width:100%;max-width:430px;max-height:none;border-radius:24px;padding:24px 18px;box-shadow:0 16px 44px rgba(27,50,128,.14)}
 body.auth-locked #loginModal .handle{display:none}
-.form-banner{border:1px solid #dfe4f3;background:linear-gradient(145deg,#fff,#f3f5fb);border-radius:15px;padding:12px 13px;margin:2px 0 12px}.form-banner b{display:block;color:var(--blue);font-size:14px}.form-banner span{display:block;color:var(--muted);font-size:10px;margin-top:3px}.form-section{margin:15px 0 8px;padding-top:10px;border-top:1px solid var(--line);font-weight:800;color:var(--blue);font-size:13px}.option-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}.option-pill{display:flex;align-items:center;gap:7px;border:1px solid var(--line);border-radius:11px;padding:9px 10px;background:#fff;font-size:12px}.option-pill input{width:auto!important;min-height:auto!important}.mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.sheet .hint{font-size:10px;color:var(--muted);line-height:1.45;margin-top:4px}
+.form-banner{border:1px solid #dfe4f3;background:linear-gradient(145deg,#fff,#f3f5fb);border-radius:15px;padding:12px 13px;margin:2px 0 12px}.form-banner b{display:block;color:var(--blue);font-size:14px}.form-banner span{display:block;color:var(--muted);font-size:10px;margin-top:3px}.form-section{margin:15px 0 8px;padding-top:10px;border-top:1px solid var(--line);font-weight:800;color:var(--blue);font-size:13px}.option-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}.option-pill{display:flex;align-items:center;gap:7px;border:1px solid var(--line);border-radius:11px;padding:9px 10px;background:#fff;font-size:12px}.option-pill input{width:auto!important;min-height:auto!important}.mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.sheet .hint{font-size:10px;color:var(--muted);line-height:1.45;margin-top:4px}.chips{display:flex;gap:7px;overflow:auto;padding:2px 0 10px}.chip{border:1px solid var(--line);background:#fff;color:var(--blue);border-radius:999px;padding:8px 13px;font-weight:800;white-space:nowrap}.chip.active{background:var(--blue);color:#fff;border-color:var(--blue)}.stock-row{display:grid;grid-template-columns:1fr 76px;gap:9px;align-items:center;padding:10px;border-bottom:1px solid var(--line)}.stock-row:last-child{border-bottom:0}.stock-row input{width:100%;min-height:40px;border:1px solid var(--line);border-radius:10px;padding:8px;text-align:center;font-size:16px}.stock-balance{font-weight:900;color:#11835b}.stock-zero{color:var(--red)}
 .timeline{border-left:2px solid #dfe4f3;margin:12px 0 0 8px;padding-left:14px}.event{position:relative;margin:0 0 12px}.event:before{content:"";position:absolute;width:9px;height:9px;border-radius:50%;background:var(--blue);left:-19px;top:5px}.event b{font-size:11px}.event div{font-size:11px;color:var(--muted);margin-top:2px}
     @media(min-width:700px){.stats{grid-template-columns:repeat(4,1fr)}.quick{grid-template-columns:repeat(3,1fr)}.list{grid-template-columns:repeat(2,1fr)}.modal{align-items:center;justify-content:center}.sheet{max-width:560px;border-radius:24px;padding-bottom:22px}}
   
@@ -118,10 +118,10 @@ body.auth-locked #loginModal .handle{display:none}
   <section class="page active" id="homePage">
     <div class="hero"><div class="hero-eyebrow">LOXLEY STOCK MANAGEMENT</div><h2 id="hello">สวัสดีค่ะ</h2><p>เช็กวัสดุ ออกใบเบิก และติดตามการส่งซ่อมในรูปแบบเดียวกับเอกสารที่ใช้งานปัจจุบัน</p></div>
     <div class="stats">
-      <div class="stat"><div class="n" id="sTotal">–</div><div class="l">วัสดุทั้งหมด</div></div>
-      <div class="stat green"><div class="n" id="sAvailable">–</div><div class="l">พร้อมเบิก</div></div>
-      <div class="stat gold"><div class="n" id="sPending">–</div><div class="l">ใบเบิกรออนุมัติ</div></div>
-      <div class="stat red"><div class="n" id="sClaims">–</div><div class="l">งานซ่อมที่ยังเปิด</div></div>
+      <div class="stat"><div class="n" id="sTotal">–</div><div class="l">รายการวัสดุทั้งหมด</div></div>
+      <div class="stat green"><div class="n" id="sM6">–</div><div class="l" id="m6Label">M6</div></div>
+      <div class="stat gold"><div class="n" id="sM81">–</div><div class="l" id="m81Label">M81</div></div>
+      <div class="stat red"><div class="n" id="sPending">–</div><div class="l">ใบเบิกรออนุมัติ</div></div>
     </div>
     <div class="section-head"><h3>ทำรายการด่วน</h3><span>เลือกสิ่งที่ต้องการ</span></div>
     <div class="quick">
@@ -138,8 +138,13 @@ body.auth-locked #loginModal .handle{display:none}
   </section>
 
   <section class="page" id="itemsPage">
-    <div class="section-head"><h3>วัสดุ / อุปกรณ์</h3><span id="itemCount"></span></div>
-    <div class="toolbar"><input class="search" id="itemSearch" placeholder="ค้นหารหัส / รายการ / รุ่น / Part Number / ตำแหน่ง" oninput="renderItems()"><button class="primary" onclick="openLoan()">+ ใบเบิก</button></div>
+    <div class="section-head"><h3>วัสดุคงเหลือ</h3><span id="itemCount"></span></div>
+    <div class="chips" id="itemProjectChips">
+      <button class="chip active" onclick="setItemProject('ALL',this)">ทั้งหมด</button>
+      <button class="chip" onclick="setItemProject('M6',this)">M6</button>
+      <button class="chip" onclick="setItemProject('M81',this)">M81</button>
+    </div>
+    <div class="toolbar"><input class="search" id="itemSearch" placeholder="ค้นหา System / Description / Location" oninput="renderItems()"><button class="primary" onclick="openLoan()">+ ใบเบิก</button></div>
     <div class="list" id="itemList"></div>
   </section>
 
@@ -191,7 +196,7 @@ body.auth-locked #loginModal .handle{display:none}
   <div class="mini-grid"><div class="field"><label>แผนก / ฝ่าย</label><input id="loanDepartment"></div><div class="field"><label>โทรศัพท์</label><input id="loanPhone" inputmode="tel"></div></div>
   <div class="field"><label>ชื่องาน / ชื่อโครงการ</label><input id="loanProject"></div>
   <div class="field"><label>สถานที่เก็บ</label><input id="loanStorageLocation"></div>
-  <div class="mini-grid"><div class="field"><label>ระยะเวลาในการเบิก</label><input id="loanBorrowPeriod" placeholder="เช่น 7 วัน"></div><div class="field"><label>วันที่คาดว่าจะคืน</label><input type="date" id="loanReturnDate"></div></div>
+  <div class="field"><label>ระยะเวลาในการเบิก</label><input id="loanBorrowPeriod" placeholder="เช่น 7 วัน / จนจบงาน"></div>
   <div class="field"><label>สถานที่ใช้งาน</label><input id="loanUseLocation"></div>
   <div class="form-section">ประเภทการเบิก</div>
   <div class="option-grid">
@@ -203,8 +208,11 @@ body.auth-locked #loginModal .handle{display:none}
   <div class="field"><label>อื่น ๆ</label><input id="loanRequestTypeOther"></div>
   <div class="field"><label>เหตุผลในการขอเบิก</label><textarea id="loanReason" placeholder="ระบุเหตุผลตามใบเบิกเดิม"></textarea></div>
   <div class="form-section">รายการวัสดุ</div>
-  <div class="field"><label>เลือกวัสดุ / อุปกรณ์</label><div class="checklist" id="loanItems"></div><div class="hint">ระบบจะเก็บ Model / Part Number / Description / จำนวน / หน่วย ไปพร้อมใบเบิก</div></div>
-  <div class="field"><label>หมายเหตุ</label><textarea id="loanNotes" placeholder="ไม่บังคับ"></textarea></div>
+  <div class="mini-grid">
+    <div class="field"><label>โครงการสต็อก</label><select id="loanStockProject" onchange="renderLoanStock()"><option value="ALL">ทั้งหมด</option><option value="M6">M6</option><option value="M81">M81</option></select></div>
+    <div class="field"><label>ค้นหา</label><input id="loanItemSearch" oninput="renderLoanStock()" placeholder="System / Description"></div>
+  </div>
+  <div class="field"><label>ระบุจำนวนที่ต้องการเบิก</label><div class="checklist" id="loanItems"></div><div class="hint">ใส่จำนวนเฉพาะรายการที่ต้องการ ระบบจะตรวจจำนวนคงเหลือก่อนอนุมัติและก่อนจ่ายออก</div></div>
   <div class="modal-actions"><button class="secondary" onclick="closeModal('loanModal')">ยกเลิก</button><button class="primary" onclick="submitLoan()">ส่งใบเบิก</button></div>
 </div></div>
 
@@ -217,11 +225,11 @@ body.auth-locked #loginModal .handle{display:none}
   <div class="option-grid"><label class="option-pill"><input type="radio" name="repairRefType" value="Project" checked> Project</label><label class="option-pill"><input type="radio" name="repairRefType" value="อื่น ๆ"> อื่น ๆ</label></div>
   <div class="field"><label>Project / รายละเอียดอื่น ๆ</label><input id="repairReferenceValue"></div>
   <div class="form-section">รายการส่งซ่อม</div>
-  <div class="field"><label>รายการ</label><select id="claimItem"></select></div>
+  <div class="field"><label>รายการ</label><select id="claimItem" onchange="updateRepairItemHint()"></select><div class="hint" id="repairItemHint"></div></div>
+  <div class="mini-grid"><div class="field"><label>Model</label><input id="repairModel"></div><div class="field"><label>S/N</label><input id="repairSerial"></div></div>
   <div class="field"><label>จำนวน</label><input type="number" min="1" value="1" id="repairQty"></div>
   <div class="field"><label>อาการเสีย</label><textarea id="claimIssue" placeholder="ระบุอาการเสียตามแบบฟอร์มเดิม"></textarea></div>
   <div class="mini-grid"><div class="field"><label>ผู้ส่งซ่อม</label><input id="repairSenderName"></div><div class="field"><label>ผู้รับสินค้า</label><input id="repairReceiverName"></div></div>
-  <div class="field"><label>หมายเหตุ</label><textarea id="repairNotes" placeholder="ไม่บังคับ"></textarea></div>
   <div class="modal-actions"><button class="secondary" onclick="closeModal('claimModal')">ยกเลิก</button><button class="primary" onclick="submitClaim()">เปิดใบส่งซ่อม</button></div>
 </div></div>
 
@@ -257,6 +265,7 @@ body.auth-locked #loginModal .handle{display:none}
 
 <script>
 let DATA={user:{},dashboard:{},items:[],loans:[],claims:[],users:[]};
+let ITEM_PROJECT='ALL';
 let TOKEN=localStorage.getItem('loxleyAuthToken')||'';
 const staff=()=>['Admin','StockOfficer','Approver'].includes(DATA.user.role);
 const stock=()=>['Admin','StockOfficer'].includes(DATA.user.role);
@@ -269,7 +278,7 @@ let BUSY_COUNT=0;
 const INFLIGHT=new Set();
 let REFRESHING=false;
 let SKIP_NEXT_REFRESH=false;
-const CACHE_KEY='loxleyBootstrapCacheV2';
+const CACHE_KEY='loxleyBootstrapCacheV3';
 function setAuthenticated(on){
   document.body.classList.toggle('auth-locked',!on);
   if(on){
@@ -336,7 +345,7 @@ async function call(name,args,ok){
     if(name==='createLoanRequest') {body.action='createLoanRequest';body.payload=args||{}}
     else if(name==='decideLoan') {body.action='decideLoan';body.loanId=args[0];body.approve=args[1];body.reason=args[2]||''}
     else if(name==='handoverLoan') {body.action='handoverLoan';body.loanId=args}
-    else if(name==='returnLoan') {body.action='returnLoan';body.loanId=args[0];body.condition=args[1]||''}
+    else if(name==='returnLoan') {body.action='returnLoan';body.loanId=Array.isArray(args)?args[0]:args}
     else if(name==='createClaim') {body.action='createClaim';body.payload=args||{}}
     else if(name==='addClaimUpdate') {body.action='addClaimUpdate';body.payload=args||{}}
     else if(name==='setUserCredentials') {body.action='setUserCredentials';body.payload=args||{}}
@@ -395,7 +404,12 @@ function logout(){
 function hydrate(){
   document.getElementById('userPill').textContent=(DATA.user.name||DATA.user.email||'ผู้ใช้งาน')+' · '+(DATA.user.role||'');
   document.getElementById('hello').textContent='สวัสดี '+(DATA.user.name||'');
-  ['Total','Available','Pending','Claims'].forEach(k=>document.getElementById('s'+k).textContent=({Total:DATA.dashboard.total,Available:DATA.dashboard.available,Pending:DATA.dashboard.pending,Claims:DATA.dashboard.openClaims})[k]??0);
+  document.getElementById('sTotal').textContent=DATA.dashboard.total??0;
+  document.getElementById('sM6').textContent=DATA.dashboard.m6Count??0;
+  document.getElementById('sM81').textContent=DATA.dashboard.m81Count??0;
+  document.getElementById('sPending').textContent=DATA.dashboard.pending??0;
+  document.getElementById('m6Label').textContent='M6 · คงเหลือ '+Number(DATA.dashboard.m6Balance||0).toLocaleString();
+  document.getElementById('m81Label').textContent='M81 · คงเหลือ '+Number(DATA.dashboard.m81Balance||0).toLocaleString();
   renderItems();renderLoans();renderClaims();renderHome();fillForms();renderAdminUsers();
 }
 function go(p){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById(p+'Page').classList.add('active');document.querySelectorAll('.nav').forEach(x=>x.classList.toggle('active',x.dataset.page===p));scrollTo(0,0)}
@@ -427,47 +441,77 @@ function renderHome(){
   document.getElementById('homeHint').textContent=(x.length+c.length)+' รายการ';
   document.getElementById('homeLatest').innerHTML=[...x.map(loanCard),...c.map(claimCard)].join('')||'<div class="empty">ยังไม่มีรายการล่าสุด</div>';
 }
-function itemCard(x){return '<div class="card"><div class="row"><div class="grow"><div class="asset">'+esc(x.AssetCode)+'</div><div class="title">'+esc(x.ItemName)+'</div><div class="sub">'+esc([x.Brand,x.Model,x.PartNumber].filter(Boolean).join(' · '))+'</div></div>'+badge(x.Status)+'</div><div class="meta"><span>'+esc(x.CategoryName||'ไม่ระบุหมวด')+'</span><span>'+esc(x.LocationLabel||'ไม่ระบุตำแหน่ง')+'</span><span>หน่วย '+esc(x.Unit||'ชิ้น')+'</span><span>สภาพ '+esc(x.Condition||'-')+'</span></div></div>'}
-function renderItems(){const q=(document.getElementById('itemSearch')?.value||'').toLowerCase();const a=DATA.items.filter(x=>JSON.stringify(x).toLowerCase().includes(q));document.getElementById('itemCount').textContent=a.length+' รายการ';document.getElementById('itemList').innerHTML=a.map(itemCard).join('')||'<div class="empty">ไม่พบวัสดุ / อุปกรณ์</div>'}
+function setItemProject(p,btn){
+  ITEM_PROJECT=p;
+  document.querySelectorAll('#itemProjectChips .chip').forEach(x=>x.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  renderItems();
+}
+function stockBadge(x){return '<span class="badge '+(Number(x.Balance)>0?'ok':'bad')+'">'+(Number(x.Balance)>0?'พร้อมเบิก':'หมด')+'</span>'}
+function itemCard(x){
+  return '<div class="card"><div class="row"><div class="grow"><div class="asset">'+esc(x.Project)+' · '+esc(x.System||'')+' · '+esc(x.ItemID)+'</div><div class="title">'+esc(x.Description||'-')+'</div><div class="sub">Location: '+esc(x.LocationPackingNo||'-')+'</div></div>'+stockBadge(x)+'</div><div class="meta"><span>Qty '+Number(x.Qty||0).toLocaleString()+'</span><span>จ่ายออก '+Number(x.Issued||0).toLocaleString()+'</span><span>ส่งซ่อม '+Number(x.InRepair||0).toLocaleString()+'</span><span class="stock-balance">คงเหลือ '+Number(x.Balance||0).toLocaleString()+'</span></div></div>'
+}
+function renderItems(){
+  const q=(document.getElementById('itemSearch')?.value||'').trim().toLowerCase();
+  const a=DATA.items.filter(x=>(ITEM_PROJECT==='ALL'||x.Project===ITEM_PROJECT) && (!q||[x.ItemID,x.Project,x.System,x.Description,x.LocationPackingNo].join(' ').toLowerCase().includes(q)));
+  document.getElementById('itemCount').textContent=a.length+' รายการ';
+  document.getElementById('itemList').innerHTML=a.map(itemCard).join('')||'<div class="empty">ไม่พบวัสดุ</div>';
+}
 function loanCard(x){
-  const its=(x.Items||[]).map(i=>esc([i.PartNumberSnapshot||i.AssetCode||i.ItemID,i.DescriptionSnapshot||i.ItemName].filter(Boolean).join(' · '))).join(', '); let acts='';
-  if(staff()&&x.Status==='PendingApproval') acts='<div class="actions"><button class="approve" onclick="decision(\''+x.LoanID+'\',true)">อนุมัติ</button><button class="reject" onclick="decision(\''+x.LoanID+'\',false)">ไม่อนุมัติ</button></div>';
-  if(stock()&&x.Status==='Approved') acts='<div class="actions"><button class="handover" onclick="handover(\''+x.LoanID+'\')">ผู้ให้เบิก / ส่งมอบ</button></div>';
-  if(stock()&&x.Status==='HandedOver') acts='<div class="actions"><button class="return" onclick="receiveReturn(\''+x.LoanID+'\')">ผู้รับคืน / รับคืน</button></div>';
-  const title=x.ProjectName||x.RequestReason||x.Purpose||'-';
-  return '<div class="card"><div class="row"><div class="grow"><div class="asset">'+esc(x.DocumentNumber||x.LoanID)+' · '+esc(x.FormTemplate||'')+'</div><div class="title">'+esc(title)+'</div><div class="sub">'+esc(x.RequesterName||x.RequesterEmail||'')+(x.RequestType?' · '+esc(x.RequestType):'')+'</div><div class="sub">รายการ: '+(its||'-')+'</div></div>'+badge(x.Status)+'</div><div class="meta"><span>ขอ '+fmt(x.RequestDateTime)+'</span><span>คืน '+fmt(x.ExpectedReturnDate)+'</span>'+(x.UseLocation?'<span>'+esc(x.UseLocation)+'</span>':'')+'</div>'+acts+'</div>'
+  const its=(x.Items||[]).map(i=>esc((i.SystemSnapshot||'')+' · '+(i.DescriptionSnapshot||i.ItemID)+' × '+Number(i.QtyRequested||0))).join('<br>');let acts='';
+  if(staff()&&x.Status==='PendingApproval')acts='<div class="actions"><button class="approve" onclick="decision(\''+x.LoanID+'\',true)">อนุมัติ</button><button class="reject" onclick="decision(\''+x.LoanID+'\',false)">ไม่อนุมัติ</button></div>';
+  if(stock()&&x.Status==='Approved')acts='<div class="actions"><button class="handover" onclick="handover(\''+x.LoanID+'\')">จ่ายออก / ส่งมอบ</button></div>';
+  if(stock()&&x.Status==='HandedOver')acts='<div class="actions"><button class="return" onclick="receiveReturn(\''+x.LoanID+'\')">รับคืนเข้าสต็อก</button></div>';
+  return '<div class="card"><div class="row"><div class="grow"><div class="asset">'+esc(x.DocumentNumber||x.LoanID)+' · STORE 02</div><div class="title">'+esc(x.ProjectName||x.RequestReason||'-')+'</div><div class="sub">'+esc(x.RequesterName||x.RequesterEmail||'')+(x.RequestType?' · '+esc(x.RequestType):'')+'</div><div class="sub">'+(its||'-')+'</div></div>'+badge(x.Status)+'</div><div class="meta"><span>'+fmt(x.RequestDateTime)+'</span>'+(x.UseLocation?'<span>'+esc(x.UseLocation)+'</span>':'')+'</div>'+acts+'</div>'
 }
 function renderLoans(){const q=(document.getElementById('loanSearch')?.value||'').toLowerCase();const a=DATA.loans.filter(x=>JSON.stringify(x).toLowerCase().includes(q));document.getElementById('loanCount').textContent=a.length+' ใบ';document.getElementById('loanList').innerHTML=a.map(loanCard).join('')||'<div class="empty">ยังไม่มีใบเบิกวัสดุ</div>'}
-function claimCard(x){const item=x.Item||{};const timeline=(x.Updates||[]).slice(-3).reverse().map(u=>'<div class="event"><b>'+esc(statusLabel(u.Status))+' · '+fmt(u.UpdatedAt)+'</b><div>'+esc(u.Detail||'')+'</div></div>').join('');const act=stock()?'<div class="actions"><button class="handover" onclick="openUpdate(\''+x.ClaimID+'\')">ส่วนธุรการ / อัปเดต</button></div>':'';return '<div class="card"><div class="row"><div class="grow"><div class="asset">'+esc(x.ClaimNumber||x.ClaimID)+' · '+esc(x.FormTemplate||'')+'</div><div class="title">'+esc(x.ItemDescriptionSnapshot||item.ItemName||x.IssueDescription||'-')+'</div><div class="sub">'+esc([x.ModelSnapshot||item.Model,x.SerialSnapshot||item.SerialNumber].filter(Boolean).join(' · '))+'</div><div class="sub">อาการเสีย: '+esc(x.IssueDescription||'-')+'</div></div>'+badge(x.Status)+'</div><div class="meta"><span>ส่งซ่อม '+fmt(x.RepairSentDate||x.SentAt||x.OpenedAt)+'</span><span>'+esc(x.RepairCompany||x.Vendor||'ยังไม่ระบุบริษัท')+'</span>'+(x.RepairAdminStatus?'<span>'+esc(x.RepairAdminStatus)+'</span>':'')+'</div>'+(timeline?'<div class="timeline">'+timeline+'</div>':'')+act+'</div>'}
+function claimCard(x){
+  const timeline=(x.Updates||[]).slice(-3).reverse().map(u=>'<div class="event"><b>'+esc(statusLabel(u.Status))+' · '+fmt(u.UpdatedAt)+'</b><div>'+esc(u.Detail||'')+'</div></div>').join('');
+  const act=stock()?'<div class="actions"><button class="handover" onclick="openUpdate(\''+x.ClaimID+'\')">ส่วนธุรการ / อัปเดต</button></div>':'';
+  return '<div class="card"><div class="row"><div class="grow"><div class="asset">'+esc(x.ClaimNumber||x.ClaimID)+' · '+esc(x.SystemSnapshot||'')+' · STORE-03</div><div class="title">'+esc(x.ItemDescriptionSnapshot||'-')+'</div><div class="sub">'+esc([x.ModelEntered,x.SerialEntered].filter(Boolean).join(' · '))+'</div><div class="sub">จำนวน '+Number(x.Qty||0)+' · อาการเสีย: '+esc(x.IssueDescription||'-')+'</div></div>'+badge(x.Status)+'</div><div class="meta"><span>ส่งซ่อม '+fmt(x.RepairSentDate||x.OpenedAt)+'</span><span>'+esc(x.RepairCompany||'ยังไม่ระบุบริษัท')+'</span></div>'+(timeline?'<div class="timeline">'+timeline+'</div>':'')+act+'</div>'
+}
 function renderClaims(){const q=(document.getElementById('claimSearch')?.value||'').toLowerCase();const a=DATA.claims.filter(x=>JSON.stringify(x).toLowerCase().includes(q));document.getElementById('claimCount').textContent=a.length+' ใบ';document.getElementById('claimList').innerHTML=a.map(claimCard).join('')||'<div class="empty">ยังไม่มีแบบฟอร์มส่งสินค้าซ่อม</div>'}
+function renderLoanStock(){
+  const project=document.getElementById('loanStockProject')?.value||'ALL';
+  const q=(document.getElementById('loanItemSearch')?.value||'').trim().toLowerCase();
+  const a=DATA.items.filter(x=>Number(x.Balance)>0&&(project==='ALL'||x.Project===project)&&(!q||[x.System,x.Description,x.LocationPackingNo].join(' ').toLowerCase().includes(q)));
+  document.getElementById('loanItems').innerHTML=a.map(x=>'<div class="stock-row"><div><b>'+esc(x.Project)+' · '+esc(x.System||'')+'</b><div class="sub">'+esc(x.Description||'')+'</div><div class="sub">'+esc(x.LocationPackingNo||'')+' · คงเหลือ <b>'+Number(x.Balance||0).toLocaleString()+'</b></div></div><input class="loan-qty" data-item-id="'+esc(x.ItemID)+'" type="number" min="0" max="'+Number(x.Balance||0)+'" step="1" value="0" inputmode="numeric"></div>').join('')||'<div class="empty">ไม่พบวัสดุพร้อมเบิก</div>';
+}
+function updateRepairItemHint(){
+  const id=document.getElementById('claimItem')?.value;const x=DATA.items.find(i=>i.ItemID===id);
+  const e=document.getElementById('repairItemHint');if(!e)return;
+  e.textContent=x?(x.Project+' · '+x.System+' · '+x.LocationPackingNo+' · คงเหลือ '+Number(x.Balance||0).toLocaleString()):'';
+  const qty=document.getElementById('repairQty');if(qty&&x)qty.max=Number(x.Balance||0);
+}
 function fillForms(){
-  const av=DATA.items.filter(x=>x.Status==='Available');
-  document.getElementById('loanItems').innerHTML=av.map(x=>'<label class="checkitem"><input type="checkbox" value="'+esc(x.ItemID)+'"><div><b>'+esc(x.AssetCode||x.PartNumber||x.ItemID)+'</b><div class="sub">'+esc([x.Model,x.PartNumber,x.ItemName,x.Unit].filter(Boolean).join(' · '))+'</div></div></label>').join('')||'<div class="empty">ไม่มีวัสดุพร้อมเบิก</div>';
-  document.getElementById('claimItem').innerHTML=DATA.items.filter(x=>!['Lost','Retired','InClaim'].includes(x.Status)).map(x=>'<option value="'+esc(x.ItemID)+'">'+esc([x.AssetCode,x.ItemName,x.Model,x.SerialNumber].filter(Boolean).join(' · '))+'</option>').join('');
+  renderLoanStock();
+  document.getElementById('claimItem').innerHTML=DATA.items.filter(x=>Number(x.Balance)>0).map(x=>'<option value="'+esc(x.ItemID)+'">'+esc(x.Project+' · '+x.System+' · '+x.Description+' · เหลือ '+Number(x.Balance||0).toLocaleString())+'</option>').join('');
+  updateRepairItemHint();
 }
 function showModal(id){document.getElementById(id).classList.add('show')} function closeModal(id){document.getElementById(id).classList.remove('show')}
 function openLoan(){
-  fillForms();const d=new Date();d.setDate(d.getDate()+7);
-  document.getElementById('loanReturnDate').value=d.toISOString().slice(0,10);
+  fillForms();
   document.getElementById('loanRequesterName').value=DATA.user.name||'';
   document.getElementById('loanDepartment').value=DATA.user.department||'';
   document.getElementById('loanPhone').value=DATA.user.phone||'';
-  showModal('loanModal');
+  document.getElementById('loanItemSearch').value='';
+  document.getElementById('loanStockProject').value='ALL';
+  renderLoanStock();showModal('loanModal');
 }
 function submitLoan(){
-  const ids=[...document.querySelectorAll('#loanItems input:checked')].map(x=>x.value);
+  const items=[...document.querySelectorAll('.loan-qty')].map(e=>({itemId:e.dataset.itemId,qty:Number(e.value||0)})).filter(x=>x.qty>0);
   const rt=document.querySelector('input[name="loanRequestType"]:checked');
-  call('createLoanRequest',{itemIds:ids,requesterName:document.getElementById('loanRequesterName').value,requesterDepartment:document.getElementById('loanDepartment').value,requesterPhone:document.getElementById('loanPhone').value,projectName:document.getElementById('loanProject').value,storageLocation:document.getElementById('loanStorageLocation').value,borrowPeriod:document.getElementById('loanBorrowPeriod').value,useLocation:document.getElementById('loanUseLocation').value,requestType:rt?rt.value:'',requestTypeOther:document.getElementById('loanRequestTypeOther').value,requestReason:document.getElementById('loanReason').value,expectedReturnDate:document.getElementById('loanReturnDate').value,notes:document.getElementById('loanNotes').value},()=>{closeModal('loanModal');toast('ส่งใบเบิกวัสดุแล้ว');refresh(()=>go('loans'))})
+  call('createLoanRequest',{items,requesterName:document.getElementById('loanRequesterName').value,requesterDepartment:document.getElementById('loanDepartment').value,requesterPhone:document.getElementById('loanPhone').value,projectName:document.getElementById('loanProject').value,storageLocation:document.getElementById('loanStorageLocation').value,borrowPeriod:document.getElementById('loanBorrowPeriod').value,useLocation:document.getElementById('loanUseLocation').value,requestType:rt?rt.value:'',requestTypeOther:document.getElementById('loanRequestTypeOther').value,requestReason:document.getElementById('loanReason').value},()=>{closeModal('loanModal');toast('ส่งใบเบิกวัสดุแล้ว');refresh(()=>go('loans'))})
 }
 function decision(id,yes){let reason='';if(!yes){reason=prompt('เหตุผลที่ไม่อนุมัติ')||'';if(!reason)return}call('decideLoan',[id,yes,reason],()=>{toast(yes?'อนุมัติใบเบิกแล้ว':'บันทึกไม่อนุมัติแล้ว');refresh()})}
-function handover(id){if(!confirm('ยืนยันการให้เบิก / ส่งมอบวัสดุ?'))return;call('handoverLoan',id,()=>{toast('บันทึกผู้ให้เบิก / ส่งมอบแล้ว');refresh()})}
-function receiveReturn(id){const c=prompt('สภาพตอนรับคืน เช่น Good / Fair / Damaged','Good');if(c===null)return;call('returnLoan',[id,c],()=>{toast('บันทึกผู้รับคืนแล้ว');refresh()})}
+function handover(id){if(!confirm('ยืนยันการจ่ายออก / ส่งมอบวัสดุ? ระบบจะหักคงเหลือ'))return;call('handoverLoan',id,()=>{toast('จ่ายออกและตัดสต็อกแล้ว');refresh()})}
+function receiveReturn(id){if(!confirm('ยืนยันรับคืนวัสดุเข้าสต็อก?'))return;call('returnLoan',[id],()=>{toast('รับคืนเข้าสต็อกแล้ว');refresh()})}
 function openClaim(){
-  fillForms();document.getElementById('repairSenderName').value=DATA.user.name||'';document.getElementById('repairQty').value=1;document.getElementById('repairSentDate').value=new Date().toISOString().slice(0,10);showModal('claimModal');
+  fillForms();document.getElementById('repairSenderName').value=DATA.user.name||'';document.getElementById('repairQty').value=1;document.getElementById('repairSentDate').value=new Date().toISOString().slice(0,10);updateRepairItemHint();showModal('claimModal');
 }
 function submitClaim(){
   const ref=document.querySelector('input[name="repairRefType"]:checked');
-  call('createClaim',{itemId:document.getElementById('claimItem').value,issue:document.getElementById('claimIssue').value,repairCompany:document.getElementById('repairCompany').value,repairAddress:document.getElementById('repairAddress').value,repairPhone:document.getElementById('repairPhone').value,repairSentDate:document.getElementById('repairSentDate').value,referenceType:ref?ref.value:'Project',referenceValue:document.getElementById('repairReferenceValue').value,qty:document.getElementById('repairQty').value,senderName:document.getElementById('repairSenderName').value,receiverName:document.getElementById('repairReceiverName').value,notes:document.getElementById('repairNotes').value},()=>{closeModal('claimModal');toast('เปิดแบบฟอร์มส่งสินค้าซ่อมแล้ว');refresh(()=>go('claims'))})
+  call('createClaim',{itemId:document.getElementById('claimItem').value,issue:document.getElementById('claimIssue').value,repairCompany:document.getElementById('repairCompany').value,repairAddress:document.getElementById('repairAddress').value,repairPhone:document.getElementById('repairPhone').value,repairSentDate:document.getElementById('repairSentDate').value,referenceType:ref?ref.value:'Project',referenceValue:document.getElementById('repairReferenceValue').value,qty:document.getElementById('repairQty').value,model:document.getElementById('repairModel').value,serial:document.getElementById('repairSerial').value,senderName:document.getElementById('repairSenderName').value,receiverName:document.getElementById('repairReceiverName').value},()=>{closeModal('claimModal');toast('เปิดแบบฟอร์มส่งสินค้าซ่อมแล้ว');refresh(()=>go('claims'))})
 }
 function openUpdate(id){
   document.getElementById('updateClaimId').value=id;const c=DATA.claims.find(x=>x.ClaimID===id)||{};
