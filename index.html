@@ -318,7 +318,7 @@ async function api(body){
   const ctl=new AbortController();
   const action=String(body&&body.action||'');
   const mutation=!['ping','login','records'].includes(action);
-  const timeout=action==='login'?12000:(action==='records'?20000:(mutation?25000:15000));
+  const timeout=action==='login'?30000:(action==='records'?25000:(mutation?30000:15000));
   const timer=setTimeout(()=>ctl.abort(),timeout);
   try{
     const r=await fetch(API_URL,{method:'POST',mode:'cors',credentials:'omit',cache:'no-store',signal:ctl.signal,headers:{'Content-Type':'text/plain;charset=UTF-8'},body:JSON.stringify(body)});
@@ -572,4 +572,4 @@ function startApp(){
 startApp()
 </script>
 </body>
-</html>
+      </html>
