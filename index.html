@@ -279,7 +279,6 @@ function toast(msg,err=false){const e=document.getElementById('toast');e.textCon
 let BUSY_COUNT=0;
 const INFLIGHT=new Set();
 let REFRESHING=false;
-let SKIP_NEXT_REFRESH=false;
 const CACHE_KEY='loxleyBootstrapCacheV5';
 function setAuthenticated(on){
   document.body.classList.toggle('auth-locked',!on);
@@ -318,8 +317,8 @@ const API_URL='https://script.google.com/macros/s/AKfycbw7zd0yZqoY5iQrrQxQsGvzNW
 async function api(body){
   const ctl=new AbortController();
   const action=String(body&&body.action||'');
-  const mutation=!['ping','login','inventory','records'].includes(action);
-  const timeout=action==='inventory'?8000:(action==='login'?12000:(action==='records'?20000:(mutation?25000:15000)));
+  const mutation=!['ping','login','records'].includes(action);
+  const timeout=action==='login'?12000:(action==='records'?20000:(mutation?25000:15000));
   const timer=setTimeout(()=>ctl.abort(),timeout);
   try{
     const r=await fetch(API_URL,{method:'POST',mode:'cors',credentials:'omit',cache:'no-store',signal:ctl.signal,headers:{'Content-Type':'text/plain;charset=UTF-8'},body:JSON.stringify(body)});
@@ -380,16 +379,6 @@ function applyChangedItems(changes){
   DATA.items=DATA.items.map(x=>byId.has(x.ItemID)?{...x,...byId.get(x.ItemID)}:x);
   recalcStockDashboard();hydrate();saveCache();
 }
-async function syncInventorySilent(){
-  if(!TOKEN)return;
-  try{
-    const inv=await api({action:'inventory',token:TOKEN});
-    if(inv&&Array.isArray(inv.items)&&inv.items.length){
-      DATA.items=inv.items;DATA.dashboard={...(DATA.dashboard||{}),...(inv.dashboard||{})};
-      hydrate();saveCache();
-    }
-  }catch(_){}
-}
 async function ensureRecords(done){
   if(!TOKEN){showLogin();return}
   if(RECORDS_LOADED){if(done)done();return}
@@ -435,7 +424,6 @@ async function submitLogin(){
       hydrate();saveCache();setAuthenticated(true);
     }else{DATA.user=r.user||DATA.user;hydrate();saveCache();setAuthenticated(true)}
     RECORDS_LOADED=false;go('home');
-    setTimeout(syncInventorySilent,700);
   }catch(e){
     toast(e.message||String(e),true);setAuthenticated(false);
   }finally{
@@ -482,7 +470,6 @@ function submitUserCredentials(){
   const p={userId:document.getElementById('adminUserSelect').value,username:document.getElementById('adminUsername').value.trim(),pin:document.getElementById('adminUserPin').value.trim()};
   call('setUserCredentials',p,()=>{toast('บันทึก Username / PIN แล้ว');document.getElementById('adminUserPin').value='';ensureRecords()})
 }
-function renderHome(){}
 function setItemProject(p,btn){
   ITEM_PROJECT=p;
   document.querySelectorAll('#itemProjectChips .chip').forEach(x=>x.classList.remove('active'));
@@ -581,7 +568,6 @@ function startApp(){
     hydrate();setAuthenticated(true);saveCache();
   }else if(Object.keys(user).length){DATA.user=user;hydrate();setAuthenticated(true)}
   RECORDS_LOADED=false;
-  setTimeout(syncInventorySilent,900);
 }
 startApp()
 </script>
