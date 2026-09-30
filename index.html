@@ -314,6 +314,12 @@ function loadCache(){
 }
 
 const API_URL='https://script.google.com/macros/s/AKfycbw7zd0yZqoY5iQrrQxQsGvzNWMGqADfqx0r_w93quCUoO8vTTt4OD_kQN0th5gwtimq/exec';
+let AUTH_WARM_STARTED=false;
+function warmAuthBackend(){
+  if(AUTH_WARM_STARTED)return;
+  AUTH_WARM_STARTED=true;
+  fetch(API_URL,{method:'POST',mode:'cors',credentials:'omit',cache:'no-store',headers:{'Content-Type':'text/plain;charset=UTF-8'},body:JSON.stringify({action:'ping'})}).catch(()=>{});
+}
 async function api(body){
   const ctl=new AbortController();
   const action=String(body&&body.action||'');
@@ -559,7 +565,7 @@ function tokenExpired(){
   }catch(_){return true}
 }
 function startApp(){
-  if(!TOKEN||tokenExpired()){setAuthenticated(false);return}
+  if(!TOKEN||tokenExpired()){setAuthenticated(false);warmAuthBackend();return}
   let user={};
   try{user=JSON.parse(localStorage.getItem(USER_KEY)||'{}')}catch(_){}
   const cached=loadCache();
@@ -572,4 +578,4 @@ function startApp(){
 startApp()
 </script>
 </body>
-      </html>
+  </html>
