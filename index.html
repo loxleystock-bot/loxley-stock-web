@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="theme-color" content="#1B3280">
+  <style>
+    :root{--blue:#1B3280;--blue2:#2447b8;--gold:#C9A227;--bg:#f4f6fb;--card:#fff;--text:#18213a;--muted:#6e7890;--line:#e5e8f1;--ok:#138a54;--warn:#d18a00;--bad:#c83b3b;--shadow:0 10px 30px rgba(27,50,128,.10)}
+    *{box-sizing:border-box} html,body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,"Noto Sans Thai",sans-serif}
+    body{min-height:100vh;padding-bottom:calc(84px + env(safe-area-inset-bottom))}
+    button,input,select,textarea{font:inherit}
+    button{cursor:pointer}
+    .topbar{position:sticky;top:0;z-index:30;background:linear-gradient(135deg,var(--blue),#12245f);color:#fff;padding:calc(14px + env(safe-area-inset-top)) 18px 14px;box-shadow:0 3px 18px rgba(0,0,0,.12)}
+    .brand{display:flex;align-items:center;gap:11px}.logo{width:38px;height:38px;border-radius:12px;background:#fff;padding:5px;object-fit:contain}
+    .brand h1{font-size:18px;margin:0}.brand small{display:block;opacity:.76;margin-top:2px;font-size:11px}.userpill{margin-left:auto;background:rgba(255,255,255,.13);padding:7px 10px;border-radius:999px;font-size:11px;max-width:145px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .wrap{max-width:980px;margin:auto;padding:16px}.page{display:none}.page.active{display:block}
+    .hero{background:linear-gradient(145deg,#fff,#eef2ff);border:1px solid #e7eafd;border-radius:22px;padding:20px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+    .hero:after{content:"";position:absolute;width:180px;height:180px;border-radius:50%;background:rgba(201,162,39,.12);right:-65px;top:-75px}
+    .hero-eyebrow{font-size:12px;color:var(--gold);font-weight:700;letter-spacing:.4px}.hero h2{margin:5px 0 6px;font-size:25px;color:var(--blue)}.hero p{margin:0;color:var(--muted);font-size:13px;line-height:1.5}
+    .stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:14px}.stat{background:#fff;border:1px solid var(--line);border-radius:17px;padding:14px;box-shadow:0 5px 18px rgba(28,43,88,.05)}
+    .stat .n{font-size:27px;font-weight:800;color:var(--blue);line-height:1}.stat .l{font-size:12px;color:var(--muted);margin-top:7px}.stat.gold .n{color:#a47d00}.stat.green .n{color:var(--ok)}.stat.red .n{color:var(--bad)}
+    .section-head{display:flex;align-items:center;justify-content:space-between;margin:22px 2px 10px}.section-head h3{margin:0;font-size:16px}.section-head span{font-size:11px;color:var(--muted)}
+    .quick{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.qbtn{border:0;background:#fff;border-radius:17px;padding:16px 8px;box-shadow:0 5px 18px rgba(28,43,88,.06);color:var(--blue);font-weight:700}.qbtn .ico{font-size:24px;display:block;margin-bottom:7px}.qbtn small{display:block;color:var(--muted);font-weight:400;margin-top:3px}
+    .toolbar{display:flex;gap:8px;margin:12px 0}.search{flex:1;border:1px solid var(--line);background:#fff;border-radius:14px;padding:12px 13px;outline:none}.search:focus{border-color:#9aa8df;box-shadow:0 0 0 3px rgba(27,50,128,.08)}
+    .primary{border:0;background:var(--blue);color:#fff;border-radius:13px;padding:11px 14px;font-weight:700;box-shadow:0 5px 15px rgba(27,50,128,.2)}.secondary{border:1px solid var(--line);background:#fff;color:var(--blue);border-radius:13px;padding:10px 13px;font-weight:700}
+    .list{display:grid;gap:10px}.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:15px;box-shadow:0 5px 18px rgba(28,43,88,.05)}.row{display:flex;align-items:flex-start;gap:12px}.grow{flex:1;min-width:0}.title{font-weight:800;font-size:15px}.sub{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.4}.asset{font-size:11px;color:var(--blue);font-weight:700}.badge{display:inline-flex;align-items:center;padding:5px 8px;border-radius:999px;font-size:10px;font-weight:800;background:#eef1f7;color:#56607a}.badge.ok{background:#e8f7ef;color:#13794c}.badge.warn{background:#fff5df;color:#9a6700}.badge.bad{background:#fdecec;color:#a92a2a}.badge.blue{background:#eaf0ff;color:#2447b8}
+    .meta{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}.meta span{font-size:11px;color:#626d85;background:#f7f8fb;border-radius:8px;padding:5px 7px}.actions{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}.actions button{border:0;border-radius:10px;padding:8px 10px;font-weight:700;font-size:11px}.approve{background:#e9f7ef;color:#107a49}.reject{background:#fdeced;color:#a3272c}.handover{background:#eaf0ff;color:#2447b8}.return{background:#fff3dc;color:#9c6500}
+    .empty{text-align:center;padding:34px 16px;color:var(--muted);background:#fff;border:1px dashed #d9ddea;border-radius:18px}.loading{padding:50px 20px;text-align:center;color:var(--muted)}
+    .bottom{position:fixed;left:0;right:0;bottom:0;z-index:40;background:rgba(255,255,255,.96);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:8px 8px calc(8px + env(safe-area-inset-bottom));display:grid;grid-template-columns:repeat(4,1fr)}
+    .nav{border:0;background:transparent;color:#8a92a6;font-size:10px;padding:6px 2px}.nav b{display:block;font-size:21px;line-height:1.1;margin-bottom:3px}.nav.active{color:var(--blue);font-weight:800}.nav.active b{transform:translateY(-1px)}
+    .modal{position:fixed;inset:0;z-index:100;background:rgba(10,16,38,.55);display:none;align-items:flex-end}.modal.show{display:flex}.sheet{background:#fff;width:100%;max-height:91vh;overflow:auto;border-radius:24px 24px 0 0;padding:18px 18px calc(22px + env(safe-area-inset-bottom));box-shadow:0 -15px 40px rgba(0,0,0,.18)}.handle{width:42px;height:4px;background:#d8dbe4;border-radius:5px;margin:0 auto 14px}.sheet h3{margin:0 0 15px;color:var(--blue)}.field{margin:11px 0}.field label{display:block;font-size:12px;font-weight:700;margin-bottom:6px}.field input,.field select,.field textarea{width:100%;border:1px solid #dfe3ee;border-radius:12px;padding:11px 12px;outline:none;background:#fff}.field textarea{min-height:88px;resize:vertical}
+    .checklist{max-height:230px;overflow:auto;border:1px solid var(--line);border-radius:14px;padding:6px}.checkitem{display:flex;gap:10px;align-items:flex-start;padding:10px;border-bottom:1px solid #f0f1f5}.checkitem:last-child{border-bottom:0}.checkitem input{margin-top:4px}.modal-actions{display:flex;gap:8px;margin-top:16px}.modal-actions button{flex:1}
+    .toast{position:fixed;left:16px;right:16px;bottom:calc(90px + env(safe-area-inset-bottom));z-index:200;background:#17203a;color:white;padding:12px 14px;border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.2);display:none;font-size:12px}.toast.show{display:block}.toast.err{background:#8e262b}
+    .timeline{border-left:2px solid #dfe4f3;margin:12px 0 0 8px;padding-left:14px}.event{position:relative;margin:0 0 12px}.event:before{content:"";position:absolute;width:9px;height:9px;border-radius:50%;background:var(--blue);left:-19px;top:5px}.event b{font-size:11px}.event div{font-size:11px;color:var(--muted);margin-top:2px}
+    @media(min-width:700px){.stats{grid-template-columns:repeat(4,1fr)}.quick{grid-template-columns:repeat(3,1fr)}.list{grid-template-columns:repeat(2,1fr)}.modal{align-items:center;justify-content:center}.sheet{max-width:560px;border-radius:24px;padding-bottom:22px}}
+  </style>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <img class="logo" src="data:image/png;base64,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">
+    <div><h1>Loxley Stock</h1><small>ระบบยืม–คืนและเคลมอุปกรณ์</small></div>
+    <div class="userpill" id="userPill" onclick="logout()" title="แตะเพื่อออกจากระบบ">ยังไม่ได้เข้าสู่ระบบ</div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="page active" id="homePage">
+    <div class="hero"><div class="hero-eyebrow">LOXLEY STOCK MANAGEMENT</div><h2 id="hello">สวัสดีค่ะ</h2><p>ดูสถานะอุปกรณ์ ส่งคำขอยืม–คืน และติดตามงานเคลมได้จากหน้าเดียว</p></div>
+    <div class="stats">
+      <div class="stat"><div class="n" id="sTotal">–</div><div class="l">อุปกรณ์ทั้งหมด</div></div>
+      <div class="stat green"><div class="n" id="sAvailable">–</div><div class="l">พร้อมใช้</div></div>
+      <div class="stat gold"><div class="n" id="sPending">–</div><div class="l">รออนุมัติ</div></div>
+      <div class="stat red"><div class="n" id="sClaims">–</div><div class="l">งานเคลมที่ยังเปิด</div></div>
+    </div>
+    <div class="section-head"><h3>ทำรายการด่วน</h3><span>เลือกสิ่งที่ต้องการ</span></div>
+    <div class="quick">
+      <button class="qbtn" onclick="openLoan()"><span class="ico">↗</span>ยืมอุปกรณ์<small>สร้างคำขอใหม่</small></button>
+      <button class="qbtn" onclick="go('items')"><span class="ico">▣</span>ค้นหาอุปกรณ์<small>ดูสถานะ/ตำแหน่ง</small></button>
+      <button class="qbtn" onclick="openClaim()"><span class="ico">⚒</span>แจ้งเคลม<small>เปิดเคสใหม่</small></button>
+    </div>
+    <div class="section-head"><h3>รายการล่าสุด</h3><span id="homeHint"></span></div>
+    <div class="list" id="homeLatest"></div>
+  </section>
+
+  <section class="page" id="itemsPage">
+    <div class="section-head"><h3>อุปกรณ์</h3><span id="itemCount"></span></div>
+    <div class="toolbar"><input class="search" id="itemSearch" placeholder="ค้นหารหัส / ชื่อ / รุ่น / ตำแหน่ง" oninput="renderItems()"><button class="primary" onclick="openLoan()">+ ยืม</button></div>
+    <div class="list" id="itemList"></div>
+  </section>
+
+  <section class="page" id="loansPage">
+    <div class="section-head"><h3>ยืม–คืน</h3><span id="loanCount"></span></div>
+    <div class="toolbar"><input class="search" id="loanSearch" placeholder="ค้นหาเลขเอกสาร / วัตถุประสงค์ / สถานะ" oninput="renderLoans()"><button class="primary" onclick="openLoan()">+ คำขอ</button></div>
+    <div class="list" id="loanList"></div>
+  </section>
+
+  <section class="page" id="claimsPage">
+    <div class="section-head"><h3>เคลม</h3><span id="claimCount"></span></div>
+    <div class="toolbar"><input class="search" id="claimSearch" placeholder="ค้นหาเลขเคลม / อุปกรณ์ / สถานะ" oninput="renderClaims()"><button class="primary" onclick="openClaim()">+ เคลม</button></div>
+    <div class="list" id="claimList"></div>
+  </section>
+</main>
+
+<nav class="bottom">
+  <button class="nav active" data-page="home" onclick="go('home')"><b>⌂</b>หน้าหลัก</button>
+  <button class="nav" data-page="items" onclick="go('items')"><b>▣</b>อุปกรณ์</button>
+  <button class="nav" data-page="loans" onclick="go('loans')"><b>⇄</b>ยืม–คืน</button>
+  <button class="nav" data-page="claims" onclick="go('claims')"><b>⚒</b>เคลม</button>
+</nav>
+
+
+<div class="modal" id="loginModal"><div class="sheet"><div class="handle"></div>
+  <div style="text-align:center;margin-bottom:14px">
+    <img class="logo" style="width:64px;height:64px;border:1px solid #e5e8f1;margin-bottom:8px" src="data:image/png;base64,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">
+    <h3 style="margin:0;color:#1B3280">เข้าสู่ระบบ Loxley Stock</h3>
+    <div class="sub" style="margin-top:4px">ใช้บัญชีที่มีอยู่ในตาราง USERS</div>
+  </div>
+  <div class="field"><label>อีเมล</label><input type="email" id="loginEmail" autocomplete="username" placeholder="name@company.com"></div>
+  <div class="field"><label>PIN 6 หลัก</label><input type="password" inputmode="numeric" maxlength="6" id="loginPin" autocomplete="current-password" placeholder="••••••"></div>
+  <div class="modal-actions"><button class="primary" onclick="submitLogin()">เข้าสู่ระบบ</button></div>
+  <div class="sub" style="text-align:center;margin-top:12px">ติดต่อผู้ดูแลระบบหากยังไม่มี PIN</div>
+</div></div>
+
+<div class="modal" id="loanModal"><div class="sheet"><div class="handle"></div><h3>สร้างคำขอยืม</h3>
+  <div class="field"><label>เลือกอุปกรณ์</label><div class="checklist" id="loanItems"></div></div>
+  <div class="field"><label>วัตถุประสงค์</label><textarea id="loanPurpose" placeholder="เช่น ใช้งานภาคสนาม / ทดสอบระบบ"></textarea></div>
+  <div class="field"><label>วันที่คาดว่าจะคืน</label><input type="date" id="loanReturnDate"></div>
+  <div class="field"><label>หมายเหตุ</label><textarea id="loanNotes" placeholder="ไม่บังคับ"></textarea></div>
+  <div class="modal-actions"><button class="secondary" onclick="closeModal('loanModal')">ยกเลิก</button><button class="primary" onclick="submitLoan()">ส่งคำขอ</button></div>
+</div></div>
+
+<div class="modal" id="claimModal"><div class="sheet"><div class="handle"></div><h3>เปิดเคสเคลม</h3>
+  <div class="field"><label>อุปกรณ์</label><select id="claimItem"></select></div>
+  <div class="field"><label>อาการ / ปัญหา</label><textarea id="claimIssue" placeholder="อธิบายอาการที่พบ"></textarea></div>
+  <div class="field"><label>ผู้ขาย / ศูนย์บริการ</label><input id="claimVendor" placeholder="ไม่บังคับ"></div>
+  <div class="field"><label>เบอร์ติดต่อ / ช่องทางติดต่อ</label><input id="claimContact" placeholder="ไม่บังคับ"></div>
+  <div class="field"><label><input type="checkbox" id="claimWarranty"> เคลมในประกัน</label></div>
+  <div class="modal-actions"><button class="secondary" onclick="closeModal('claimModal')">ยกเลิก</button><button class="primary" onclick="submitClaim()">เปิดเคส</button></div>
+</div></div>
+
+<div class="modal" id="updateModal"><div class="sheet"><div class="handle"></div><h3>อัปเดตเคลม</h3>
+  <input type="hidden" id="updateClaimId">
+  <div class="field"><label>สถานะ</label><select id="updateStatus"><option>Open</option><option>Sent</option><option>WaitingVendor</option><option>WaitingParts</option><option>Approved</option><option>Rejected</option><option>Completed</option><option>Cancelled</option></select></div>
+  <div class="field"><label>ช่องทางติดต่อ</label><select id="updateChannel"><option>Phone</option><option>Email</option><option>Line</option><option>InPerson</option><option>Website</option><option>Other</option></select></div>
+  <div class="field"><label>รายละเอียด</label><textarea id="updateDetail"></textarea></div>
+  <div class="field"><label>ติดตามครั้งถัดไป</label><input type="date" id="updateNext"></div>
+  <div class="field"><label>สถานะอุปกรณ์หลังปิดเคส (ใช้เมื่อ Completed)</label><select id="updateItemStatus"><option value="">ไม่เปลี่ยน</option><option>Available</option><option>Maintenance</option><option>Lost</option><option>Retired</option></select></div>
+  <div class="modal-actions"><button class="secondary" onclick="closeModal('updateModal')">ยกเลิก</button><button class="primary" onclick="submitClaimUpdate()">บันทึก</button></div>
+</div></div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+let DATA={user:{},dashboard:{},items:[],loans:[],claims:[]};
+let TOKEN=localStorage.getItem('loxleyAuthToken')||'';
+const staff=()=>['Admin','StockOfficer','Approver'].includes(DATA.user.role);
+const stock=()=>['Admin','StockOfficer'].includes(DATA.user.role);
+const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+const fmt=d=>{if(!d)return '-'; const x=new Date(d); return isNaN(x)?esc(d):x.toLocaleDateString('th-TH',{day:'2-digit',month:'short',year:'2-digit'})};
+function badge(s){let c='blue'; if(['Available','Approved','Returned','Completed'].includes(s))c='ok'; else if(['PendingApproval','WaitingVendor','WaitingParts','Reserved','HandedOver'].includes(s))c='warn'; else if(['Rejected','Cancelled','Lost','Retired'].includes(s))c='bad'; return '<span class="badge '+c+'">'+esc(s||'-')+'</span>'}
+function toast(msg,err=false){const e=document.getElementById('toast');e.textContent=msg;e.className='toast show'+(err?' err':'');setTimeout(()=>e.className='toast',2800)}
+function busy(on){document.body.style.pointerEvents=on?'none':'';document.body.style.opacity=on?'.86':''}
+const API_URL='https://script.google.com/macros/s/AKfycbw7zd0yZqoY5iQrrQxQsGvzNWMGqADfqx0r_w93quCUoO8vTTt4OD_kQN0th5gwtimq/exec';
+async function api(body){
+  const r=await fetch(API_URL,{method:'POST',mode:'cors',credentials:'omit',headers:{'Content-Type':'text/plain;charset=UTF-8'},body:JSON.stringify(body)});
+  if(!r.ok) throw new Error('API HTTP '+r.status);
+  const j=await r.json();
+  if(!j.ok) throw new Error(j.error||'API_ERROR');
+  return j.result;
+}
+function authFail(msg){TOKEN='';localStorage.removeItem('loxleyAuthToken');showLogin();toast(msg||'กรุณาเข้าสู่ระบบใหม่',true)}
+async function call(name,args,ok){
+  if(!TOKEN){showLogin();return}
+  busy(true);
+  try{
+    let body={token:TOKEN};
+    if(name==='getBootstrapData') body.action='bootstrap';
+    else if(name==='createLoanRequest') {body.action='createLoanRequest';body.payload=args||{}}
+    else if(name==='decideLoan') {body.action='decideLoan';body.loanId=args[0];body.approve=args[1];body.reason=args[2]||''}
+    else if(name==='handoverLoan') {body.action='handoverLoan';body.loanId=args}
+    else if(name==='returnLoan') {body.action='returnLoan';body.loanId=args[0];body.condition=args[1]||''}
+    else if(name==='createClaim') {body.action='createClaim';body.payload=args||{}}
+    else if(name==='addClaimUpdate') {body.action='addClaimUpdate';body.payload=args||{}}
+    else throw new Error('UNKNOWN_ACTION');
+    const result=await api(body); busy(false); if(ok) ok(result);
+  }catch(e){busy(false);const msg=e.message||String(e);if(msg.includes('AUTH_'))authFail('เซสชันหมดอายุ กรุณาเข้าสู่ระบบใหม่');else toast(msg,true)}
+}
+function refresh(done){if(!TOKEN){showLogin();return}call('getBootstrapData',undefined,d=>{DATA=d;hydrate();closeModal('loginModal');done&&done()})}
+function showLogin(){document.getElementById('loginModal').classList.add('show')}
+async function submitLogin(){
+  const email=document.getElementById('loginEmail').value.trim();
+  const pin=document.getElementById('loginPin').value.trim();
+  if(!email||!pin){toast('กรุณากรอกอีเมลและ PIN',true);return}
+  busy(true);
+  try{
+    const r=await api({action:'login',email,pin});
+    TOKEN=r.token;localStorage.setItem('loxleyAuthToken',TOKEN);document.getElementById('loginPin').value='';closeModal('loginModal');busy(false);refresh(()=>go('home'));
+  }catch(e){busy(false);toast(e.message||String(e),true)}
+}
+function logout(){
+  TOKEN='';localStorage.removeItem('loxleyAuthToken');DATA={user:{},dashboard:{},items:[],loans:[],claims:[]};
+  document.getElementById('userPill').textContent='ยังไม่ได้เข้าสู่ระบบ';showLogin()
+}
+function hydrate(){
+  document.getElementById('userPill').textContent=(DATA.user.name||DATA.user.email||'ผู้ใช้งาน')+' · '+(DATA.user.role||'');
+  document.getElementById('hello').textContent='สวัสดี '+(DATA.user.name||'');
+  ['Total','Available','Pending','Claims'].forEach(k=>document.getElementById('s'+k).textContent=({Total:DATA.dashboard.total,Available:DATA.dashboard.available,Pending:DATA.dashboard.pending,Claims:DATA.dashboard.openClaims})[k]??0);
+  renderItems();renderLoans();renderClaims();renderHome();fillForms();
+}
+function go(p){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById(p+'Page').classList.add('active');document.querySelectorAll('.nav').forEach(x=>x.classList.toggle('active',x.dataset.page===p));scrollTo(0,0)}
+function renderHome(){
+  const x=[...DATA.loans].sort((a,b)=>String(b.CreatedAt||'').localeCompare(String(a.CreatedAt||''))).slice(0,2);
+  const c=[...DATA.claims].sort((a,b)=>String(b.OpenedAt||'').localeCompare(String(a.OpenedAt||''))).slice(0,2);
+  document.getElementById('homeHint').textContent=(x.length+c.length)+' รายการ';
+  document.getElementById('homeLatest').innerHTML=[...x.map(loanCard),...c.map(claimCard)].join('')||'<div class="empty">ยังไม่มีรายการล่าสุด</div>';
+}
+function itemCard(x){return '<div class="card"><div class="row"><div class="grow"><div class="asset">'+esc(x.AssetCode)+'</div><div class="title">'+esc(x.ItemName)+'</div><div class="sub">'+esc([x.Brand,x.Model].filter(Boolean).join(' · '))+'</div></div>'+badge(x.Status)+'</div><div class="meta"><span>'+esc(x.CategoryName||'ไม่ระบุหมวด')+'</span><span>'+esc(x.LocationLabel||'ไม่ระบุตำแหน่ง')+'</span><span>สภาพ '+esc(x.Condition||'-')+'</span></div></div>'}
+function renderItems(){const q=(document.getElementById('itemSearch')?.value||'').toLowerCase();const a=DATA.items.filter(x=>JSON.stringify(x).toLowerCase().includes(q));document.getElementById('itemCount').textContent=a.length+' รายการ';document.getElementById('itemList').innerHTML=a.map(itemCard).join('')||'<div class="empty">ไม่พบอุปกรณ์</div>'}
+function loanCard(x){
+  const its=(x.Items||[]).map(i=>esc(i.AssetCode||i.ItemID)).join(', '); let acts='';
+  if(staff()&&x.Status==='PendingApproval') acts='<div class="actions"><button class="approve" onclick="decision(\''+x.LoanID+'\',true)">อนุมัติ</button><button class="reject" onclick="decision(\''+x.LoanID+'\',false)">ปฏิเสธ</button></div>';
+  if(stock()&&x.Status==='Approved') acts='<div class="actions"><button class="handover" onclick="handover(\''+x.LoanID+'\')">ส่งมอบ</button></div>';
+  if(stock()&&x.Status==='HandedOver') acts='<div class="actions"><button class="return" onclick="receiveReturn(\''+x.LoanID+'\')">รับคืน</button></div>';
+  return '<div class="card"><div class="row"><div class="grow"><div class="asset">'+esc(x.DocumentNumber||x.LoanID)+'</div><div class="title">'+esc(x.Purpose||'-')+'</div><div class="sub">อุปกรณ์: '+(its||'-')+'</div></div>'+badge(x.Status)+'</div><div class="meta"><span>ขอ '+fmt(x.RequestDateTime)+'</span><span>คืน '+fmt(x.ExpectedReturnDate)+'</span></div>'+acts+'</div>'
+}
+function renderLoans(){const q=(document.getElementById('loanSearch')?.value||'').toLowerCase();const a=DATA.loans.filter(x=>JSON.stringify(x).toLowerCase().includes(q));document.getElementById('loanCount').textContent=a.length+' รายการ';document.getElementById('loanList').innerHTML=a.map(loanCard).join('')||'<div class="empty">ยังไม่มีคำขอยืม–คืน</div>'}
+function claimCard(x){const item=x.Item||{}; const timeline=(x.Updates||[]).slice(-3).reverse().map(u=>'<div class="event"><b>'+esc(u.Status)+' · '+fmt(u.UpdatedAt)+'</b><div>'+esc(u.Detail||'')+'</div></div>').join('');const act=stock()?'<div class="actions"><button class="handover" onclick="openUpdate(\''+x.ClaimID+'\')">อัปเดตเคส</button></div>':'';return '<div class="card"><div class="row"><div class="grow"><div class="asset">'+esc(x.ClaimNumber||x.ClaimID)+'</div><div class="title">'+esc(x.IssueDescription||'-')+'</div><div class="sub">'+esc(item.AssetCode||x.ItemID)+' · '+esc(item.ItemName||'')+'</div></div>'+badge(x.Status)+'</div><div class="meta"><span>เปิด '+fmt(x.OpenedAt)+'</span><span>'+esc(x.Vendor||'ยังไม่ระบุศูนย์')+'</span></div>'+(timeline?'<div class="timeline">'+timeline+'</div>':'')+act+'</div>'}
+function renderClaims(){const q=(document.getElementById('claimSearch')?.value||'').toLowerCase();const a=DATA.claims.filter(x=>JSON.stringify(x).toLowerCase().includes(q));document.getElementById('claimCount').textContent=a.length+' รายการ';document.getElementById('claimList').innerHTML=a.map(claimCard).join('')||'<div class="empty">ยังไม่มีเคสเคลม</div>'}
+function fillForms(){const av=DATA.items.filter(x=>x.Status==='Available');document.getElementById('loanItems').innerHTML=av.map(x=>'<label class="checkitem"><input type="checkbox" value="'+esc(x.ItemID)+'"><div><b>'+esc(x.AssetCode)+'</b><div class="sub">'+esc(x.ItemName)+'</div></div></label>').join('')||'<div class="empty">ไม่มีอุปกรณ์พร้อมยืม</div>';document.getElementById('claimItem').innerHTML=DATA.items.filter(x=>!['Lost','Retired','InClaim'].includes(x.Status)).map(x=>'<option value="'+esc(x.ItemID)+'">'+esc(x.AssetCode+' · '+x.ItemName)+'</option>').join('')}
+function showModal(id){document.getElementById(id).classList.add('show')} function closeModal(id){document.getElementById(id).classList.remove('show')}
+function openLoan(){fillForms();const d=new Date();d.setDate(d.getDate()+7);document.getElementById('loanReturnDate').value=d.toISOString().slice(0,10);showModal('loanModal')}
+function submitLoan(){const ids=[...document.querySelectorAll('#loanItems input:checked')].map(x=>x.value);call('createLoanRequest',{itemIds:ids,purpose:document.getElementById('loanPurpose').value,expectedReturnDate:document.getElementById('loanReturnDate').value,notes:document.getElementById('loanNotes').value},()=>{closeModal('loanModal');toast('ส่งคำขอยืมแล้ว');refresh(()=>go('loans'))})}
+function decision(id,yes){let reason='';if(!yes){reason=prompt('เหตุผลที่ปฏิเสธ')||'';if(!reason)return}call('decideLoan',[id,yes,reason],()=>{toast(yes?'อนุมัติแล้ว':'ปฏิเสธแล้ว');refresh()})}
+function handover(id){if(!confirm('ยืนยันการส่งมอบอุปกรณ์?'))return;call('handoverLoan',id,()=>{toast('บันทึกส่งมอบแล้ว');refresh()})}
+function receiveReturn(id){const c=prompt('สภาพตอนรับคืน เช่น Good / Fair / Damaged','Good');if(c===null)return;call('returnLoan',[id,c],()=>{toast('รับคืนเรียบร้อย');refresh()})}
+function openClaim(){fillForms();showModal('claimModal')}
+function submitClaim(){call('createClaim',{itemId:document.getElementById('claimItem').value,issue:document.getElementById('claimIssue').value,vendor:document.getElementById('claimVendor').value,vendorContact:document.getElementById('claimContact').value,warranty:document.getElementById('claimWarranty').checked},()=>{closeModal('claimModal');toast('เปิดเคสเคลมแล้ว');refresh(()=>go('claims'))})}
+function openUpdate(id){document.getElementById('updateClaimId').value=id;const c=DATA.claims.find(x=>x.ClaimID===id);if(c)document.getElementById('updateStatus').value=c.Status;showModal('updateModal')}
+function submitClaimUpdate(){call('addClaimUpdate',{claimId:document.getElementById('updateClaimId').value,status:document.getElementById('updateStatus').value,channel:document.getElementById('updateChannel').value,detail:document.getElementById('updateDetail').value,nextDate:document.getElementById('updateNext').value,itemStatus:document.getElementById('updateItemStatus').value},()=>{closeModal('updateModal');toast('อัปเดตเคสแล้ว');refresh()})}
+document.querySelectorAll('.modal').forEach(m=>m.addEventListener('click',e=>{if(e.target===m && m.id!=='loginModal')closeModal(m.id)}));
+refresh();
+</script>
+</body>
+      </html>
