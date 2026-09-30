@@ -278,7 +278,7 @@ let BUSY_COUNT=0;
 const INFLIGHT=new Set();
 let REFRESHING=false;
 let SKIP_NEXT_REFRESH=false;
-const CACHE_KEY='loxleyBootstrapCacheV3';
+const CACHE_KEY='loxleyBootstrapCacheV4';
 function setAuthenticated(on){
   document.body.classList.toggle('auth-locked',!on);
   if(on){
@@ -313,28 +313,24 @@ function loadCache(){
 }
 const API_URL='https://script.google.com/macros/s/AKfycbw7zd0yZqoY5iQrrQxQsGvzNWMGqADfqx0r_w93quCUoO8vTTt4OD_kQN0th5gwtimq/exec';
 async function api(body){
-  let lastErr=null;
-  const maxAttempts=body&&body.action==='login'?1:3;
-  for(let attempt=0;attempt<maxAttempts;attempt++){
-    const ctl=new AbortController();
-    const timer=setTimeout(()=>ctl.abort(),20000);
-    try{
-      const r=await fetch(API_URL,{method:'POST',mode:'cors',credentials:'omit',cache:'no-store',signal:ctl.signal,headers:{'Content-Type':'text/plain;charset=UTF-8'},body:JSON.stringify(body)});
-      const raw=await r.text();
-      if(!r.ok)throw new Error('API HTTP '+r.status);
-      let j=null;
-      try{j=JSON.parse(raw)}catch(_){throw new Error('API_BAD_RESPONSE')}
-      if(!j.ok)throw new Error(j.error||'API_ERROR');
-      clearTimeout(timer);
-      return j.result;
-    }catch(e){
-      clearTimeout(timer);lastErr=e;
-      if(attempt<maxAttempts-1)await new Promise(r=>setTimeout(r,450*(attempt+1)));
-    }
-  }
-  if(String(lastErr&&lastErr.message||lastErr).includes('AbortError'))throw new Error('เซิร์ฟเวอร์ตอบช้าเกินไป กรุณาลองอีกครั้ง');
-  throw lastErr||new Error('เชื่อมต่อเซิร์ฟเวอร์ไม่สำเร็จ');
+  const ctl=new AbortController();
+  const action=String(body&&body.action||'');
+  const mutation=!['ping','login','inventory','bootstrap'].includes(action);
+  const timer=setTimeout(()=>ctl.abort(),mutation?25000:15000);
+  try{
+    const r=await fetch(API_URL,{method:'POST',mode:'cors',credentials:'omit',cache:'no-store',signal:ctl.signal,headers:{'Content-Type':'text/plain;charset=UTF-8'},body:JSON.stringify(body)});
+    const raw=await r.text();
+    if(!r.ok)throw new Error('API HTTP '+r.status);
+    let j=null;
+    try{j=JSON.parse(raw)}catch(_){throw new Error('API_BAD_RESPONSE')}
+    if(!j.ok)throw new Error(j.error||'API_ERROR');
+    return j.result;
+  }catch(e){
+    if(e&&e.name==='AbortError')throw new Error(mutation?'การบันทึกใช้เวลานานเกินไป กรุณาตรวจรายการก่อนกดซ้ำ':'โหลดข้อมูลช้าเกินไป กรุณาลองใหม่');
+    throw e;
+  }finally{clearTimeout(timer)}
 }
+
 function authFail(msg){TOKEN='';localStorage.removeItem('loxleyAuthToken');localStorage.removeItem(CACHE_KEY);clearAppView();setAuthenticated(false);toast(msg||'กรุณาเข้าสู่ระบบใหม่',true)}
 async function call(name,args,ok){
   if(!TOKEN){showLogin();return}
@@ -351,10 +347,12 @@ async function call(name,args,ok){
     else if(name==='setUserCredentials') {body.action='setUserCredentials';body.payload=args||{}}
     else throw new Error('UNKNOWN_ACTION');
     const result=await api(body);
-    if(result&&result.data){
-      DATA=result.data;hydrate();saveCache();SKIP_NEXT_REFRESH=true;
-      if(ok)ok(result.value);
-    }else if(ok)ok(result);
+    if(result&&result.inventory){
+      DATA.items=result.inventory.items||DATA.items;
+      DATA.dashboard={...(DATA.dashboard||{}),...(result.inventory.dashboard||{})};
+      hydrate();saveCache();
+    }
+    if(ok)ok(result&&Object.prototype.hasOwnProperty.call(result,'value')?result.value:result);
   }catch(e){
     const msg=e.message||String(e);
     if(msg.includes('AUTH_'))authFail('เซสชันหมดอายุ กรุณาเข้าสู่ระบบใหม่');else toast(msg,true);
@@ -387,8 +385,9 @@ async function submitLogin(){
     const r=await api({action:'login',username,pin});
     TOKEN=r.token;localStorage.setItem('loxleyAuthToken',TOKEN);
     document.getElementById('loginPin').value='';
-    DATA={user:r.user||{},dashboard:{},items:[],loans:[],claims:[],users:[]};
-    hydrate();setAuthenticated(true);go('home');
+    const inv=r.inventory||{items:[],dashboard:{}};
+    DATA={user:r.user||{},dashboard:inv.dashboard||{},items:inv.items||[],loans:[],claims:[],users:[]};
+    hydrate();saveCache();setAuthenticated(true);go('home');
     refresh(undefined,true);
   }catch(e){
     toast(e.message||String(e),true);setAuthenticated(false);
@@ -433,7 +432,7 @@ function fillAdminUser(){
 }
 function submitUserCredentials(){
   const p={userId:document.getElementById('adminUserSelect').value,username:document.getElementById('adminUsername').value.trim(),pin:document.getElementById('adminUserPin').value.trim()};
-  call('setUserCredentials',p,()=>{toast('บันทึก Username / PIN แล้ว');document.getElementById('adminUserPin').value='';refresh(()=>{fillAdminUser();})})
+  call('setUserCredentials',p,()=>{toast('บันทึก Username / PIN แล้ว');document.getElementById('adminUserPin').value='';refresh(undefined,true)})
 }
 function renderHome(){
   const x=[...DATA.loans].sort((a,b)=>String(b.CreatedAt||'').localeCompare(String(a.CreatedAt||''))).slice(0,2);
@@ -501,27 +500,42 @@ function openLoan(){
 function submitLoan(){
   const items=[...document.querySelectorAll('.loan-qty')].map(e=>({itemId:e.dataset.itemId,qty:Number(e.value||0)})).filter(x=>x.qty>0);
   const rt=document.querySelector('input[name="loanRequestType"]:checked');
-  call('createLoanRequest',{items,requesterName:document.getElementById('loanRequesterName').value,requesterDepartment:document.getElementById('loanDepartment').value,requesterPhone:document.getElementById('loanPhone').value,projectName:document.getElementById('loanProject').value,storageLocation:document.getElementById('loanStorageLocation').value,borrowPeriod:document.getElementById('loanBorrowPeriod').value,useLocation:document.getElementById('loanUseLocation').value,requestType:rt?rt.value:'',requestTypeOther:document.getElementById('loanRequestTypeOther').value,requestReason:document.getElementById('loanReason').value},()=>{closeModal('loanModal');toast('ส่งใบเบิกวัสดุแล้ว');refresh(()=>go('loans'))})
+  call('createLoanRequest',{items,requesterName:document.getElementById('loanRequesterName').value,requesterDepartment:document.getElementById('loanDepartment').value,requesterPhone:document.getElementById('loanPhone').value,projectName:document.getElementById('loanProject').value,storageLocation:document.getElementById('loanStorageLocation').value,borrowPeriod:document.getElementById('loanBorrowPeriod').value,useLocation:document.getElementById('loanUseLocation').value,requestType:rt?rt.value:'',requestTypeOther:document.getElementById('loanRequestTypeOther').value,requestReason:document.getElementById('loanReason').value},()=>{closeModal('loanModal');toast('ส่งใบเบิกวัสดุแล้ว');go('loans');refresh(undefined,true)})
 }
-function decision(id,yes){let reason='';if(!yes){reason=prompt('เหตุผลที่ไม่อนุมัติ')||'';if(!reason)return}call('decideLoan',[id,yes,reason],()=>{toast(yes?'อนุมัติใบเบิกแล้ว':'บันทึกไม่อนุมัติแล้ว');refresh()})}
-function handover(id){if(!confirm('ยืนยันการจ่ายออก / ส่งมอบวัสดุ? ระบบจะหักคงเหลือ'))return;call('handoverLoan',id,()=>{toast('จ่ายออกและตัดสต็อกแล้ว');refresh()})}
-function receiveReturn(id){if(!confirm('ยืนยันรับคืนวัสดุเข้าสต็อก?'))return;call('returnLoan',[id],()=>{toast('รับคืนเข้าสต็อกแล้ว');refresh()})}
+function decision(id,yes){let reason='';if(!yes){reason=prompt('เหตุผลที่ไม่อนุมัติ')||'';if(!reason)return}call('decideLoan',[id,yes,reason],()=>{toast(yes?'อนุมัติใบเบิกแล้ว':'บันทึกไม่อนุมัติแล้ว');refresh(undefined,true)})}
+function handover(id){if(!confirm('ยืนยันการจ่ายออก / ส่งมอบวัสดุ? ระบบจะหักคงเหลือ'))return;call('handoverLoan',id,()=>{toast('จ่ายออกและตัดสต็อกแล้ว');refresh(undefined,true)})}
+function receiveReturn(id){if(!confirm('ยืนยันรับคืนวัสดุเข้าสต็อก?'))return;call('returnLoan',[id],()=>{toast('รับคืนเข้าสต็อกแล้ว');refresh(undefined,true)})}
 function openClaim(){
   fillForms();document.getElementById('repairSenderName').value=DATA.user.name||'';document.getElementById('repairQty').value=1;document.getElementById('repairSentDate').value=new Date().toISOString().slice(0,10);updateRepairItemHint();showModal('claimModal');
 }
 function submitClaim(){
   const ref=document.querySelector('input[name="repairRefType"]:checked');
-  call('createClaim',{itemId:document.getElementById('claimItem').value,issue:document.getElementById('claimIssue').value,repairCompany:document.getElementById('repairCompany').value,repairAddress:document.getElementById('repairAddress').value,repairPhone:document.getElementById('repairPhone').value,repairSentDate:document.getElementById('repairSentDate').value,referenceType:ref?ref.value:'Project',referenceValue:document.getElementById('repairReferenceValue').value,qty:document.getElementById('repairQty').value,model:document.getElementById('repairModel').value,serial:document.getElementById('repairSerial').value,senderName:document.getElementById('repairSenderName').value,receiverName:document.getElementById('repairReceiverName').value},()=>{closeModal('claimModal');toast('เปิดแบบฟอร์มส่งสินค้าซ่อมแล้ว');refresh(()=>go('claims'))})
+  call('createClaim',{itemId:document.getElementById('claimItem').value,issue:document.getElementById('claimIssue').value,repairCompany:document.getElementById('repairCompany').value,repairAddress:document.getElementById('repairAddress').value,repairPhone:document.getElementById('repairPhone').value,repairSentDate:document.getElementById('repairSentDate').value,referenceType:ref?ref.value:'Project',referenceValue:document.getElementById('repairReferenceValue').value,qty:document.getElementById('repairQty').value,model:document.getElementById('repairModel').value,serial:document.getElementById('repairSerial').value,senderName:document.getElementById('repairSenderName').value,receiverName:document.getElementById('repairReceiverName').value},()=>{closeModal('claimModal');toast('เปิดแบบฟอร์มส่งสินค้าซ่อมแล้ว');go('claims');refresh(undefined,true)})
 }
 function openUpdate(id){
   document.getElementById('updateClaimId').value=id;const c=DATA.claims.find(x=>x.ClaimID===id)||{};
   document.getElementById('updateStatus').value=c.Status||'Open';document.getElementById('repairAdminStatus').value=c.RepairAdminStatus||'';document.getElementById('repairQuoteNumber').value=c.QuoteNumber||'';document.getElementById('repairQuoteDate').value=(c.QuoteDate||'').slice(0,10);document.getElementById('repairContactName').value=c.RepairContactName||'';document.getElementById('repairContactPhone').value=c.RepairContactPhone||'';document.getElementById('repairFax').value=c.RepairFax||'';document.getElementById('repairQuoteAddress').value=c.QuoteCompanyAddress||'';document.getElementById('repairCostInspection').value=c.CostInspection||'';document.getElementById('repairCostParts').value=c.CostParts||'';document.getElementById('repairCostService').value=c.CostService||'';document.getElementById('repairDecision').value=c.RepairDecision||'';document.getElementById('repairDecisionReason').value=c.DecisionReason||'';document.getElementById('repairDuration').value=c.RepairDuration||'';document.getElementById('repairReceivedDate').value=(c.RepairReceivedDate||'').slice(0,10);document.getElementById('repairApproverName').value=c.RepairApproverName||'';document.getElementById('repairApprovalDate').value=(c.RepairApprovalDate||'').slice(0,10);showModal('updateModal');
 }
 function submitClaimUpdate(){
-  call('addClaimUpdate',{claimId:document.getElementById('updateClaimId').value,status:document.getElementById('updateStatus').value,repairAdminStatus:document.getElementById('repairAdminStatus').value,quoteNumber:document.getElementById('repairQuoteNumber').value,quoteDate:document.getElementById('repairQuoteDate').value,repairContactName:document.getElementById('repairContactName').value,repairContactPhone:document.getElementById('repairContactPhone').value,repairFax:document.getElementById('repairFax').value,quoteCompanyAddress:document.getElementById('repairQuoteAddress').value,costInspection:document.getElementById('repairCostInspection').value,costParts:document.getElementById('repairCostParts').value,costService:document.getElementById('repairCostService').value,repairDecision:document.getElementById('repairDecision').value,decisionReason:document.getElementById('repairDecisionReason').value,repairDuration:document.getElementById('repairDuration').value,repairReceivedDate:document.getElementById('repairReceivedDate').value,repairApproverName:document.getElementById('repairApproverName').value,repairApprovalDate:document.getElementById('repairApprovalDate').value,channel:document.getElementById('updateChannel').value,detail:document.getElementById('updateDetail').value,nextDate:document.getElementById('updateNext').value,itemStatus:document.getElementById('updateItemStatus').value},()=>{closeModal('updateModal');toast('บันทึกข้อมูลซ่อมแล้ว');refresh()})
+  call('addClaimUpdate',{claimId:document.getElementById('updateClaimId').value,status:document.getElementById('updateStatus').value,repairAdminStatus:document.getElementById('repairAdminStatus').value,quoteNumber:document.getElementById('repairQuoteNumber').value,quoteDate:document.getElementById('repairQuoteDate').value,repairContactName:document.getElementById('repairContactName').value,repairContactPhone:document.getElementById('repairContactPhone').value,repairFax:document.getElementById('repairFax').value,quoteCompanyAddress:document.getElementById('repairQuoteAddress').value,costInspection:document.getElementById('repairCostInspection').value,costParts:document.getElementById('repairCostParts').value,costService:document.getElementById('repairCostService').value,repairDecision:document.getElementById('repairDecision').value,decisionReason:document.getElementById('repairDecisionReason').value,repairDuration:document.getElementById('repairDuration').value,repairReceivedDate:document.getElementById('repairReceivedDate').value,repairApproverName:document.getElementById('repairApproverName').value,repairApprovalDate:document.getElementById('repairApprovalDate').value,channel:document.getElementById('updateChannel').value,detail:document.getElementById('updateDetail').value,nextDate:document.getElementById('updateNext').value,itemStatus:document.getElementById('updateItemStatus').value},()=>{closeModal('updateModal');toast('บันทึกข้อมูลซ่อมแล้ว');refresh(undefined,true)})
 }
 document.querySelectorAll('.modal').forEach(m=>m.addEventListener('click',e=>{if(e.target===m && m.id!=='loginModal')closeModal(m.id)}));
-if(TOKEN){const cached=loadCache();if(!cached)setAuthenticated(false);refresh(undefined,cached)}else{setAuthenticated(false)}
+async function startApp(){
+  if(!TOKEN){setAuthenticated(false);return}
+  const cached=loadCache();
+  if(cached){refresh(undefined,true);return}
+  try{
+    const inv=await api({action:'inventory',token:TOKEN});
+    DATA={user:{name:'ผู้ใช้งาน',role:''},dashboard:inv.dashboard||{},items:inv.items||[],loans:[],claims:[],users:[]};
+    hydrate();saveCache();setAuthenticated(true);go('home');
+    refresh(undefined,true);
+  }catch(e){
+    const msg=e.message||String(e);
+    if(msg.includes('AUTH_'))authFail('เซสชันหมดอายุ กรุณาเข้าสู่ระบบใหม่');
+    else{setAuthenticated(false);toast('โหลดสต็อกไม่สำเร็จ กรุณาเข้าสู่ระบบใหม่',true)}
+  }
+}
+startApp()
 </script>
 </body>
 </html>
