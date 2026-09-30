@@ -22,7 +22,7 @@
     .wrap{max-width:980px;margin:auto;padding:16px}.page{display:none}.page.active{display:block}
     .hero{background:linear-gradient(145deg,#fff,#eef2ff);border:1px solid #e7eafd;border-radius:22px;padding:20px;box-shadow:var(--shadow);position:relative;overflow:hidden}
     .hero:after{content:"";position:absolute;width:180px;height:180px;border-radius:50%;background:rgba(201,162,39,.12);right:-65px;top:-75px}
-    .hero-eyebrow{font-size:12px;color:var(--gold);font-weight:700;letter-spacing:.4px}.hero h2{margin:5px 0 6px;font-size:25px;color:var(--blue)}.hero p{margin:0;color:var(--muted);font-size:13px;line-height:1.5}
+    .hero-eyebrow{font-size:12px;color:var(--gold);font-weight:700;letter-spacing:.4px}.hero h2{margin:5px 0 6px;font-size:25px;color:var(--blue)}.hero p{margin:0;color:var(--muted);font-size:13px;line-height:1.5}.compact-hero{padding:14px 16px;margin-bottom:2px}.compact-hero:after{display:none}.compact-hero h2{margin:0;font-size:20px}.load-more{width:100%;margin-top:2px}
     .stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:14px}.stat{background:#fff;border:1px solid var(--line);border-radius:17px;padding:14px;box-shadow:0 5px 18px rgba(28,43,88,.05)}
     .stat .n{font-size:27px;font-weight:800;color:var(--blue);line-height:1}.stat .l{font-size:12px;color:var(--muted);margin-top:7px}.stat.gold .n{color:#a47d00}.stat.green .n{color:var(--ok)}.stat.red .n{color:var(--bad)}
     .section-head{display:flex;align-items:center;justify-content:space-between;margin:22px 2px 10px}.section-head h3{margin:0;font-size:16px}.section-head span{font-size:11px;color:var(--muted)}
@@ -116,18 +116,12 @@ body.auth-locked #loginModal .handle{display:none}
 
 <main class="wrap">
   <section class="page active" id="homePage">
-    <div class="hero"><div class="hero-eyebrow">LOXLEY STOCK MANAGEMENT</div><h2 id="hello">สวัสดีค่ะ</h2><p>เช็กวัสดุ ออกใบเบิก และติดตามการส่งซ่อมในรูปแบบเดียวกับเอกสารที่ใช้งานปัจจุบัน</p></div>
+    <div class="hero compact-hero"><h2 id="hello">สวัสดีค่ะ</h2></div>
     <div class="stats">
       <div class="stat"><div class="n" id="sTotal">–</div><div class="l">รายการวัสดุทั้งหมด</div></div>
       <div class="stat green"><div class="n" id="sM6">–</div><div class="l" id="m6Label">M6</div></div>
       <div class="stat gold"><div class="n" id="sM81">–</div><div class="l" id="m81Label">M81</div></div>
       <div class="stat red"><div class="n" id="sRepair">–</div><div class="l">กำลังส่งซ่อม</div></div>
-    </div>
-    <div class="section-head"><h3>ทำรายการด่วน</h3><span>เลือกสิ่งที่ต้องการ</span></div>
-    <div class="quick">
-      <button class="qbtn" onclick="openLoan()"><span class="ico">↗</span>ใบเบิกวัสดุ<small>STORE 02</small></button>
-      <button class="qbtn" onclick="go('items')"><span class="ico">▣</span>ค้นหาวัสดุ<small>ดูรุ่น/รหัส/ตำแหน่ง</small></button>
-      <button class="qbtn" onclick="openClaim()"><span class="ico">⚒</span>ส่งสินค้าซ่อม<small>STORE-03</small></button>
     </div>
     <div id="adminUserSection" style="display:none">
       <div class="section-head"><h3>ผู้ดูแลระบบ</h3><span id="adminUserCount"></span></div>
@@ -142,7 +136,7 @@ body.auth-locked #loginModal .handle{display:none}
       <button class="chip" onclick="setItemProject('M6',this)">M6</button>
       <button class="chip" onclick="setItemProject('M81',this)">M81</button>
     </div>
-    <div class="toolbar"><input class="search" id="itemSearch" placeholder="ค้นหา System / Description / Location" oninput="renderItems()"><button class="primary" onclick="openLoan()">+ ใบเบิก</button></div>
+    <div class="toolbar"><input class="search" id="itemSearch" placeholder="ค้นหา System / Description / Location" oninput="ITEM_RENDER_LIMIT=60;renderItems()"></div>
     <div class="list" id="itemList"></div>
   </section>
 
@@ -268,6 +262,9 @@ let DATA={user:{},dashboard:{...STOCK_SNAPSHOT.dashboard},items:STOCK_SNAPSHOT.i
 let ITEM_PROJECT='ALL';
 let RECORDS_LOADED=false;
 let RECORDS_LOADING=false;
+let ACTIVE_PAGE='home';
+let ITEM_RENDER_LIMIT=60;
+let LOAN_DRAFT_QTY={};
 let TOKEN=localStorage.getItem('loxleyAuthToken')||'';
 const staff=()=>['Admin','StockOfficer','Approver'].includes(DATA.user.role);
 const stock=()=>['Admin','StockOfficer'].includes(DATA.user.role);
@@ -450,9 +447,24 @@ function hydrate(){
   document.getElementById('sRepair').textContent=Number(DATA.dashboard.inRepair||0).toLocaleString();
   document.getElementById('m6Label').textContent='M6 · คงเหลือ '+Number(DATA.dashboard.m6Balance||0).toLocaleString();
   document.getElementById('m81Label').textContent='M81 · คงเหลือ '+Number(DATA.dashboard.m81Balance||0).toLocaleString();
-  renderItems();renderLoans();renderClaims();renderAdminUsers();
+  renderAdminUsers();
+  if(ACTIVE_PAGE==='items')renderItems();
+  else if(ACTIVE_PAGE==='loans'&&RECORDS_LOADED)renderLoans();
+  else if(ACTIVE_PAGE==='claims'&&RECORDS_LOADED)renderClaims();
 }
-function go(p){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById(p+'Page').classList.add('active');document.querySelectorAll('.nav').forEach(x=>x.classList.toggle('active',x.dataset.page===p));scrollTo(0,0);if((p==='loans'||p==='claims')&&!RECORDS_LOADED)ensureRecords()}
+function go(p){
+  ACTIVE_PAGE=p;
+  document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
+  document.getElementById(p+'Page').classList.add('active');
+  document.querySelectorAll('.nav').forEach(x=>x.classList.toggle('active',x.dataset.page===p));
+  scrollTo(0,0);
+  if(p==='items'){ITEM_RENDER_LIMIT=60;renderItems();return}
+  if(p==='loans'||p==='claims'){
+    if(!RECORDS_LOADED)ensureRecords();
+    else if(p==='loans')renderLoans();
+    else renderClaims();
+  }
+}
 function renderAdminUsers(){
   const sec=document.getElementById('adminUserSection'); if(!sec)return;
   const isAdmin=DATA.user.role==='Admin';
@@ -478,6 +490,7 @@ function submitUserCredentials(){
 }
 function setItemProject(p,btn){
   ITEM_PROJECT=p;
+  ITEM_RENDER_LIMIT=60;
   document.querySelectorAll('#itemProjectChips .chip').forEach(x=>x.classList.remove('active'));
   if(btn)btn.classList.add('active');
   renderItems();
@@ -490,7 +503,10 @@ function renderItems(){
   const q=(document.getElementById('itemSearch')?.value||'').trim().toLowerCase();
   const a=DATA.items.filter(x=>(ITEM_PROJECT==='ALL'||x.Project===ITEM_PROJECT) && (!q||[x.ItemID,x.Project,x.System,x.Description,x.LocationPackingNo].join(' ').toLowerCase().includes(q)));
   document.getElementById('itemCount').textContent=a.length+' รายการ';
-  document.getElementById('itemList').innerHTML=a.map(itemCard).join('')||'<div class="empty">ไม่พบวัสดุ</div>';
+  const shown=a.slice(0,ITEM_RENDER_LIMIT);
+  let html=shown.map(itemCard).join('');
+  if(a.length>shown.length)html+='<button class="secondary load-more" onclick="ITEM_RENDER_LIMIT+=60;renderItems()">แสดงเพิ่ม '+Math.min(60,a.length-shown.length)+' รายการ</button>';
+  document.getElementById('itemList').innerHTML=html||'<div class="empty">ไม่พบวัสดุ</div>';
 }
 function loanCard(x){
   const its=(x.Items||[]).map(i=>esc((i.SystemSnapshot||'')+' · '+(i.DescriptionSnapshot||i.ItemID)+' × '+Number(i.QtyRequested||0))).join('<br>');let acts='';
@@ -506,11 +522,18 @@ function claimCard(x){
   return '<div class="card"><div class="row"><div class="grow"><div class="asset">'+esc(x.ClaimNumber||x.ClaimID)+' · '+esc(x.SystemSnapshot||'')+' · STORE-03</div><div class="title">'+esc(x.ItemDescriptionSnapshot||'-')+'</div><div class="sub">'+esc([x.ModelEntered,x.SerialEntered].filter(Boolean).join(' · '))+'</div><div class="sub">จำนวน '+Number(x.Qty||0)+' · อาการเสีย: '+esc(x.IssueDescription||'-')+'</div></div>'+badge(x.Status)+'</div><div class="meta"><span>ส่งซ่อม '+fmt(x.RepairSentDate||x.OpenedAt)+'</span><span>'+esc(x.RepairCompany||'ยังไม่ระบุบริษัท')+'</span></div>'+(timeline?'<div class="timeline">'+timeline+'</div>':'')+act+'</div>'
 }
 function renderClaims(){const q=(document.getElementById('claimSearch')?.value||'').toLowerCase();const a=DATA.claims.filter(x=>JSON.stringify(x).toLowerCase().includes(q));document.getElementById('claimCount').textContent=a.length+' ใบ';document.getElementById('claimList').innerHTML=a.map(claimCard).join('')||'<div class="empty">ยังไม่มีแบบฟอร์มส่งสินค้าซ่อม</div>'}
+function setLoanQty(id,v){
+  const n=Math.max(0,Math.floor(Number(v)||0));
+  if(n>0)LOAN_DRAFT_QTY[id]=n; else delete LOAN_DRAFT_QTY[id];
+}
 function renderLoanStock(){
   const project=document.getElementById('loanStockProject')?.value||'ALL';
   const q=(document.getElementById('loanItemSearch')?.value||'').trim().toLowerCase();
-  const a=DATA.items.filter(x=>Number(x.Balance)>0&&(project==='ALL'||x.Project===project)&&(!q||[x.System,x.Description,x.LocationPackingNo].join(' ').toLowerCase().includes(q)));
-  document.getElementById('loanItems').innerHTML=a.map(x=>'<div class="stock-row"><div><b>'+esc(x.Project)+' · '+esc(x.System||'')+'</b><div class="sub">'+esc(x.Description||'')+'</div><div class="sub">'+esc(x.LocationPackingNo||'')+' · คงเหลือ <b>'+Number(x.Balance||0).toLocaleString()+'</b></div></div><input class="loan-qty" data-item-id="'+esc(x.ItemID)+'" type="number" min="0" max="'+Number(x.Balance||0)+'" step="1" value="0" inputmode="numeric"></div>').join('')||'<div class="empty">ไม่พบวัสดุพร้อมเบิก</div>';
+  const a=DATA.items.filter(x=>Number(x.Balance)>0&&(project==='ALL'||x.Project===project)&&(!q||[x.ItemID,x.System,x.Description,x.LocationPackingNo].join(' ').toLowerCase().includes(q)));
+  const shown=a.slice(0,q?100:60);
+  let html=shown.map(x=>'<div class="stock-row"><div><b>'+esc(x.Project)+' · '+esc(x.System||'')+'</b><div class="sub">'+esc(x.Description||'')+'</div><div class="sub">'+esc(x.LocationPackingNo||'')+' · คงเหลือ <b>'+Number(x.Balance||0).toLocaleString()+'</b></div></div><input class="loan-qty" data-item-id="'+esc(x.ItemID)+'" type="number" min="0" max="'+Number(x.Balance||0)+'" step="1" value="'+Number(LOAN_DRAFT_QTY[x.ItemID]||0)+'" inputmode="numeric" oninput="setLoanQty(this.dataset.itemId,this.value)"></div>').join('');
+  if(a.length>shown.length)html+='<div class="hint" style="padding:10px">แสดง '+shown.length+' จาก '+a.length+' รายการ · ค้นหาด้วย System / Description / Location เพื่อเจอรายการเร็วขึ้น</div>';
+  document.getElementById('loanItems').innerHTML=html||'<div class="empty">ไม่พบวัสดุพร้อมเบิก</div>';
 }
 function updateRepairItemHint(){
   const id=document.getElementById('claimItem')?.value;const x=DATA.items.find(i=>i.ItemID===id);
@@ -518,14 +541,13 @@ function updateRepairItemHint(){
   e.textContent=x?(x.Project+' · '+x.System+' · '+x.LocationPackingNo+' · คงเหลือ '+Number(x.Balance||0).toLocaleString()):'';
   const qty=document.getElementById('repairQty');if(qty&&x)qty.max=Number(x.Balance||0);
 }
-function fillForms(){
-  renderLoanStock();
+function fillClaimItems(){
   document.getElementById('claimItem').innerHTML=DATA.items.filter(x=>Number(x.Balance)>0).map(x=>'<option value="'+esc(x.ItemID)+'">'+esc(x.Project+' · '+x.System+' · '+x.Description+' · เหลือ '+Number(x.Balance||0).toLocaleString())+'</option>').join('');
   updateRepairItemHint();
 }
 function showModal(id){document.getElementById(id).classList.add('show')} function closeModal(id){document.getElementById(id).classList.remove('show')}
 function openLoan(){
-  fillForms();
+  LOAN_DRAFT_QTY={};
   document.getElementById('loanRequesterName').value=DATA.user.name||'';
   document.getElementById('loanDepartment').value=DATA.user.department||'';
   document.getElementById('loanPhone').value=DATA.user.phone||'';
@@ -534,7 +556,7 @@ function openLoan(){
   renderLoanStock();showModal('loanModal');
 }
 function submitLoan(){
-  const items=[...document.querySelectorAll('.loan-qty')].map(e=>({itemId:e.dataset.itemId,qty:Number(e.value||0)})).filter(x=>x.qty>0);
+  const items=Object.entries(LOAN_DRAFT_QTY).map(([itemId,qty])=>({itemId,qty:Number(qty)})).filter(x=>x.qty>0);
   const rt=document.querySelector('input[name="loanRequestType"]:checked');
   call('createLoanRequest',{items,requesterName:document.getElementById('loanRequesterName').value,requesterDepartment:document.getElementById('loanDepartment').value,requesterPhone:document.getElementById('loanPhone').value,projectName:document.getElementById('loanProject').value,storageLocation:document.getElementById('loanStorageLocation').value,borrowPeriod:document.getElementById('loanBorrowPeriod').value,useLocation:document.getElementById('loanUseLocation').value,requestType:rt?rt.value:'',requestTypeOther:document.getElementById('loanRequestTypeOther').value,requestReason:document.getElementById('loanReason').value},()=>{closeModal('loanModal');toast('ส่งใบเบิกวัสดุแล้ว');go('loans');ensureRecords()})
 }
@@ -542,7 +564,7 @@ function decision(id,yes){let reason='';if(!yes){reason=prompt('เหตุผ�
 function handover(id){if(!confirm('ยืนยันการจ่ายออก / ส่งมอบวัสดุ? ระบบจะหักคงเหลือ'))return;call('handoverLoan',id,()=>{toast('จ่ายออกและตัดสต็อกแล้ว');ensureRecords()})}
 function receiveReturn(id){if(!confirm('ยืนยันรับคืนวัสดุเข้าสต็อก?'))return;call('returnLoan',[id],()=>{toast('รับคืนเข้าสต็อกแล้ว');ensureRecords()})}
 function openClaim(){
-  fillForms();document.getElementById('repairSenderName').value=DATA.user.name||'';document.getElementById('repairQty').value=1;document.getElementById('repairSentDate').value=new Date().toISOString().slice(0,10);updateRepairItemHint();showModal('claimModal');
+  fillClaimItems();document.getElementById('repairSenderName').value=DATA.user.name||'';document.getElementById('repairQty').value=1;document.getElementById('repairSentDate').value=new Date().toISOString().slice(0,10);showModal('claimModal');
 }
 function submitClaim(){
   const ref=document.querySelector('input[name="repairRefType"]:checked');
@@ -578,4 +600,4 @@ function startApp(){
 startApp()
 </script>
 </body>
-  </html>
+      </html>
