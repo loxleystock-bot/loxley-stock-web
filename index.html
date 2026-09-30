@@ -262,7 +262,8 @@ function loadCache(){
 const API_URL='https://script.google.com/macros/s/AKfycbw7zd0yZqoY5iQrrQxQsGvzNWMGqADfqx0r_w93quCUoO8vTTt4OD_kQN0th5gwtimq/exec';
 async function api(body){
   let lastErr=null;
-  for(let attempt=0;attempt<3;attempt++){
+  const maxAttempts=body&&body.action==='login'?1:3;
+  for(let attempt=0;attempt<maxAttempts;attempt++){
     const ctl=new AbortController();
     const timer=setTimeout(()=>ctl.abort(),20000);
     try{
@@ -276,7 +277,7 @@ async function api(body){
       return j.result;
     }catch(e){
       clearTimeout(timer);lastErr=e;
-      if(attempt<2)await new Promise(r=>setTimeout(r,450*(attempt+1)));
+      if(attempt<maxAttempts-1)await new Promise(r=>setTimeout(r,450*(attempt+1)));
     }
   }
   if(String(lastErr&&lastErr.message||lastErr).includes('AbortError'))throw new Error('เซิร์ฟเวอร์ตอบช้าเกินไป กรุณาลองอีกครั้ง');
@@ -328,17 +329,19 @@ async function submitLogin(){
   if(!username||!pin){toast('กรุณากรอก Username และ PIN',true);return}
   if(INFLIGHT.has('login'))return;
   const btn=document.getElementById('loginBtn');
-  INFLIGHT.add('login');busy(true);
+  INFLIGHT.add('login');
   if(btn){btn.disabled=true;btn.textContent='กำลังเข้าสู่ระบบ…'}
   try{
     const r=await api({action:'login',username,pin});
     TOKEN=r.token;localStorage.setItem('loxleyAuthToken',TOKEN);
     document.getElementById('loginPin').value='';
-    if(r.data){DATA=r.data;hydrate();saveCache();setAuthenticated(true);go('home')}
-    else{setAuthenticated(true);refresh(()=>go('home'))}
-  }catch(e){toast(e.message||String(e),true);setAuthenticated(false)}
-  finally{
-    INFLIGHT.delete('login');busy(false);
+    DATA={user:r.user||{},dashboard:{},items:[],loans:[],claims:[],users:[]};
+    hydrate();setAuthenticated(true);go('home');
+    refresh(undefined,true);
+  }catch(e){
+    toast(e.message||String(e),true);setAuthenticated(false);
+  }finally{
+    INFLIGHT.delete('login');
     if(btn){btn.disabled=false;btn.textContent='เข้าสู่ระบบ'}
   }
 }
