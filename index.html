@@ -220,6 +220,7 @@ function toast(msg,err=false){const e=document.getElementById('toast');e.textCon
 let BUSY_COUNT=0;
 const INFLIGHT=new Set();
 let REFRESHING=false;
+let SKIP_NEXT_REFRESH=false;
 const CACHE_KEY='loxleyBootstrapCacheV2';
 function busy(on){
   BUSY_COUNT=Math.max(0,BUSY_COUNT+(on?1:-1));
@@ -257,7 +258,7 @@ async function api(body){
   if(String(lastErr&&lastErr.message||lastErr).includes('AbortError'))throw new Error('เซิร์ฟเวอร์ตอบช้าเกินไป กรุณาลองอีกครั้ง');
   throw lastErr||new Error('เชื่อมต่อเซิร์ฟเวอร์ไม่สำเร็จ');
 }
-function authFail(msg){TOKEN='';localStorage.removeItem('loxleyAuthToken');showLogin();toast(msg||'กรุณาเข้าสู่ระบบใหม่',true)}
+function authFail(msg){TOKEN='';localStorage.removeItem('loxleyAuthToken');localStorage.removeItem(CACHE_KEY);showLogin();toast(msg||'กรุณาเข้าสู่ระบบใหม่',true)}
 async function call(name,args,ok){
   if(!TOKEN){showLogin();return}
   if(INFLIGHT.has(name)){toast('รายการนี้กำลังบันทึกอยู่');return}
@@ -272,23 +273,29 @@ async function call(name,args,ok){
     else if(name==='addClaimUpdate') {body.action='addClaimUpdate';body.payload=args||{}}
     else if(name==='setUserCredentials') {body.action='setUserCredentials';body.payload=args||{}}
     else throw new Error('UNKNOWN_ACTION');
-    const result=await api(body); if(ok) ok(result);
+    const result=await api(body);
+    if(result&&result.data){
+      DATA=result.data;hydrate();saveCache();SKIP_NEXT_REFRESH=true;
+      if(ok)ok(result.value);
+    }else if(ok)ok(result);
   }catch(e){
     const msg=e.message||String(e);
     if(msg.includes('AUTH_'))authFail('เซสชันหมดอายุ กรุณาเข้าสู่ระบบใหม่');else toast(msg,true);
   }finally{INFLIGHT.delete(name);busy(false)}
 }
-async function refresh(done){
+async function refresh(done,silent=false){
   if(!TOKEN){showLogin();return}
+  if(SKIP_NEXT_REFRESH){SKIP_NEXT_REFRESH=false;if(done)done();return}
   if(REFRESHING)return;
-  REFRESHING=true;busy(true);
+  REFRESHING=true;if(!silent)busy(true);
   try{
     const d=await api({action:'bootstrap',token:TOKEN});
     DATA=d;hydrate();saveCache();closeModal('loginModal');if(done)done();
   }catch(e){
     const msg=e.message||String(e);
-    if(msg.includes('AUTH_'))authFail('เซสชันหมดอายุ กรุณาเข้าสู่ระบบใหม่');else toast('ซิงก์ข้อมูลไม่สำเร็จ ลองใหม่อีกครั้ง',true);
-  }finally{REFRESHING=false;busy(false)}
+    if(msg.includes('AUTH_'))authFail('เซสชันหมดอายุ กรุณาเข้าสู่ระบบใหม่');
+    else if(!silent)toast('ซิงก์ข้อมูลไม่สำเร็จ ลองใหม่อีกครั้ง',true);
+  }finally{REFRESHING=false;if(!silent)busy(false)}
 }
 function showLogin(){document.getElementById('loginModal').classList.add('show')}
 async function submitLogin(){
@@ -369,7 +376,7 @@ function submitClaim(){call('createClaim',{itemId:document.getElementById('claim
 function openUpdate(id){document.getElementById('updateClaimId').value=id;const c=DATA.claims.find(x=>x.ClaimID===id);if(c)document.getElementById('updateStatus').value=c.Status;showModal('updateModal')}
 function submitClaimUpdate(){call('addClaimUpdate',{claimId:document.getElementById('updateClaimId').value,status:document.getElementById('updateStatus').value,channel:document.getElementById('updateChannel').value,detail:document.getElementById('updateDetail').value,nextDate:document.getElementById('updateNext').value,itemStatus:document.getElementById('updateItemStatus').value},()=>{closeModal('updateModal');toast('อัปเดตเคสแล้ว');refresh()})}
 document.querySelectorAll('.modal').forEach(m=>m.addEventListener('click',e=>{if(e.target===m && m.id!=='loginModal')closeModal(m.id)}));
-if(TOKEN){loadCache();refresh()}else{showLogin()}
+if(TOKEN){const cached=loadCache();refresh(undefined,cached)}else{showLogin()}
 </script>
 </body>
 </html>
