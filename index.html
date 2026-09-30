@@ -42,6 +42,7 @@ body.auth-locked>.topbar,body.auth-locked>main.wrap,body.auth-locked>nav.bottom{
 body.auth-locked #loginModal{display:flex!important;align-items:center;justify-content:center;background:var(--bg);padding:20px}
 body.auth-locked #loginModal .sheet{width:100%;max-width:430px;max-height:none;border-radius:24px;padding:24px 18px;box-shadow:0 16px 44px rgba(27,50,128,.14)}
 body.auth-locked #loginModal .handle{display:none}
+.form-banner{border:1px solid #dfe4f3;background:linear-gradient(145deg,#fff,#f3f5fb);border-radius:15px;padding:12px 13px;margin:2px 0 12px}.form-banner b{display:block;color:var(--blue);font-size:14px}.form-banner span{display:block;color:var(--muted);font-size:10px;margin-top:3px}.form-section{margin:15px 0 8px;padding-top:10px;border-top:1px solid var(--line);font-weight:800;color:var(--blue);font-size:13px}.option-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}.option-pill{display:flex;align-items:center;gap:7px;border:1px solid var(--line);border-radius:11px;padding:9px 10px;background:#fff;font-size:12px}.option-pill input{width:auto!important;min-height:auto!important}.mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.sheet .hint{font-size:10px;color:var(--muted);line-height:1.45;margin-top:4px}
 .timeline{border-left:2px solid #dfe4f3;margin:12px 0 0 8px;padding-left:14px}.event{position:relative;margin:0 0 12px}.event:before{content:"";position:absolute;width:9px;height:9px;border-radius:50%;background:var(--blue);left:-19px;top:5px}.event b{font-size:11px}.event div{font-size:11px;color:var(--muted);margin-top:2px}
     @media(min-width:700px){.stats{grid-template-columns:repeat(4,1fr)}.quick{grid-template-columns:repeat(3,1fr)}.list{grid-template-columns:repeat(2,1fr)}.modal{align-items:center;justify-content:center}.sheet{max-width:560px;border-radius:24px;padding-bottom:22px}}
   
@@ -108,25 +109,25 @@ body.auth-locked #loginModal .handle{display:none}
 <header class="topbar">
   <div class="brand">
     <img class="logo" src="data:image/png;base64,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">
-    <div><h1>Loxley Stock</h1><small>ระบบยืม–คืนและเคลมอุปกรณ์</small></div>
+    <div><h1>Loxley Stock</h1><small>ระบบเบิกวัสดุและส่งซ่อม</small></div>
     <div class="userpill" id="userPill" onclick="logout()" title="แตะเพื่อออกจากระบบ">ยังไม่ได้เข้าสู่ระบบ</div>
   </div>
 </header>
 
 <main class="wrap">
   <section class="page active" id="homePage">
-    <div class="hero"><div class="hero-eyebrow">LOXLEY STOCK MANAGEMENT</div><h2 id="hello">สวัสดีค่ะ</h2><p>ดูสถานะอุปกรณ์ ส่งคำขอยืม–คืน และติดตามงานเคลมได้จากหน้าเดียว</p></div>
+    <div class="hero"><div class="hero-eyebrow">LOXLEY STOCK MANAGEMENT</div><h2 id="hello">สวัสดีค่ะ</h2><p>เช็กวัสดุ ออกใบเบิก และติดตามการส่งซ่อมในรูปแบบเดียวกับเอกสารที่ใช้งานปัจจุบัน</p></div>
     <div class="stats">
-      <div class="stat"><div class="n" id="sTotal">–</div><div class="l">อุปกรณ์ทั้งหมด</div></div>
-      <div class="stat green"><div class="n" id="sAvailable">–</div><div class="l">พร้อมใช้</div></div>
-      <div class="stat gold"><div class="n" id="sPending">–</div><div class="l">รออนุมัติ</div></div>
-      <div class="stat red"><div class="n" id="sClaims">–</div><div class="l">งานเคลมที่ยังเปิด</div></div>
+      <div class="stat"><div class="n" id="sTotal">–</div><div class="l">วัสดุทั้งหมด</div></div>
+      <div class="stat green"><div class="n" id="sAvailable">–</div><div class="l">พร้อมเบิก</div></div>
+      <div class="stat gold"><div class="n" id="sPending">–</div><div class="l">ใบเบิกรออนุมัติ</div></div>
+      <div class="stat red"><div class="n" id="sClaims">–</div><div class="l">งานซ่อมที่ยังเปิด</div></div>
     </div>
     <div class="section-head"><h3>ทำรายการด่วน</h3><span>เลือกสิ่งที่ต้องการ</span></div>
     <div class="quick">
-      <button class="qbtn" onclick="openLoan()"><span class="ico">↗</span>ยืมอุปกรณ์<small>สร้างคำขอใหม่</small></button>
-      <button class="qbtn" onclick="go('items')"><span class="ico">▣</span>ค้นหาอุปกรณ์<small>ดูสถานะ/ตำแหน่ง</small></button>
-      <button class="qbtn" onclick="openClaim()"><span class="ico">⚒</span>แจ้งเคลม<small>เปิดเคสใหม่</small></button>
+      <button class="qbtn" onclick="openLoan()"><span class="ico">↗</span>ใบเบิกวัสดุ<small>STORE 02</small></button>
+      <button class="qbtn" onclick="go('items')"><span class="ico">▣</span>ค้นหาวัสดุ<small>ดูรุ่น/รหัส/ตำแหน่ง</small></button>
+      <button class="qbtn" onclick="openClaim()"><span class="ico">⚒</span>ส่งสินค้าซ่อม<small>STORE-03</small></button>
     </div>
     <div id="adminUserSection" style="display:none">
       <div class="section-head"><h3>ผู้ดูแลระบบ</h3><span id="adminUserCount"></span></div>
@@ -137,29 +138,29 @@ body.auth-locked #loginModal .handle{display:none}
   </section>
 
   <section class="page" id="itemsPage">
-    <div class="section-head"><h3>อุปกรณ์</h3><span id="itemCount"></span></div>
-    <div class="toolbar"><input class="search" id="itemSearch" placeholder="ค้นหารหัส / ชื่อ / รุ่น / ตำแหน่ง" oninput="renderItems()"><button class="primary" onclick="openLoan()">+ ยืม</button></div>
+    <div class="section-head"><h3>วัสดุ / อุปกรณ์</h3><span id="itemCount"></span></div>
+    <div class="toolbar"><input class="search" id="itemSearch" placeholder="ค้นหารหัส / รายการ / รุ่น / Part Number / ตำแหน่ง" oninput="renderItems()"><button class="primary" onclick="openLoan()">+ ใบเบิก</button></div>
     <div class="list" id="itemList"></div>
   </section>
 
   <section class="page" id="loansPage">
-    <div class="section-head"><h3>ยืม–คืน</h3><span id="loanCount"></span></div>
-    <div class="toolbar"><input class="search" id="loanSearch" placeholder="ค้นหาเลขเอกสาร / วัตถุประสงค์ / สถานะ" oninput="renderLoans()"><button class="primary" onclick="openLoan()">+ คำขอ</button></div>
+    <div class="section-head"><h3>ใบเบิกวัสดุ</h3><span id="loanCount"></span></div>
+    <div class="toolbar"><input class="search" id="loanSearch" placeholder="ค้นหาเลข BKKM / โครงการ / ผู้ขอเบิก / สถานะ" oninput="renderLoans()"><button class="primary" onclick="openLoan()">+ ใบเบิก</button></div>
     <div class="list" id="loanList"></div>
   </section>
 
   <section class="page" id="claimsPage">
-    <div class="section-head"><h3>เคลม</h3><span id="claimCount"></span></div>
-    <div class="toolbar"><input class="search" id="claimSearch" placeholder="ค้นหาเลขเคลม / อุปกรณ์ / สถานะ" oninput="renderClaims()"><button class="primary" onclick="openClaim()">+ เคลม</button></div>
+    <div class="section-head"><h3>แบบฟอร์มส่งสินค้าซ่อม</h3><span id="claimCount"></span></div>
+    <div class="toolbar"><input class="search" id="claimSearch" placeholder="ค้นหาเลขส่งซ่อม / รายการ / บริษัท / สถานะ" oninput="renderClaims()"><button class="primary" onclick="openClaim()">+ ส่งซ่อม</button></div>
     <div class="list" id="claimList"></div>
   </section>
 </main>
 
 <nav class="bottom">
   <button class="nav active" data-page="home" onclick="go('home')"><b>⌂</b>หน้าหลัก</button>
-  <button class="nav" data-page="items" onclick="go('items')"><b>▣</b>อุปกรณ์</button>
-  <button class="nav" data-page="loans" onclick="go('loans')"><b>⇄</b>ยืม–คืน</button>
-  <button class="nav" data-page="claims" onclick="go('claims')"><b>⚒</b>เคลม</button>
+  <button class="nav" data-page="items" onclick="go('items')"><b>▣</b>วัสดุ</button>
+  <button class="nav" data-page="loans" onclick="go('loans')"><b>⇄</b>ใบเบิก</button>
+  <button class="nav" data-page="claims" onclick="go('claims')"><b>⚒</b>ส่งซ่อม</button>
 </nav>
 
 
@@ -183,30 +184,71 @@ body.auth-locked #loginModal .handle{display:none}
   <div class="modal-actions"><button class="secondary" onclick="closeModal('userAdminModal')">ยกเลิก</button><button class="primary" onclick="submitUserCredentials()">บันทึก</button></div>
 </div></div>
 
-<div class="modal" id="loanModal"><div class="sheet"><div class="handle"></div><h3>สร้างคำขอยืม</h3>
-  <div class="field"><label>เลือกอุปกรณ์</label><div class="checklist" id="loanItems"></div></div>
-  <div class="field"><label>วัตถุประสงค์</label><textarea id="loanPurpose" placeholder="เช่น ใช้งานภาคสนาม / ทดสอบระบบ"></textarea></div>
-  <div class="field"><label>วันที่คาดว่าจะคืน</label><input type="date" id="loanReturnDate"></div>
+<div class="modal" id="loanModal"><div class="sheet"><div class="handle"></div>
+  <div class="form-banner"><b>ใบเบิกวัสดุ · STORE 02</b><span>บริษัท ล็อกซเล่ย์ จำกัด (มหาชน) · ฝ่ายระบบขนส่ง · ออกครั้งที่ 01</span></div>
+  <div class="form-section">ข้อมูลผู้ขอเบิก</div>
+  <div class="field"><label>ชื่อผู้ขอเบิก</label><input id="loanRequesterName"></div>
+  <div class="mini-grid"><div class="field"><label>แผนก / ฝ่าย</label><input id="loanDepartment"></div><div class="field"><label>โทรศัพท์</label><input id="loanPhone" inputmode="tel"></div></div>
+  <div class="field"><label>ชื่องาน / ชื่อโครงการ</label><input id="loanProject"></div>
+  <div class="field"><label>สถานที่เก็บ</label><input id="loanStorageLocation"></div>
+  <div class="mini-grid"><div class="field"><label>ระยะเวลาในการเบิก</label><input id="loanBorrowPeriod" placeholder="เช่น 7 วัน"></div><div class="field"><label>วันที่คาดว่าจะคืน</label><input type="date" id="loanReturnDate"></div></div>
+  <div class="field"><label>สถานที่ใช้งาน</label><input id="loanUseLocation"></div>
+  <div class="form-section">ประเภทการเบิก</div>
+  <div class="option-grid">
+    <label class="option-pill"><input type="radio" name="loanRequestType" value="ติดตั้ง"> เบิกสำหรับติดตั้ง</label>
+    <label class="option-pill"><input type="radio" name="loanRequestType" value="ส่งมอบ"> เบิกเพื่อส่งมอบ</label>
+    <label class="option-pill"><input type="radio" name="loanRequestType" value="ทดสอบ"> เบิกสำหรับทดสอบ</label>
+    <label class="option-pill"><input type="radio" name="loanRequestType" value="ให้ยืม" checked> เบิกเพื่อให้ยืม</label>
+  </div>
+  <div class="field"><label>อื่น ๆ</label><input id="loanRequestTypeOther"></div>
+  <div class="field"><label>เหตุผลในการขอเบิก</label><textarea id="loanReason" placeholder="ระบุเหตุผลตามใบเบิกเดิม"></textarea></div>
+  <div class="form-section">รายการวัสดุ</div>
+  <div class="field"><label>เลือกวัสดุ / อุปกรณ์</label><div class="checklist" id="loanItems"></div><div class="hint">ระบบจะเก็บ Model / Part Number / Description / จำนวน / หน่วย ไปพร้อมใบเบิก</div></div>
   <div class="field"><label>หมายเหตุ</label><textarea id="loanNotes" placeholder="ไม่บังคับ"></textarea></div>
-  <div class="modal-actions"><button class="secondary" onclick="closeModal('loanModal')">ยกเลิก</button><button class="primary" onclick="submitLoan()">ส่งคำขอ</button></div>
+  <div class="modal-actions"><button class="secondary" onclick="closeModal('loanModal')">ยกเลิก</button><button class="primary" onclick="submitLoan()">ส่งใบเบิก</button></div>
 </div></div>
 
-<div class="modal" id="claimModal"><div class="sheet"><div class="handle"></div><h3>เปิดเคสเคลม</h3>
-  <div class="field"><label>อุปกรณ์</label><select id="claimItem"></select></div>
-  <div class="field"><label>อาการ / ปัญหา</label><textarea id="claimIssue" placeholder="อธิบายอาการที่พบ"></textarea></div>
-  <div class="field"><label>ผู้ขาย / ศูนย์บริการ</label><input id="claimVendor" placeholder="ไม่บังคับ"></div>
-  <div class="field"><label>เบอร์ติดต่อ / ช่องทางติดต่อ</label><input id="claimContact" placeholder="ไม่บังคับ"></div>
-  <div class="field"><label><input type="checkbox" id="claimWarranty"> เคลมในประกัน</label></div>
-  <div class="modal-actions"><button class="secondary" onclick="closeModal('claimModal')">ยกเลิก</button><button class="primary" onclick="submitClaim()">เปิดเคส</button></div>
+<div class="modal" id="claimModal"><div class="sheet"><div class="handle"></div>
+  <div class="form-banner"><b>แบบฟอร์มส่งสินค้าซ่อม · STORE-03</b><span>บริษัท ล็อกซเล่ย์ จำกัด (มหาชน) · ฝ่ายระบบขนส่ง · ออกครั้งที่ 01</span></div>
+  <div class="form-section">ข้อมูลการส่งซ่อม</div>
+  <div class="field"><label>ส่งซ่อมที่บริษัท</label><input id="repairCompany"></div>
+  <div class="field"><label>ที่อยู่</label><textarea id="repairAddress"></textarea></div>
+  <div class="mini-grid"><div class="field"><label>โทร.</label><input id="repairPhone" inputmode="tel"></div><div class="field"><label>วันที่ส่งซ่อม</label><input type="date" id="repairSentDate"></div></div>
+  <div class="option-grid"><label class="option-pill"><input type="radio" name="repairRefType" value="Project" checked> Project</label><label class="option-pill"><input type="radio" name="repairRefType" value="อื่น ๆ"> อื่น ๆ</label></div>
+  <div class="field"><label>Project / รายละเอียดอื่น ๆ</label><input id="repairReferenceValue"></div>
+  <div class="form-section">รายการส่งซ่อม</div>
+  <div class="field"><label>รายการ</label><select id="claimItem"></select></div>
+  <div class="field"><label>จำนวน</label><input type="number" min="1" value="1" id="repairQty"></div>
+  <div class="field"><label>อาการเสีย</label><textarea id="claimIssue" placeholder="ระบุอาการเสียตามแบบฟอร์มเดิม"></textarea></div>
+  <div class="mini-grid"><div class="field"><label>ผู้ส่งซ่อม</label><input id="repairSenderName"></div><div class="field"><label>ผู้รับสินค้า</label><input id="repairReceiverName"></div></div>
+  <div class="field"><label>หมายเหตุ</label><textarea id="repairNotes" placeholder="ไม่บังคับ"></textarea></div>
+  <div class="modal-actions"><button class="secondary" onclick="closeModal('claimModal')">ยกเลิก</button><button class="primary" onclick="submitClaim()">เปิดใบส่งซ่อม</button></div>
 </div></div>
 
-<div class="modal" id="updateModal"><div class="sheet"><div class="handle"></div><h3>อัปเดตเคลม</h3>
+<div class="modal" id="updateModal"><div class="sheet"><div class="handle"></div>
+  <div class="form-banner"><b>ส่วนธุรการ · ติดตามการซ่อม</b><span>ข้อมูลต่อเนื่องจากแบบฟอร์ม STORE-03</span></div>
   <input type="hidden" id="updateClaimId">
-  <div class="field"><label>สถานะ</label><select id="updateStatus"><option>Open</option><option>Sent</option><option>WaitingVendor</option><option>WaitingParts</option><option>Approved</option><option>Rejected</option><option>Completed</option><option>Cancelled</option></select></div>
+  <div class="field"><label>สถานะงานในระบบ</label><select id="updateStatus"><option value="Open">เปิดงาน</option><option value="Sent">ส่งซ่อมแล้ว</option><option value="WaitingVendor">รอผู้ซ่อม</option><option value="WaitingParts">รออะไหล่</option><option value="Approved">อนุมัติซ่อม</option><option value="Rejected">ไม่ซ่อม</option><option value="Completed">เสร็จสิ้น</option><option value="Cancelled">ยกเลิก</option></select></div>
+  <div class="form-section">สถานะ / ใบเสนอราคา</div>
+  <div class="field"><label>สถานะ</label><select id="repairAdminStatus"><option value="">ยังไม่ระบุ</option><option>WARRANTY</option><option>คิดค่าซ่อม</option></select></div>
+  <div class="mini-grid"><div class="field"><label>ใบเสนอราคาเลขที่</label><input id="repairQuoteNumber"></div><div class="field"><label>วันที่</label><input type="date" id="repairQuoteDate"></div></div>
+  <div class="mini-grid"><div class="field"><label>ผู้ติดต่อ</label><input id="repairContactName"></div><div class="field"><label>โทร.</label><input id="repairContactPhone"></div></div>
+  <div class="field"><label>แฟกซ์</label><input id="repairFax"></div>
+  <div class="field"><label>ที่อยู่บริษัท / รายละเอียดผู้เสนอราคา</label><textarea id="repairQuoteAddress"></textarea></div>
+  <div class="form-section">ค่าใช้จ่าย</div>
+  <div class="mini-grid"><div class="field"><label>ค่าเปิดเครื่อง</label><input type="number" step="0.01" id="repairCostInspection"></div><div class="field"><label>ค่าอะไหล่</label><input type="number" step="0.01" id="repairCostParts"></div></div>
+  <div class="field"><label>ค่าบริการ</label><input type="number" step="0.01" id="repairCostService"></div>
+  <div class="form-section">สรุป</div>
+  <div class="field"><label>สรุป</label><select id="repairDecision"><option value="">ยังไม่สรุป</option><option>ซ่อม</option><option>ไม่ซ่อม</option></select></div>
+  <div class="field"><label>เนื่องจาก</label><textarea id="repairDecisionReason"></textarea></div>
+  <div class="field"><label>ระยะเวลาซ่อม</label><input id="repairDuration"></div>
+  <div class="mini-grid"><div class="field"><label>วันที่รับเครื่อง</label><input type="date" id="repairReceivedDate"></div><div class="field"><label>ผู้อนุมัติซ่อม</label><input id="repairApproverName"></div></div>
+  <div class="field"><label>วันที่อนุมัติ</label><input type="date" id="repairApprovalDate"></div>
+  <div class="form-section">ติดตามงาน</div>
   <div class="field"><label>ช่องทางติดต่อ</label><select id="updateChannel"><option>Phone</option><option>Email</option><option>Line</option><option>InPerson</option><option>Website</option><option>Other</option></select></div>
-  <div class="field"><label>รายละเอียด</label><textarea id="updateDetail"></textarea></div>
+  <div class="field"><label>รายละเอียดการติดตาม</label><textarea id="updateDetail"></textarea></div>
   <div class="field"><label>ติดตามครั้งถัดไป</label><input type="date" id="updateNext"></div>
-  <div class="field"><label>สถานะอุปกรณ์หลังปิดเคส (ใช้เมื่อ Completed)</label><select id="updateItemStatus"><option value="">ไม่เปลี่ยน</option><option>Available</option><option>Maintenance</option><option>Lost</option><option>Retired</option></select></div>
+  <div class="field"><label>สถานะวัสดุหลังปิดงาน</label><select id="updateItemStatus"><option value="">ไม่เปลี่ยน</option><option>Available</option><option>Maintenance</option><option>Lost</option><option>Retired</option></select></div>
   <div class="modal-actions"><button class="secondary" onclick="closeModal('updateModal')">ยกเลิก</button><button class="primary" onclick="submitClaimUpdate()">บันทึก</button></div>
 </div></div>
 
@@ -220,7 +262,8 @@ const staff=()=>['Admin','StockOfficer','Approver'].includes(DATA.user.role);
 const stock=()=>['Admin','StockOfficer'].includes(DATA.user.role);
 const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 const fmt=d=>{if(!d)return '-'; const x=new Date(d); return isNaN(x)?esc(d):x.toLocaleDateString('th-TH',{day:'2-digit',month:'short',year:'2-digit'})};
-function badge(s){let c='blue'; if(['Available','Approved','Returned','Completed'].includes(s))c='ok'; else if(['PendingApproval','WaitingVendor','WaitingParts','Reserved','HandedOver'].includes(s))c='warn'; else if(['Rejected','Cancelled','Lost','Retired'].includes(s))c='bad'; return '<span class="badge '+c+'">'+esc(s||'-')+'</span>'}
+function statusLabel(s){return ({Available:'พร้อมเบิก',Reserved:'จองแล้ว',OnLoan:'เบิกออกแล้ว',InClaim:'ส่งซ่อม',PendingApproval:'รออนุมัติ',Approved:'อนุมัติแล้ว',HandedOver:'ส่งมอบแล้ว',Returned:'คืนแล้ว',Rejected:'ไม่อนุมัติ / ไม่ซ่อม',Cancelled:'ยกเลิก',Open:'เปิดงาน',Sent:'ส่งซ่อมแล้ว',WaitingVendor:'รอผู้ซ่อม',WaitingParts:'รออะไหล่',Completed:'เสร็จสิ้น',Maintenance:'ซ่อมบำรุง',Lost:'สูญหาย',Retired:'เลิกใช้งาน'})[s]||s||'-'}
+function badge(s){let c='blue'; if(['Available','Approved','Returned','Completed'].includes(s))c='ok'; else if(['PendingApproval','WaitingVendor','WaitingParts','Reserved','HandedOver'].includes(s))c='warn'; else if(['Rejected','Cancelled','Lost','Retired'].includes(s))c='bad'; return '<span class="badge '+c+'">'+esc(statusLabel(s))+'</span>'}
 function toast(msg,err=false){const e=document.getElementById('toast');e.textContent=msg;e.className='toast show'+(err?' err':'');setTimeout(()=>e.className='toast',2800)}
 let BUSY_COUNT=0;
 const INFLIGHT=new Set();
@@ -384,29 +427,55 @@ function renderHome(){
   document.getElementById('homeHint').textContent=(x.length+c.length)+' รายการ';
   document.getElementById('homeLatest').innerHTML=[...x.map(loanCard),...c.map(claimCard)].join('')||'<div class="empty">ยังไม่มีรายการล่าสุด</div>';
 }
-function itemCard(x){return '<div class="card"><div class="row"><div class="grow"><div class="asset">'+esc(x.AssetCode)+'</div><div class="title">'+esc(x.ItemName)+'</div><div class="sub">'+esc([x.Brand,x.Model].filter(Boolean).join(' · '))+'</div></div>'+badge(x.Status)+'</div><div class="meta"><span>'+esc(x.CategoryName||'ไม่ระบุหมวด')+'</span><span>'+esc(x.LocationLabel||'ไม่ระบุตำแหน่ง')+'</span><span>สภาพ '+esc(x.Condition||'-')+'</span></div></div>'}
-function renderItems(){const q=(document.getElementById('itemSearch')?.value||'').toLowerCase();const a=DATA.items.filter(x=>JSON.stringify(x).toLowerCase().includes(q));document.getElementById('itemCount').textContent=a.length+' รายการ';document.getElementById('itemList').innerHTML=a.map(itemCard).join('')||'<div class="empty">ไม่พบอุปกรณ์</div>'}
+function itemCard(x){return '<div class="card"><div class="row"><div class="grow"><div class="asset">'+esc(x.AssetCode)+'</div><div class="title">'+esc(x.ItemName)+'</div><div class="sub">'+esc([x.Brand,x.Model,x.PartNumber].filter(Boolean).join(' · '))+'</div></div>'+badge(x.Status)+'</div><div class="meta"><span>'+esc(x.CategoryName||'ไม่ระบุหมวด')+'</span><span>'+esc(x.LocationLabel||'ไม่ระบุตำแหน่ง')+'</span><span>หน่วย '+esc(x.Unit||'ชิ้น')+'</span><span>สภาพ '+esc(x.Condition||'-')+'</span></div></div>'}
+function renderItems(){const q=(document.getElementById('itemSearch')?.value||'').toLowerCase();const a=DATA.items.filter(x=>JSON.stringify(x).toLowerCase().includes(q));document.getElementById('itemCount').textContent=a.length+' รายการ';document.getElementById('itemList').innerHTML=a.map(itemCard).join('')||'<div class="empty">ไม่พบวัสดุ / อุปกรณ์</div>'}
 function loanCard(x){
-  const its=(x.Items||[]).map(i=>esc(i.AssetCode||i.ItemID)).join(', '); let acts='';
-  if(staff()&&x.Status==='PendingApproval') acts='<div class="actions"><button class="approve" onclick="decision(\''+x.LoanID+'\',true)">อนุมัติ</button><button class="reject" onclick="decision(\''+x.LoanID+'\',false)">ปฏิเสธ</button></div>';
-  if(stock()&&x.Status==='Approved') acts='<div class="actions"><button class="handover" onclick="handover(\''+x.LoanID+'\')">ส่งมอบ</button></div>';
-  if(stock()&&x.Status==='HandedOver') acts='<div class="actions"><button class="return" onclick="receiveReturn(\''+x.LoanID+'\')">รับคืน</button></div>';
-  return '<div class="card"><div class="row"><div class="grow"><div class="asset">'+esc(x.DocumentNumber||x.LoanID)+'</div><div class="title">'+esc(x.Purpose||'-')+'</div><div class="sub">อุปกรณ์: '+(its||'-')+'</div></div>'+badge(x.Status)+'</div><div class="meta"><span>ขอ '+fmt(x.RequestDateTime)+'</span><span>คืน '+fmt(x.ExpectedReturnDate)+'</span></div>'+acts+'</div>'
+  const its=(x.Items||[]).map(i=>esc([i.PartNumberSnapshot||i.AssetCode||i.ItemID,i.DescriptionSnapshot||i.ItemName].filter(Boolean).join(' · '))).join(', '); let acts='';
+  if(staff()&&x.Status==='PendingApproval') acts='<div class="actions"><button class="approve" onclick="decision(\''+x.LoanID+'\',true)">อนุมัติ</button><button class="reject" onclick="decision(\''+x.LoanID+'\',false)">ไม่อนุมัติ</button></div>';
+  if(stock()&&x.Status==='Approved') acts='<div class="actions"><button class="handover" onclick="handover(\''+x.LoanID+'\')">ผู้ให้เบิก / ส่งมอบ</button></div>';
+  if(stock()&&x.Status==='HandedOver') acts='<div class="actions"><button class="return" onclick="receiveReturn(\''+x.LoanID+'\')">ผู้รับคืน / รับคืน</button></div>';
+  const title=x.ProjectName||x.RequestReason||x.Purpose||'-';
+  return '<div class="card"><div class="row"><div class="grow"><div class="asset">'+esc(x.DocumentNumber||x.LoanID)+' · '+esc(x.FormTemplate||'')+'</div><div class="title">'+esc(title)+'</div><div class="sub">'+esc(x.RequesterName||x.RequesterEmail||'')+(x.RequestType?' · '+esc(x.RequestType):'')+'</div><div class="sub">รายการ: '+(its||'-')+'</div></div>'+badge(x.Status)+'</div><div class="meta"><span>ขอ '+fmt(x.RequestDateTime)+'</span><span>คืน '+fmt(x.ExpectedReturnDate)+'</span>'+(x.UseLocation?'<span>'+esc(x.UseLocation)+'</span>':'')+'</div>'+acts+'</div>'
 }
-function renderLoans(){const q=(document.getElementById('loanSearch')?.value||'').toLowerCase();const a=DATA.loans.filter(x=>JSON.stringify(x).toLowerCase().includes(q));document.getElementById('loanCount').textContent=a.length+' รายการ';document.getElementById('loanList').innerHTML=a.map(loanCard).join('')||'<div class="empty">ยังไม่มีคำขอยืม–คืน</div>'}
-function claimCard(x){const item=x.Item||{}; const timeline=(x.Updates||[]).slice(-3).reverse().map(u=>'<div class="event"><b>'+esc(u.Status)+' · '+fmt(u.UpdatedAt)+'</b><div>'+esc(u.Detail||'')+'</div></div>').join('');const act=stock()?'<div class="actions"><button class="handover" onclick="openUpdate(\''+x.ClaimID+'\')">อัปเดตเคส</button></div>':'';return '<div class="card"><div class="row"><div class="grow"><div class="asset">'+esc(x.ClaimNumber||x.ClaimID)+'</div><div class="title">'+esc(x.IssueDescription||'-')+'</div><div class="sub">'+esc(item.AssetCode||x.ItemID)+' · '+esc(item.ItemName||'')+'</div></div>'+badge(x.Status)+'</div><div class="meta"><span>เปิด '+fmt(x.OpenedAt)+'</span><span>'+esc(x.Vendor||'ยังไม่ระบุศูนย์')+'</span></div>'+(timeline?'<div class="timeline">'+timeline+'</div>':'')+act+'</div>'}
-function renderClaims(){const q=(document.getElementById('claimSearch')?.value||'').toLowerCase();const a=DATA.claims.filter(x=>JSON.stringify(x).toLowerCase().includes(q));document.getElementById('claimCount').textContent=a.length+' รายการ';document.getElementById('claimList').innerHTML=a.map(claimCard).join('')||'<div class="empty">ยังไม่มีเคสเคลม</div>'}
-function fillForms(){const av=DATA.items.filter(x=>x.Status==='Available');document.getElementById('loanItems').innerHTML=av.map(x=>'<label class="checkitem"><input type="checkbox" value="'+esc(x.ItemID)+'"><div><b>'+esc(x.AssetCode)+'</b><div class="sub">'+esc(x.ItemName)+'</div></div></label>').join('')||'<div class="empty">ไม่มีอุปกรณ์พร้อมยืม</div>';document.getElementById('claimItem').innerHTML=DATA.items.filter(x=>!['Lost','Retired','InClaim'].includes(x.Status)).map(x=>'<option value="'+esc(x.ItemID)+'">'+esc(x.AssetCode+' · '+x.ItemName)+'</option>').join('')}
+function renderLoans(){const q=(document.getElementById('loanSearch')?.value||'').toLowerCase();const a=DATA.loans.filter(x=>JSON.stringify(x).toLowerCase().includes(q));document.getElementById('loanCount').textContent=a.length+' ใบ';document.getElementById('loanList').innerHTML=a.map(loanCard).join('')||'<div class="empty">ยังไม่มีใบเบิกวัสดุ</div>'}
+function claimCard(x){const item=x.Item||{};const timeline=(x.Updates||[]).slice(-3).reverse().map(u=>'<div class="event"><b>'+esc(statusLabel(u.Status))+' · '+fmt(u.UpdatedAt)+'</b><div>'+esc(u.Detail||'')+'</div></div>').join('');const act=stock()?'<div class="actions"><button class="handover" onclick="openUpdate(\''+x.ClaimID+'\')">ส่วนธุรการ / อัปเดต</button></div>':'';return '<div class="card"><div class="row"><div class="grow"><div class="asset">'+esc(x.ClaimNumber||x.ClaimID)+' · '+esc(x.FormTemplate||'')+'</div><div class="title">'+esc(x.ItemDescriptionSnapshot||item.ItemName||x.IssueDescription||'-')+'</div><div class="sub">'+esc([x.ModelSnapshot||item.Model,x.SerialSnapshot||item.SerialNumber].filter(Boolean).join(' · '))+'</div><div class="sub">อาการเสีย: '+esc(x.IssueDescription||'-')+'</div></div>'+badge(x.Status)+'</div><div class="meta"><span>ส่งซ่อม '+fmt(x.RepairSentDate||x.SentAt||x.OpenedAt)+'</span><span>'+esc(x.RepairCompany||x.Vendor||'ยังไม่ระบุบริษัท')+'</span>'+(x.RepairAdminStatus?'<span>'+esc(x.RepairAdminStatus)+'</span>':'')+'</div>'+(timeline?'<div class="timeline">'+timeline+'</div>':'')+act+'</div>'}
+function renderClaims(){const q=(document.getElementById('claimSearch')?.value||'').toLowerCase();const a=DATA.claims.filter(x=>JSON.stringify(x).toLowerCase().includes(q));document.getElementById('claimCount').textContent=a.length+' ใบ';document.getElementById('claimList').innerHTML=a.map(claimCard).join('')||'<div class="empty">ยังไม่มีแบบฟอร์มส่งสินค้าซ่อม</div>'}
+function fillForms(){
+  const av=DATA.items.filter(x=>x.Status==='Available');
+  document.getElementById('loanItems').innerHTML=av.map(x=>'<label class="checkitem"><input type="checkbox" value="'+esc(x.ItemID)+'"><div><b>'+esc(x.AssetCode||x.PartNumber||x.ItemID)+'</b><div class="sub">'+esc([x.Model,x.PartNumber,x.ItemName,x.Unit].filter(Boolean).join(' · '))+'</div></div></label>').join('')||'<div class="empty">ไม่มีวัสดุพร้อมเบิก</div>';
+  document.getElementById('claimItem').innerHTML=DATA.items.filter(x=>!['Lost','Retired','InClaim'].includes(x.Status)).map(x=>'<option value="'+esc(x.ItemID)+'">'+esc([x.AssetCode,x.ItemName,x.Model,x.SerialNumber].filter(Boolean).join(' · '))+'</option>').join('');
+}
 function showModal(id){document.getElementById(id).classList.add('show')} function closeModal(id){document.getElementById(id).classList.remove('show')}
-function openLoan(){fillForms();const d=new Date();d.setDate(d.getDate()+7);document.getElementById('loanReturnDate').value=d.toISOString().slice(0,10);showModal('loanModal')}
-function submitLoan(){const ids=[...document.querySelectorAll('#loanItems input:checked')].map(x=>x.value);call('createLoanRequest',{itemIds:ids,purpose:document.getElementById('loanPurpose').value,expectedReturnDate:document.getElementById('loanReturnDate').value,notes:document.getElementById('loanNotes').value},()=>{closeModal('loanModal');toast('ส่งคำขอยืมแล้ว');refresh(()=>go('loans'))})}
-function decision(id,yes){let reason='';if(!yes){reason=prompt('เหตุผลที่ปฏิเสธ')||'';if(!reason)return}call('decideLoan',[id,yes,reason],()=>{toast(yes?'อนุมัติแล้ว':'ปฏิเสธแล้ว');refresh()})}
-function handover(id){if(!confirm('ยืนยันการส่งมอบอุปกรณ์?'))return;call('handoverLoan',id,()=>{toast('บันทึกส่งมอบแล้ว');refresh()})}
-function receiveReturn(id){const c=prompt('สภาพตอนรับคืน เช่น Good / Fair / Damaged','Good');if(c===null)return;call('returnLoan',[id,c],()=>{toast('รับคืนเรียบร้อย');refresh()})}
-function openClaim(){fillForms();showModal('claimModal')}
-function submitClaim(){call('createClaim',{itemId:document.getElementById('claimItem').value,issue:document.getElementById('claimIssue').value,vendor:document.getElementById('claimVendor').value,vendorContact:document.getElementById('claimContact').value,warranty:document.getElementById('claimWarranty').checked},()=>{closeModal('claimModal');toast('เปิดเคสเคลมแล้ว');refresh(()=>go('claims'))})}
-function openUpdate(id){document.getElementById('updateClaimId').value=id;const c=DATA.claims.find(x=>x.ClaimID===id);if(c)document.getElementById('updateStatus').value=c.Status;showModal('updateModal')}
-function submitClaimUpdate(){call('addClaimUpdate',{claimId:document.getElementById('updateClaimId').value,status:document.getElementById('updateStatus').value,channel:document.getElementById('updateChannel').value,detail:document.getElementById('updateDetail').value,nextDate:document.getElementById('updateNext').value,itemStatus:document.getElementById('updateItemStatus').value},()=>{closeModal('updateModal');toast('อัปเดตเคสแล้ว');refresh()})}
+function openLoan(){
+  fillForms();const d=new Date();d.setDate(d.getDate()+7);
+  document.getElementById('loanReturnDate').value=d.toISOString().slice(0,10);
+  document.getElementById('loanRequesterName').value=DATA.user.name||'';
+  document.getElementById('loanDepartment').value=DATA.user.department||'';
+  document.getElementById('loanPhone').value=DATA.user.phone||'';
+  showModal('loanModal');
+}
+function submitLoan(){
+  const ids=[...document.querySelectorAll('#loanItems input:checked')].map(x=>x.value);
+  const rt=document.querySelector('input[name="loanRequestType"]:checked');
+  call('createLoanRequest',{itemIds:ids,requesterName:document.getElementById('loanRequesterName').value,requesterDepartment:document.getElementById('loanDepartment').value,requesterPhone:document.getElementById('loanPhone').value,projectName:document.getElementById('loanProject').value,storageLocation:document.getElementById('loanStorageLocation').value,borrowPeriod:document.getElementById('loanBorrowPeriod').value,useLocation:document.getElementById('loanUseLocation').value,requestType:rt?rt.value:'',requestTypeOther:document.getElementById('loanRequestTypeOther').value,requestReason:document.getElementById('loanReason').value,expectedReturnDate:document.getElementById('loanReturnDate').value,notes:document.getElementById('loanNotes').value},()=>{closeModal('loanModal');toast('ส่งใบเบิกวัสดุแล้ว');refresh(()=>go('loans'))})
+}
+function decision(id,yes){let reason='';if(!yes){reason=prompt('เหตุผลที่ไม่อนุมัติ')||'';if(!reason)return}call('decideLoan',[id,yes,reason],()=>{toast(yes?'อนุมัติใบเบิกแล้ว':'บันทึกไม่อนุมัติแล้ว');refresh()})}
+function handover(id){if(!confirm('ยืนยันการให้เบิก / ส่งมอบวัสดุ?'))return;call('handoverLoan',id,()=>{toast('บันทึกผู้ให้เบิก / ส่งมอบแล้ว');refresh()})}
+function receiveReturn(id){const c=prompt('สภาพตอนรับคืน เช่น Good / Fair / Damaged','Good');if(c===null)return;call('returnLoan',[id,c],()=>{toast('บันทึกผู้รับคืนแล้ว');refresh()})}
+function openClaim(){
+  fillForms();document.getElementById('repairSenderName').value=DATA.user.name||'';document.getElementById('repairQty').value=1;document.getElementById('repairSentDate').value=new Date().toISOString().slice(0,10);showModal('claimModal');
+}
+function submitClaim(){
+  const ref=document.querySelector('input[name="repairRefType"]:checked');
+  call('createClaim',{itemId:document.getElementById('claimItem').value,issue:document.getElementById('claimIssue').value,repairCompany:document.getElementById('repairCompany').value,repairAddress:document.getElementById('repairAddress').value,repairPhone:document.getElementById('repairPhone').value,repairSentDate:document.getElementById('repairSentDate').value,referenceType:ref?ref.value:'Project',referenceValue:document.getElementById('repairReferenceValue').value,qty:document.getElementById('repairQty').value,senderName:document.getElementById('repairSenderName').value,receiverName:document.getElementById('repairReceiverName').value,notes:document.getElementById('repairNotes').value},()=>{closeModal('claimModal');toast('เปิดแบบฟอร์มส่งสินค้าซ่อมแล้ว');refresh(()=>go('claims'))})
+}
+function openUpdate(id){
+  document.getElementById('updateClaimId').value=id;const c=DATA.claims.find(x=>x.ClaimID===id)||{};
+  document.getElementById('updateStatus').value=c.Status||'Open';document.getElementById('repairAdminStatus').value=c.RepairAdminStatus||'';document.getElementById('repairQuoteNumber').value=c.QuoteNumber||'';document.getElementById('repairQuoteDate').value=(c.QuoteDate||'').slice(0,10);document.getElementById('repairContactName').value=c.RepairContactName||'';document.getElementById('repairContactPhone').value=c.RepairContactPhone||'';document.getElementById('repairFax').value=c.RepairFax||'';document.getElementById('repairQuoteAddress').value=c.QuoteCompanyAddress||'';document.getElementById('repairCostInspection').value=c.CostInspection||'';document.getElementById('repairCostParts').value=c.CostParts||'';document.getElementById('repairCostService').value=c.CostService||'';document.getElementById('repairDecision').value=c.RepairDecision||'';document.getElementById('repairDecisionReason').value=c.DecisionReason||'';document.getElementById('repairDuration').value=c.RepairDuration||'';document.getElementById('repairReceivedDate').value=(c.RepairReceivedDate||'').slice(0,10);document.getElementById('repairApproverName').value=c.RepairApproverName||'';document.getElementById('repairApprovalDate').value=(c.RepairApprovalDate||'').slice(0,10);showModal('updateModal');
+}
+function submitClaimUpdate(){
+  call('addClaimUpdate',{claimId:document.getElementById('updateClaimId').value,status:document.getElementById('updateStatus').value,repairAdminStatus:document.getElementById('repairAdminStatus').value,quoteNumber:document.getElementById('repairQuoteNumber').value,quoteDate:document.getElementById('repairQuoteDate').value,repairContactName:document.getElementById('repairContactName').value,repairContactPhone:document.getElementById('repairContactPhone').value,repairFax:document.getElementById('repairFax').value,quoteCompanyAddress:document.getElementById('repairQuoteAddress').value,costInspection:document.getElementById('repairCostInspection').value,costParts:document.getElementById('repairCostParts').value,costService:document.getElementById('repairCostService').value,repairDecision:document.getElementById('repairDecision').value,decisionReason:document.getElementById('repairDecisionReason').value,repairDuration:document.getElementById('repairDuration').value,repairReceivedDate:document.getElementById('repairReceivedDate').value,repairApproverName:document.getElementById('repairApproverName').value,repairApprovalDate:document.getElementById('repairApprovalDate').value,channel:document.getElementById('updateChannel').value,detail:document.getElementById('updateDetail').value,nextDate:document.getElementById('updateNext').value,itemStatus:document.getElementById('updateItemStatus').value},()=>{closeModal('updateModal');toast('บันทึกข้อมูลซ่อมแล้ว');refresh()})
+}
 document.querySelectorAll('.modal').forEach(m=>m.addEventListener('click',e=>{if(e.target===m && m.id!=='loginModal')closeModal(m.id)}));
 if(TOKEN){const cached=loadCache();if(!cached)setAuthenticated(false);refresh(undefined,cached)}else{setAuthenticated(false)}
 </script>
