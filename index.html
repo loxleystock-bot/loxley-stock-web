@@ -37,7 +37,12 @@
     .modal{position:fixed;inset:0;z-index:100;background:rgba(10,16,38,.55);display:none;align-items:flex-end}.modal.show{display:flex}.sheet{background:#fff;width:100%;max-height:91vh;overflow:auto;border-radius:24px 24px 0 0;padding:18px 18px calc(22px + env(safe-area-inset-bottom));box-shadow:0 -15px 40px rgba(0,0,0,.18)}.handle{width:42px;height:4px;background:#d8dbe4;border-radius:5px;margin:0 auto 14px}.sheet h3{margin:0 0 15px;color:var(--blue)}.field{margin:11px 0}.field label{display:block;font-size:12px;font-weight:700;margin-bottom:6px}.field input,.field select,.field textarea{width:100%;border:1px solid #dfe3ee;border-radius:12px;padding:11px 12px;outline:none;background:#fff}.field textarea{min-height:88px;resize:vertical}
     .checklist{max-height:230px;overflow:auto;border:1px solid var(--line);border-radius:14px;padding:6px}.checkitem{display:flex;gap:10px;align-items:flex-start;padding:10px;border-bottom:1px solid #f0f1f5}.checkitem:last-child{border-bottom:0}.checkitem input{margin-top:4px}.modal-actions{display:flex;gap:8px;margin-top:16px}.modal-actions button{flex:1}
     .toast{position:fixed;left:16px;right:16px;bottom:calc(90px + env(safe-area-inset-bottom));z-index:200;background:#17203a;color:white;padding:12px 14px;border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.2);display:none;font-size:12px}.toast.show{display:block}.toast.err{background:#8e262b}.sync-indicator{position:fixed;top:calc(8px + env(safe-area-inset-top));right:10px;z-index:250;background:rgba(255,255,255,.94);color:var(--blue);border:1px solid #dfe4f3;border-radius:999px;padding:5px 9px;font-size:10px;font-weight:700;box-shadow:0 4px 14px rgba(0,0,0,.10);display:none}.sync-indicator.show{display:block}
-    .timeline{border-left:2px solid #dfe4f3;margin:12px 0 0 8px;padding-left:14px}.event{position:relative;margin:0 0 12px}.event:before{content:"";position:absolute;width:9px;height:9px;border-radius:50%;background:var(--blue);left:-19px;top:5px}.event b{font-size:11px}.event div{font-size:11px;color:var(--muted);margin-top:2px}
+    body.auth-locked{padding-bottom:0;overflow:hidden;background:var(--bg)}
+body.auth-locked>.topbar,body.auth-locked>main.wrap,body.auth-locked>nav.bottom{display:none!important}
+body.auth-locked #loginModal{display:flex!important;align-items:center;justify-content:center;background:var(--bg);padding:20px}
+body.auth-locked #loginModal .sheet{width:100%;max-width:430px;max-height:none;border-radius:24px;padding:24px 18px;box-shadow:0 16px 44px rgba(27,50,128,.14)}
+body.auth-locked #loginModal .handle{display:none}
+.timeline{border-left:2px solid #dfe4f3;margin:12px 0 0 8px;padding-left:14px}.event{position:relative;margin:0 0 12px}.event:before{content:"";position:absolute;width:9px;height:9px;border-radius:50%;background:var(--blue);left:-19px;top:5px}.event b{font-size:11px}.event div{font-size:11px;color:var(--muted);margin-top:2px}
     @media(min-width:700px){.stats{grid-template-columns:repeat(4,1fr)}.quick{grid-template-columns:repeat(3,1fr)}.list{grid-template-columns:repeat(2,1fr)}.modal{align-items:center;justify-content:center}.sheet{max-width:560px;border-radius:24px;padding-bottom:22px}}
   
 /* Mobile UX v2 */
@@ -162,11 +167,11 @@
   <div style="text-align:center;margin-bottom:14px">
     <img class="logo" style="width:64px;height:64px;border:1px solid #e5e8f1;margin-bottom:8px" src="data:image/png;base64,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">
     <h3 style="margin:0;color:#1B3280">เข้าสู่ระบบ Loxley Stock</h3>
-    <div class="sub" style="margin-top:4px">ใช้บัญชีที่มีอยู่ในตาราง USERS</div>
+    <div class="sub" style="margin-top:4px">ใช้ Username และ PIN ที่ผู้ดูแลระบบกำหนด</div>
   </div>
   <div class="field"><label>Username</label><input type="text" id="loginUsername" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="เช่น admin"></div>
   <div class="field"><label>PIN 6 หลัก</label><input type="password" inputmode="numeric" pattern="[0-9]*" maxlength="6" id="loginPin" autocomplete="current-password" placeholder="••••••"></div>
-  <div class="modal-actions"><button class="primary" onclick="submitLogin()">เข้าสู่ระบบ</button></div>
+  <div class="modal-actions"><button class="primary" id="loginBtn" onclick="submitLogin()">เข้าสู่ระบบ</button></div>
   <div class="sub" style="text-align:center;margin-top:12px">ติดต่อผู้ดูแลระบบหากยังไม่มี PIN</div>
 </div></div>
 
@@ -222,6 +227,23 @@ const INFLIGHT=new Set();
 let REFRESHING=false;
 let SKIP_NEXT_REFRESH=false;
 const CACHE_KEY='loxleyBootstrapCacheV2';
+function setAuthenticated(on){
+  document.body.classList.toggle('auth-locked',!on);
+  if(on){
+    closeModal('loginModal');
+  }else{
+    document.getElementById('loginModal').classList.add('show');
+    document.getElementById('userPill').textContent='ยังไม่ได้เข้าสู่ระบบ';
+  }
+}
+function clearAppView(){
+  DATA={user:{},dashboard:{},items:[],loans:[],claims:[],users:[]};
+  const ids=['sTotal','sAvailable','sPending','sClaims','homeHint','itemCount','loanCount','claimCount'];
+  ids.forEach(id=>{const e=document.getElementById(id);if(e)e.textContent='';});
+  ['homeLatest','itemList','loanList','claimList'].forEach(id=>{const e=document.getElementById(id);if(e)e.innerHTML='';});
+  const h=document.getElementById('hello');if(h)h.textContent='สวัสดีค่ะ';
+}
+
 function busy(on){
   BUSY_COUNT=Math.max(0,BUSY_COUNT+(on?1:-1));
   const e=document.getElementById('syncIndicator');
@@ -231,7 +253,9 @@ function saveCache(){try{localStorage.setItem(CACHE_KEY,JSON.stringify({at:Date.
 function loadCache(){
   try{
     const x=JSON.parse(localStorage.getItem(CACHE_KEY)||'null');
-    if(x&&x.data&&Date.now()-Number(x.at||0)<12*60*60*1000){DATA=x.data;hydrate();closeModal('loginModal');return true}
+    if(TOKEN&&x&&x.data&&Date.now()-Number(x.at||0)<12*60*60*1000){
+      DATA=x.data;hydrate();setAuthenticated(true);return true;
+    }
   }catch(_){}
   return false;
 }
@@ -258,7 +282,7 @@ async function api(body){
   if(String(lastErr&&lastErr.message||lastErr).includes('AbortError'))throw new Error('เซิร์ฟเวอร์ตอบช้าเกินไป กรุณาลองอีกครั้ง');
   throw lastErr||new Error('เชื่อมต่อเซิร์ฟเวอร์ไม่สำเร็จ');
 }
-function authFail(msg){TOKEN='';localStorage.removeItem('loxleyAuthToken');localStorage.removeItem(CACHE_KEY);showLogin();toast(msg||'กรุณาเข้าสู่ระบบใหม่',true)}
+function authFail(msg){TOKEN='';localStorage.removeItem('loxleyAuthToken');localStorage.removeItem(CACHE_KEY);clearAppView();setAuthenticated(false);toast(msg||'กรุณาเข้าสู่ระบบใหม่',true)}
 async function call(name,args,ok){
   if(!TOKEN){showLogin();return}
   if(INFLIGHT.has(name)){toast('รายการนี้กำลังบันทึกอยู่');return}
@@ -297,25 +321,30 @@ async function refresh(done,silent=false){
     else if(!silent)toast('ซิงก์ข้อมูลไม่สำเร็จ ลองใหม่อีกครั้ง',true);
   }finally{REFRESHING=false;if(!silent)busy(false)}
 }
-function showLogin(){document.getElementById('loginModal').classList.add('show')}
+function showLogin(){clearAppView();setAuthenticated(false)}
 async function submitLogin(){
   const username=document.getElementById('loginUsername').value.trim();
   const pin=document.getElementById('loginPin').value.trim();
   if(!username||!pin){toast('กรุณากรอก Username และ PIN',true);return}
   if(INFLIGHT.has('login'))return;
+  const btn=document.getElementById('loginBtn');
   INFLIGHT.add('login');busy(true);
+  if(btn){btn.disabled=true;btn.textContent='กำลังเข้าสู่ระบบ…'}
   try{
     const r=await api({action:'login',username,pin});
     TOKEN=r.token;localStorage.setItem('loxleyAuthToken',TOKEN);
     document.getElementById('loginPin').value='';
-    if(r.data){DATA=r.data;hydrate();saveCache();closeModal('loginModal');go('home')}
-    else{closeModal('loginModal');refresh(()=>go('home'))}
-  }catch(e){toast(e.message||String(e),true)}
-  finally{INFLIGHT.delete('login');busy(false)}
+    if(r.data){DATA=r.data;hydrate();saveCache();setAuthenticated(true);go('home')}
+    else{setAuthenticated(true);refresh(()=>go('home'))}
+  }catch(e){toast(e.message||String(e),true);setAuthenticated(false)}
+  finally{
+    INFLIGHT.delete('login');busy(false);
+    if(btn){btn.disabled=false;btn.textContent='เข้าสู่ระบบ'}
+  }
 }
 function logout(){
-  TOKEN='';localStorage.removeItem('loxleyAuthToken');localStorage.removeItem(CACHE_KEY);DATA={user:{},dashboard:{},items:[],loans:[],claims:[],users:[]};
-  document.getElementById('userPill').textContent='ยังไม่ได้เข้าสู่ระบบ';showLogin()
+  TOKEN='';localStorage.removeItem('loxleyAuthToken');localStorage.removeItem(CACHE_KEY);
+  clearAppView();setAuthenticated(false);
 }
 function hydrate(){
   document.getElementById('userPill').textContent=(DATA.user.name||DATA.user.email||'ผู้ใช้งาน')+' · '+(DATA.user.role||'');
@@ -376,7 +405,7 @@ function submitClaim(){call('createClaim',{itemId:document.getElementById('claim
 function openUpdate(id){document.getElementById('updateClaimId').value=id;const c=DATA.claims.find(x=>x.ClaimID===id);if(c)document.getElementById('updateStatus').value=c.Status;showModal('updateModal')}
 function submitClaimUpdate(){call('addClaimUpdate',{claimId:document.getElementById('updateClaimId').value,status:document.getElementById('updateStatus').value,channel:document.getElementById('updateChannel').value,detail:document.getElementById('updateDetail').value,nextDate:document.getElementById('updateNext').value,itemStatus:document.getElementById('updateItemStatus').value},()=>{closeModal('updateModal');toast('อัปเดตเคสแล้ว');refresh()})}
 document.querySelectorAll('.modal').forEach(m=>m.addEventListener('click',e=>{if(e.target===m && m.id!=='loginModal')closeModal(m.id)}));
-if(TOKEN){const cached=loadCache();refresh(undefined,cached)}else{showLogin()}
+if(TOKEN){const cached=loadCache();if(!cached)setAuthenticated(false);refresh(undefined,cached)}else{setAuthenticated(false)}
 </script>
 </body>
 </html>
