@@ -1,675 +1,123 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="th">
 <head>
-  
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#1B3280">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="Loxley Stock">
-  <meta name="mobile-web-app-capable" content="yes">
-  <title>Loxley Stock</title>
-  <style>
-    :root{--blue:#1B3280;--blue2:#2447b8;--gold:#C9A227;--bg:#f4f6fb;--card:#fff;--text:#18213a;--muted:#6e7890;--line:#e5e8f1;--ok:#138a54;--warn:#d18a00;--bad:#c83b3b;--shadow:0 10px 30px rgba(27,50,128,.10)}
-    *{box-sizing:border-box} html,body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,"Noto Sans Thai",sans-serif}
-    body{min-height:100vh;padding-bottom:calc(84px + env(safe-area-inset-bottom))}
-    button,input,select,textarea{font:inherit}
-    button{cursor:pointer}
-    .topbar{position:sticky;top:0;z-index:30;background:linear-gradient(135deg,var(--blue),#12245f);color:#fff;padding:calc(14px + env(safe-area-inset-top)) 18px 14px;box-shadow:0 3px 18px rgba(0,0,0,.12)}
-    .brand{display:flex;align-items:center;gap:11px}.logo{width:38px;height:38px;border-radius:12px;background:#fff;padding:5px;object-fit:contain}
-    .brand h1{font-size:18px;margin:0}.brand small{display:block;opacity:.76;margin-top:2px;font-size:11px}.userpill{margin-left:auto;background:rgba(255,255,255,.13);padding:7px 10px;border-radius:999px;font-size:11px;max-width:145px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    .wrap{max-width:980px;margin:auto;padding:16px}.page{display:none}.page.active{display:block}
-    .hero{background:linear-gradient(145deg,#fff,#eef2ff);border:1px solid #e7eafd;border-radius:22px;padding:20px;box-shadow:var(--shadow);position:relative;overflow:hidden}
-    .hero:after{content:"";position:absolute;width:180px;height:180px;border-radius:50%;background:rgba(201,162,39,.12);right:-65px;top:-75px}
-    .hero-eyebrow{font-size:12px;color:var(--gold);font-weight:700;letter-spacing:.4px}.hero h2{margin:5px 0 6px;font-size:25px;color:var(--blue)}.hero p{margin:0;color:var(--muted);font-size:13px;line-height:1.5}.compact-hero{padding:14px 16px;margin-bottom:2px}.compact-hero:after{display:none}.compact-hero h2{margin:0;font-size:20px}.load-more{width:100%;margin-top:2px}
-    .stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:14px}.stat{background:#fff;border:1px solid var(--line);border-radius:17px;padding:14px;box-shadow:0 5px 18px rgba(28,43,88,.05)}
-    .stat .n{font-size:27px;font-weight:800;color:var(--blue);line-height:1}.stat .l{font-size:12px;color:var(--muted);margin-top:7px}.stat.gold .n{color:#a47d00}.stat.green .n{color:var(--ok)}.stat.red .n{color:var(--bad)}
-    .section-head{display:flex;align-items:center;justify-content:space-between;margin:22px 2px 10px}.section-head h3{margin:0;font-size:16px}.section-head span{font-size:11px;color:var(--muted)}
-    .quick{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.qbtn{border:0;background:#fff;border-radius:17px;padding:16px 8px;box-shadow:0 5px 18px rgba(28,43,88,.06);color:var(--blue);font-weight:700}.qbtn .ico{font-size:24px;display:block;margin-bottom:7px}.qbtn small{display:block;color:var(--muted);font-weight:400;margin-top:3px}
-    .toolbar{display:flex;gap:8px;margin:12px 0}.search{flex:1;border:1px solid var(--line);background:#fff;border-radius:14px;padding:12px 13px;outline:none}.search:focus{border-color:#9aa8df;box-shadow:0 0 0 3px rgba(27,50,128,.08)}
-    .primary{border:0;background:var(--blue);color:#fff;border-radius:13px;padding:11px 14px;font-weight:700;box-shadow:0 5px 15px rgba(27,50,128,.2)}.secondary{border:1px solid var(--line);background:#fff;color:var(--blue);border-radius:13px;padding:10px 13px;font-weight:700}
-    .list{display:grid;gap:10px}.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:15px;box-shadow:0 5px 18px rgba(28,43,88,.05)}.row{display:flex;align-items:flex-start;gap:12px}.grow{flex:1;min-width:0}.title{font-weight:800;font-size:15px}.sub{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.4}.asset{font-size:11px;color:var(--blue);font-weight:700}.badge{display:inline-flex;align-items:center;padding:5px 8px;border-radius:999px;font-size:10px;font-weight:800;background:#eef1f7;color:#56607a}.badge.ok{background:#e8f7ef;color:#13794c}.badge.warn{background:#fff5df;color:#9a6700}.badge.bad{background:#fdecec;color:#a92a2a}.badge.blue{background:#eaf0ff;color:#2447b8}
-    .meta{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}.meta span{font-size:11px;color:#626d85;background:#f7f8fb;border-radius:8px;padding:5px 7px}.actions{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}.actions button{border:0;border-radius:10px;padding:8px 10px;font-weight:700;font-size:11px}.approve{background:#e9f7ef;color:#107a49}.reject{background:#fdeced;color:#a3272c}.handover{background:#eaf0ff;color:#2447b8}.return{background:#fff3dc;color:#9c6500}
-    .empty{text-align:center;padding:34px 16px;color:var(--muted);background:#fff;border:1px dashed #d9ddea;border-radius:18px}.loading{padding:50px 20px;text-align:center;color:var(--muted)}
-    .bottom{position:fixed;left:0;right:0;bottom:0;z-index:40;background:rgba(255,255,255,.96);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:8px 8px calc(8px + env(safe-area-inset-bottom));display:grid;grid-template-columns:repeat(4,1fr)}
-    .nav{border:0;background:transparent;color:#8a92a6;font-size:10px;padding:6px 2px}.nav b{display:block;font-size:21px;line-height:1.1;margin-bottom:3px}.nav.active{color:var(--blue);font-weight:800}.nav.active b{transform:translateY(-1px)}
-    .modal{position:fixed;inset:0;z-index:100;background:rgba(10,16,38,.55);display:none;align-items:flex-end}.modal.show{display:flex}.sheet{background:#fff;width:100%;max-height:91vh;overflow:auto;border-radius:24px 24px 0 0;padding:18px 18px calc(22px + env(safe-area-inset-bottom));box-shadow:0 -15px 40px rgba(0,0,0,.18)}.handle{width:42px;height:4px;background:#d8dbe4;border-radius:5px;margin:0 auto 14px}.sheet h3{margin:0 0 15px;color:var(--blue)}.field{margin:11px 0}.field label{display:block;font-size:12px;font-weight:700;margin-bottom:6px}.field input,.field select,.field textarea{width:100%;border:1px solid #dfe3ee;border-radius:12px;padding:11px 12px;outline:none;background:#fff}.field textarea{min-height:88px;resize:vertical}
-    .checklist{max-height:230px;overflow:auto;border:1px solid var(--line);border-radius:14px;padding:6px}.checkitem{display:flex;gap:10px;align-items:flex-start;padding:10px;border-bottom:1px solid #f0f1f5}.checkitem:last-child{border-bottom:0}.checkitem input{margin-top:4px}.modal-actions{display:flex;gap:8px;margin-top:16px}.modal-actions button{flex:1}
-    .toast{position:fixed;left:16px;right:16px;bottom:calc(90px + env(safe-area-inset-bottom));z-index:200;background:#17203a;color:white;padding:12px 14px;border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.2);display:none;font-size:12px}.toast.show{display:block}.toast.err{background:#8e262b}.sync-indicator{position:fixed;top:calc(8px + env(safe-area-inset-top));right:10px;z-index:250;background:rgba(255,255,255,.94);color:var(--blue);border:1px solid #dfe4f3;border-radius:999px;padding:5px 9px;font-size:10px;font-weight:700;box-shadow:0 4px 14px rgba(0,0,0,.10);display:none}.sync-indicator.show{display:block}
-    body.auth-locked{padding-bottom:0;overflow:hidden;background:var(--bg)}
-body.auth-locked>.topbar,body.auth-locked>main.wrap,body.auth-locked>nav.bottom{display:none!important}
-body.auth-locked #loginModal{display:flex!important;align-items:center;justify-content:center;background:var(--bg);padding:20px}
-body.auth-locked #loginModal .sheet{width:100%;max-width:430px;max-height:none;border-radius:24px;padding:24px 18px;box-shadow:0 16px 44px rgba(27,50,128,.14)}
-body.auth-locked #loginModal .handle{display:none}
-.form-banner{border:1px solid #dfe4f3;background:linear-gradient(145deg,#fff,#f3f5fb);border-radius:15px;padding:12px 13px;margin:2px 0 12px}.form-banner b{display:block;color:var(--blue);font-size:14px}.form-banner span{display:block;color:var(--muted);font-size:10px;margin-top:3px}.form-section{margin:15px 0 8px;padding-top:10px;border-top:1px solid var(--line);font-weight:800;color:var(--blue);font-size:13px}.option-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}.option-pill{display:flex;align-items:center;gap:7px;border:1px solid var(--line);border-radius:11px;padding:9px 10px;background:#fff;font-size:12px}.option-pill input{width:auto!important;min-height:auto!important}.mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.sheet .hint{font-size:10px;color:var(--muted);line-height:1.45;margin-top:4px}.chips{display:flex;gap:7px;overflow:auto;padding:2px 0 10px}.chip{border:1px solid var(--line);background:#fff;color:var(--blue);border-radius:999px;padding:8px 13px;font-weight:800;white-space:nowrap}.chip.active{background:var(--blue);color:#fff;border-color:var(--blue)}.stock-row{display:grid;grid-template-columns:1fr 76px;gap:9px;align-items:center;padding:10px;border-bottom:1px solid var(--line)}.stock-row:last-child{border-bottom:0}.stock-row input{width:100%;min-height:40px;border:1px solid var(--line);border-radius:10px;padding:8px;text-align:center;font-size:16px}.stock-balance{font-weight:900;color:#11835b}.stock-zero{color:var(--red)}
-.timeline{border-left:2px solid #dfe4f3;margin:12px 0 0 8px;padding-left:14px}.event{position:relative;margin:0 0 12px}.event:before{content:"";position:absolute;width:9px;height:9px;border-radius:50%;background:var(--blue);left:-19px;top:5px}.event b{font-size:11px}.event div{font-size:11px;color:var(--muted);margin-top:2px}
-    @media(min-width:700px){.stats{grid-template-columns:repeat(4,1fr)}.quick{grid-template-columns:repeat(3,1fr)}.list{grid-template-columns:repeat(2,1fr)}.modal{align-items:center;justify-content:center}.sheet{max-width:560px;border-radius:24px;padding-bottom:22px}}
-  
-/* Mobile UX v2 */
-@media(max-width:699px){
-  html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
-  body{padding-bottom:calc(74px + env(safe-area-inset-bottom));overscroll-behavior-y:none}
-  .topbar{padding:calc(10px + env(safe-area-inset-top)) 14px 10px}
-  .brand{gap:9px}
-  .logo{width:34px;height:34px;border-radius:10px}
-  .brand h1{font-size:16px}
-  .brand small{font-size:10px}
-  .userpill{max-width:118px;padding:7px 9px;font-size:10px}
-  .wrap{padding:12px 12px 4px}
-  .hero{border-radius:18px;padding:16px}
-  .hero h2{font-size:21px;margin:4px 0 5px}
-  .hero p{font-size:12px;line-height:1.45;padding-right:18px}
-  .stats{gap:8px;margin-top:10px}
-  .stat{border-radius:15px;padding:12px}
-  .stat .n{font-size:24px}
-  .stat .l{font-size:11px;margin-top:5px}
-  .section-head{margin:18px 2px 8px}
-  .section-head h3{font-size:15px}
-  .quick{grid-template-columns:1fr 1fr;gap:8px}
-  .qbtn{min-height:76px;border-radius:15px;padding:12px 8px;font-size:13px}
-  .qbtn:first-child{grid-column:1/-1;min-height:68px;background:linear-gradient(135deg,var(--blue),#274bbd);color:#fff;box-shadow:0 8px 20px rgba(27,50,128,.18)}
-  .qbtn:first-child small{color:rgba(255,255,255,.78)}
-  .qbtn .ico{font-size:21px;margin-bottom:5px}
-  .toolbar{position:sticky;top:calc(64px + env(safe-area-inset-top));z-index:20;background:var(--bg);padding:6px 0 8px;margin:4px 0 8px}
-  .search{min-width:0;height:44px;padding:10px 12px;border-radius:12px;font-size:16px}
-  .toolbar .primary{height:44px;white-space:nowrap}
-  .primary,.secondary{min-height:44px}
-  .card{border-radius:16px;padding:13px}
-  .row{gap:9px}
-  .title{font-size:14px;line-height:1.35}
-  .sub{font-size:11px;line-height:1.45}
-  .asset{font-size:10px}
-  .badge{font-size:9px;padding:5px 7px;flex:0 0 auto}
-  .meta{gap:5px;margin-top:8px}
-  .meta span{font-size:10px;padding:5px 6px}
-  .actions{gap:6px;margin-top:10px}
-  .actions button{min-height:40px;padding:8px 11px;font-size:11px;flex:1}
-  .bottom{padding:6px 6px calc(6px + env(safe-area-inset-bottom));grid-template-columns:repeat(4,1fr)}
-  .nav{min-height:52px;font-size:10px;border-radius:12px;padding:5px 2px}
-  .nav b{font-size:20px;margin-bottom:2px}
-  .nav.active{background:#edf1ff}
-  .modal{align-items:flex-end}
-  .sheet{max-height:92svh;border-radius:22px 22px 0 0;padding:14px 14px calc(18px + env(safe-area-inset-bottom))}
-  .handle{margin-bottom:10px}
-  .sheet h3{font-size:18px;margin-bottom:12px}
-  .field{margin:9px 0}
-  .field label{font-size:11px;margin-bottom:5px}
-  .field input,.field select,.field textarea{min-height:44px;font-size:16px;border-radius:11px;padding:10px 11px}
-  .field textarea{min-height:84px}
-  .checklist{max-height:32svh}
-  .checkitem{min-height:52px;padding:9px}
-  .modal-actions{position:sticky;bottom:0;background:#fff;padding-top:8px;margin-top:12px}
-  .toast{left:12px;right:12px;bottom:calc(78px + env(safe-area-inset-bottom));border-radius:12px}
-}
-
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#1b3280">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Loxley Stock</title>
+<style>
+:root{--blue:#1b3280;--blue2:#294ab4;--gold:#c9a227;--bg:#f4f6fb;--card:#fff;--text:#18213a;--muted:#6d7890;--line:#e4e8f1;--ok:#138a54;--warn:#bb7600;--bad:#bb3439;--shadow:0 7px 22px rgba(27,50,128,.08)}
+*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,"Noto Sans Thai",sans-serif}body{min-height:100vh;padding-bottom:calc(72px + env(safe-area-inset-bottom))}button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:none!important}
+.top{position:sticky;top:0;z-index:30;background:linear-gradient(135deg,var(--blue),#11235e);color:#fff;padding:calc(10px + env(safe-area-inset-top)) 14px 10px;box-shadow:0 3px 14px rgba(0,0,0,.12)}.brand{display:flex;align-items:center;gap:10px}.mark{display:grid;place-items:center;width:36px;height:36px;border-radius:11px;background:#fff;color:var(--blue);font-weight:900;font-size:20px}.brand h1{font-size:16px;margin:0}.brand small{font-size:10px;opacity:.76}.user{margin-left:auto;max-width:145px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;background:rgba(255,255,255,.13);border:0;color:#fff;border-radius:999px;padding:7px 9px;font-size:10px}
+.wrap{max-width:980px;margin:auto;padding:12px}.page{display:none}.page.active{display:block}.hello{background:linear-gradient(145deg,#fff,#eef2ff);border:1px solid #e5e9fa;border-radius:18px;padding:14px 16px;box-shadow:var(--shadow)}.hello h2{margin:0;color:var(--blue);font-size:20px}.hello p{margin:4px 0 0;color:var(--muted);font-size:11px}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.stat{background:#fff;border:1px solid var(--line);border-radius:15px;padding:12px;box-shadow:0 4px 14px rgba(27,50,128,.05)}.stat b{display:block;color:var(--blue);font-size:24px;line-height:1}.stat span{display:block;color:var(--muted);font-size:11px;margin-top:5px}.stat.gold b{color:#a47d00}.stat.ok b{color:var(--ok)}.stat.bad b{color:var(--bad)}
+.head{display:flex;align-items:center;justify-content:space-between;margin:18px 2px 8px}.head h3{margin:0;font-size:15px}.head span{font-size:11px;color:var(--muted)}.toolbar{display:flex;gap:8px;margin:6px 0 9px;position:sticky;top:calc(58px + env(safe-area-inset-top));z-index:20;background:var(--bg);padding:5px 0}.search{min-width:0;flex:1;height:44px;border:1px solid var(--line);border-radius:12px;background:#fff;padding:10px 12px;outline:none;font-size:16px}.search:focus{border-color:#9aa8df;box-shadow:0 0 0 3px rgba(27,50,128,.07)}
+.primary,.secondary,.danger,.success{border-radius:12px;min-height:44px;padding:9px 12px;font-weight:800;border:0}.primary{background:var(--blue);color:#fff}.secondary{background:#fff;color:var(--blue);border:1px solid var(--line)}.danger{background:#fdebed;color:#a52a30}.success{background:#e8f7ef;color:#117849}.list{display:grid;gap:9px}.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:13px;box-shadow:0 4px 14px rgba(27,50,128,.05)}.row{display:flex;align-items:flex-start;gap:9px}.grow{flex:1;min-width:0}.asset{font-size:10px;color:var(--blue);font-weight:800}.title{font-size:14px;font-weight:800;line-height:1.35;margin-top:2px}.sub{font-size:11px;color:var(--muted);line-height:1.45;margin-top:4px}.meta{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}.meta span{font-size:10px;background:#f7f8fb;color:#626d85;border-radius:8px;padding:5px 6px}.meta .balance{font-weight:900;color:var(--ok)}.badge{display:inline-flex;white-space:nowrap;border-radius:999px;padding:5px 7px;font-size:9px;font-weight:900;background:#eaf0ff;color:var(--blue2)}.badge.ok{background:#e8f7ef;color:#13794c}.badge.warn{background:#fff3db;color:#986000}.badge.bad{background:#fdebed;color:#a52a30}.actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}.actions button{flex:1;min-height:40px;font-size:11px}
+.empty{text-align:center;color:var(--muted);background:#fff;border:1px dashed #d9ddea;border-radius:16px;padding:28px 14px}.filters{display:flex;gap:7px;overflow:auto;padding-bottom:3px}.chip{border:1px solid var(--line);background:#fff;color:var(--blue);border-radius:999px;padding:8px 12px;font-weight:800;font-size:11px;white-space:nowrap}.chip.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.bottom{position:fixed;left:0;right:0;bottom:0;z-index:40;display:grid;background:rgba(255,255,255,.97);border-top:1px solid var(--line);backdrop-filter:blur(10px);padding:6px 6px calc(6px + env(safe-area-inset-bottom))}.nav{border:0;background:transparent;color:#8790a7;min-height:52px;border-radius:11px;font-size:10px}.nav b{display:block;font-size:19px;margin-bottom:2px}.nav.active{background:#edf1ff;color:var(--blue);font-weight:900}
+.modal{position:fixed;inset:0;z-index:100;background:rgba(9,15,36,.55);display:none;align-items:flex-end}.modal.show{display:flex}.sheet{width:100%;max-height:92svh;overflow:auto;background:#fff;border-radius:22px 22px 0 0;padding:14px 14px calc(18px + env(safe-area-inset-bottom));box-shadow:0 -15px 40px rgba(0,0,0,.18)}.handle{width:42px;height:4px;background:#d8dbe4;border-radius:4px;margin:0 auto 10px}.sheet h3{font-size:18px;color:var(--blue);margin:0 0 12px}.section{border-top:1px solid var(--line);padding-top:10px;margin:15px 0 7px;color:var(--blue);font-size:13px;font-weight:900}.field{margin:9px 0}.field label{display:block;font-size:11px;font-weight:800;margin-bottom:5px}.field input,.field select,.field textarea{width:100%;min-height:44px;border:1px solid #dfe3ee;border-radius:11px;background:#fff;padding:10px 11px;font-size:16px;outline:none}.field textarea{min-height:80px;resize:vertical}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}.opts{display:grid;grid-template-columns:1fr 1fr;gap:7px}.opt{display:flex;align-items:center;gap:7px;border:1px solid var(--line);border-radius:11px;padding:9px;font-size:12px}.modal-actions{position:sticky;bottom:0;display:flex;gap:8px;background:#fff;padding-top:8px;margin-top:12px}.modal-actions button{flex:1}.hint{font-size:10px;color:var(--muted);line-height:1.45;margin-top:4px}.readonly{background:#f5f6f9!important;color:#5f687d}.stock-list{max-height:34svh;overflow:auto;border:1px solid var(--line);border-radius:13px}.stock-row{display:grid;grid-template-columns:1fr 72px;gap:8px;align-items:center;padding:9px;border-bottom:1px solid var(--line)}.stock-row:last-child{border-bottom:0}.stock-row input{text-align:center;font-size:16px}
+.banner{border:1px solid #dfe4f3;background:linear-gradient(145deg,#fff,#f3f5fb);border-radius:14px;padding:11px 12px}.banner b{display:block;color:var(--blue);font-size:14px}.banner span{display:block;color:var(--muted);font-size:10px;margin-top:3px}.doc{border:1px solid #dfe3ee;border-radius:15px;padding:13px}.dochead{text-align:center;border-bottom:2px solid var(--blue);padding-bottom:9px;margin-bottom:9px}.dochead b{display:block;color:var(--blue);font-size:17px}.dochead span{font-size:10px;color:var(--muted)}.docgrid{display:grid;grid-template-columns:1fr 1fr;gap:6px}.docfield{border-bottom:1px solid #eceef4;padding:7px 2px;font-size:11px}.docfield small{display:block;color:var(--muted);margin-bottom:2px}.docfield.full{grid-column:1/-1}.doctable{width:100%;border-collapse:collapse;margin-top:9px;font-size:10px}.doctable th,.doctable td{border:1px solid #dfe3ee;padding:6px;text-align:left;vertical-align:top}.doctable th{background:#f5f7fb;color:var(--blue)}
+.toast{position:fixed;z-index:200;left:12px;right:12px;bottom:calc(78px + env(safe-area-inset-bottom));background:#17203a;color:#fff;border-radius:12px;padding:11px 13px;font-size:12px;display:none}.toast.show{display:block}.toast.err{background:#8f292e}.saving{position:fixed;z-index:210;top:calc(8px + env(safe-area-inset-top));right:10px;background:#fff;color:var(--blue);border:1px solid #dfe4f3;border-radius:999px;padding:5px 9px;font-size:10px;font-weight:800;display:none}.saving.show{display:block}
+body.locked{padding-bottom:0;overflow:hidden}body.locked>.top,body.locked>main,body.locked>.bottom{display:none!important}body.locked #loginModal{display:flex!important;align-items:center;justify-content:center;background:var(--bg);padding:18px}body.locked #loginModal .sheet{max-width:420px;max-height:none;border-radius:22px;padding:22px 18px}body.locked #loginModal .handle{display:none}
+@media(min-width:700px){.stats{grid-template-columns:repeat(4,1fr)}.list{grid-template-columns:repeat(2,1fr)}.modal{align-items:center;justify-content:center}.sheet{max-width:600px;border-radius:22px;padding-bottom:18px}.toolbar{top:70px}}
 </style>
 </head>
-<body>
-<header class="topbar">
-  <div class="brand">
-    <img class="logo" src="data:image/png;base64,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">
-    <div><h1>Loxley Stock</h1><small>ระบบเบิกวัสดุและส่งซ่อม</small></div>
-    <div class="userpill" id="userPill" onclick="logout()" title="แตะเพื่อออกจากระบบ">ยังไม่ได้เข้าสู่ระบบ</div>
-  </div>
-</header>
-
+<body class="locked">
+<header class="top"><div class="brand"><div class="mark">L</div><div><h1>Loxley Stock</h1><small>M81 · เบิกวัสดุและส่งซ่อม</small></div><button class="user" id="userPill" onclick="logout()">ยังไม่ได้เข้าสู่ระบบ</button></div></header>
 <main class="wrap">
-  <section class="page active" id="homePage">
-    <div class="hero compact-hero"><h2 id="hello">สวัสดีค่ะ</h2></div>
-    <div class="stats">
-      <div class="stat"><div class="n" id="sTotal">–</div><div class="l">รายการวัสดุทั้งหมด</div></div>
-      <div class="stat green"><div class="n" id="sM6">–</div><div class="l" id="m6Label">M6</div></div>
-      <div class="stat gold"><div class="n" id="sM81">–</div><div class="l" id="m81Label">M81</div></div>
-      <div class="stat red"><div class="n" id="sRepair">–</div><div class="l">กำลังส่งซ่อม</div></div>
-    </div>
-    <div id="adminUserSection" style="display:none">
-      <div class="section-head"><h3>ผู้ดูแลระบบ</h3><span id="adminUserCount"></span></div>
-      <div class="card"><div class="row"><div class="grow"><div class="title">จัดการ Username / PIN</div><div class="sub">กำหนดชื่อผู้ใช้และตั้งหรือรีเซ็ต PIN 6 หลัก โดยไม่แสดง PIN เดิม</div></div><button class="primary" onclick="openUserAdmin()">จัดการ</button></div></div>
-    </div>
-  </section>
-
-  <section class="page" id="itemsPage">
-    <div class="section-head"><h3>วัสดุคงเหลือ</h3><span id="itemCount"></span></div>
-    <div class="chips" id="itemProjectChips">
-      <button class="chip active" onclick="setItemProject('ALL',this)">ทั้งหมด</button>
-      <button class="chip" onclick="setItemProject('M6',this)">M6</button>
-      <button class="chip" onclick="setItemProject('M81',this)">M81</button>
-    </div>
-    <div class="toolbar"><input class="search" id="itemSearch" placeholder="ค้นหา System / Description / Location" oninput="ITEM_RENDER_LIMIT=60;renderItems()"></div>
-    <div class="list" id="itemList"></div>
-  </section>
-
-  <section class="page" id="loansPage">
-    <div class="section-head"><h3>ใบเบิกวัสดุ</h3><span id="loanCount"></span></div>
-    <div class="toolbar"><input class="search" id="loanSearch" placeholder="ค้นหาเลข BKKM / โครงการ / ผู้ขอเบิก / สถานะ" oninput="renderLoans()"><button class="primary" onclick="openLoan()">+ ใบเบิก</button></div>
-    <div class="list" id="loanList"></div>
-  </section>
-
-  <section class="page" id="claimsPage">
-    <div class="section-head"><h3>แบบฟอร์มส่งสินค้าซ่อม</h3><span id="claimCount"></span></div>
-    <div class="toolbar"><input class="search" id="claimSearch" placeholder="ค้นหาเลขส่งซ่อม / รายการ / บริษัท / สถานะ" oninput="renderClaims()"><button class="primary" onclick="openClaim()">+ ส่งซ่อม</button></div>
-    <div class="list" id="claimList"></div>
-  </section>
+<section class="page active" id="homePage"><div class="hello"><h2 id="hello">สวัสดีค่ะ</h2><p>ระบบเบิกวัสดุ M81</p></div><div class="stats"><div class="stat"><b id="sItems">–</b><span>รายการ M81</span></div><div class="stat ok"><b id="sBalance">–</b><span>คงเหลือปัจจุบัน</span></div><div class="stat gold"><b id="sIssued">–</b><span>จ่ายออกนับจากรอบใหม่</span></div><div class="stat bad"><b id="sRepair">–</b><span>กำลังส่งซ่อม</span></div></div><div id="adminBox" class="hidden"><div class="head"><h3>ผู้ดูแลระบบ</h3><span></span></div><div class="card"><div class="row"><div class="grow"><div class="title">จัดการ Username / PIN</div><div class="sub">ตั้งหรือรีเซ็ตข้อมูลเข้าสู่ระบบ</div></div><button class="primary" onclick="openUsers()">จัดการ</button></div></div></div></section>
+<section class="page" id="itemsPage"><div class="head"><h3>วัสดุ M81</h3><span id="itemCount"></span></div><div class="toolbar"><input class="search" id="itemSearch" placeholder="ค้นหา System / Description / Location" oninput="ITEM_LIMIT=50;renderItems()"></div><div class="list" id="itemList"></div></section>
+<section class="page" id="loansPage"><div class="head"><h3>ใบเบิกวัสดุ</h3><span id="loanCount"></span></div><div class="filters" id="loanFilters"><button class="chip active" data-v="ALL" onclick="setLoanFilter('ALL',this)">ทั้งหมด</button><button class="chip" data-v="PendingApproval" onclick="setLoanFilter('PendingApproval',this)">รออนุมัติ</button><button class="chip" data-v="Approved" onclick="setLoanFilter('Approved',this)">อนุมัติแล้ว</button><button class="chip" data-v="Completed" onclick="setLoanFilter('Completed',this)">เสร็จสิ้น</button></div><div class="toolbar"><input class="search" id="loanSearch" placeholder="ค้นหาเลขใบเบิก / โครงการ / ผู้ขอ" oninput="renderLoans()"><button class="primary" id="newLoanBtn" onclick="openLoan()">+ ใบเบิก</button></div><div class="list" id="loanList"></div></section>
+<section class="page" id="claimsPage"><div class="head"><h3>ส่งสินค้าซ่อม</h3><span id="claimCount"></span></div><div class="toolbar"><input class="search" id="claimSearch" placeholder="ค้นหาเลขส่งซ่อม / รายการ / บริษัท" oninput="renderClaims()"><button class="primary" id="newClaimBtn" onclick="openClaim()">+ ส่งซ่อม</button></div><div class="list" id="claimList"></div></section>
 </main>
+<nav class="bottom" id="bottomNav"><button class="nav active" data-page="home" onclick="go('home')"><b>⌂</b>หน้าหลัก</button><button class="nav" data-page="items" onclick="go('items')"><b>▣</b>วัสดุ</button><button class="nav" data-page="loans" onclick="go('loans')"><b>⇄</b>ใบเบิก</button><button class="nav" data-page="claims" onclick="go('claims')"><b>⚒</b>ส่งซ่อม</button></nav>
 
-<nav class="bottom">
-  <button class="nav active" data-page="home" onclick="go('home')"><b>⌂</b>หน้าหลัก</button>
-  <button class="nav" data-page="items" onclick="go('items')"><b>▣</b>วัสดุ</button>
-  <button class="nav" data-page="loans" onclick="go('loans')"><b>⇄</b>ใบเบิก</button>
-  <button class="nav" data-page="claims" onclick="go('claims')"><b>⚒</b>ส่งซ่อม</button>
-</nav>
+<div class="modal" id="loginModal"><div class="sheet"><div style="text-align:center;margin-bottom:14px"><div class="mark" style="margin:auto;width:58px;height:58px;font-size:28px;border:1px solid #e5e8f1">L</div><h3 style="margin:10px 0 3px">เข้าสู่ระบบ Loxley Stock</h3><div class="sub">ใช้ Username และ PIN ที่ผู้ดูแลระบบกำหนด</div></div><div class="field"><label>Username</label><input id="loginUsername" autocomplete="username" autocapitalize="none" spellcheck="false"></div><div class="field"><label>PIN 6 หลัก</label><input id="loginPin" type="password" inputmode="numeric" maxlength="6" autocomplete="current-password"></div><div class="modal-actions"><button class="primary" id="loginBtn" onclick="submitLogin()">เข้าสู่ระบบ</button></div></div></div>
 
+<div class="modal" id="loanModal"><div class="sheet"><div class="handle"></div><div class="banner"><b>ใบเบิกวัสดุ · STORE 02</b><span>บริษัท ล็อกซเล่ย์ จำกัด (มหาชน) · ฝ่ายระบบขนส่ง · ออกครั้งที่ 01</span></div><div class="section">ข้อมูลผู้ขอเบิก</div><div class="field"><label>ชื่อผู้ขอเบิก</label><input id="loanRequesterName"><div class="hint" id="loanRequesterHint"></div></div><div class="grid2"><div class="field"><label>แผนก / ฝ่าย</label><input id="loanDepartment"></div><div class="field"><label>โทรศัพท์</label><input id="loanPhone" inputmode="tel"></div></div><div class="field"><label>ชื่องาน / ชื่อโครงการ</label><input id="loanProject"></div><div class="grid2"><div class="field"><label>สถานที่เก็บ</label><input id="loanStorageLocation"></div><div class="field"><label>สถานที่ใช้งาน</label><input id="loanUseLocation"></div></div><div class="field"><label>ระยะเวลาในการเบิก</label><input id="loanBorrowPeriod" placeholder="เช่น 7 วัน / จนจบงาน"></div><div class="section">ประเภทการเบิก</div><div class="opts"><label class="opt"><input type="radio" name="loanType" value="ติดตั้ง"> ติดตั้ง</label><label class="opt"><input type="radio" name="loanType" value="ส่งมอบ"> ส่งมอบ</label><label class="opt"><input type="radio" name="loanType" value="ทดสอบ"> ทดสอบ</label><label class="opt"><input type="radio" name="loanType" value="ให้ยืม" checked> ให้ยืม</label></div><div class="field"><label>อื่น ๆ</label><input id="loanTypeOther"></div><div class="field"><label>เหตุผลในการขอเบิก</label><textarea id="loanReason"></textarea></div><div class="section">รายการวัสดุ M81</div><div class="field"><label>ค้นหารายการ</label><input id="loanItemSearch" oninput="renderLoanStock()" placeholder="System / Description / Location"></div><div class="stock-list" id="loanItems"></div><div class="hint">ใส่จำนวนเฉพาะรายการที่ต้องการ ระบบจะตรวจคงเหลือก่อนส่งและก่อนจ่ายออก</div><div class="modal-actions"><button class="secondary" onclick="closeModal('loanModal')">ยกเลิก</button><button class="primary" onclick="previewDraftLoan()">ดูใบเบิกก่อนส่ง</button></div></div></div>
+<div class="modal" id="loanPreviewModal"><div class="sheet"><div class="handle"></div><div id="loanPreviewBody"></div><div class="modal-actions" id="loanPreviewActions"></div></div></div>
 
-<div class="modal" id="loginModal"><div class="sheet"><div class="handle"></div>
-  <div style="text-align:center;margin-bottom:14px">
-    <img class="logo" style="width:64px;height:64px;border:1px solid #e5e8f1;margin-bottom:8px" src="data:image/png;base64,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">
-    <h3 style="margin:0;color:#1B3280">เข้าสู่ระบบ Loxley Stock</h3>
-    <div class="sub" style="margin-top:4px">ใช้ Username และ PIN ที่ผู้ดูแลระบบกำหนด</div>
-  </div>
-  <div class="field"><label>Username</label><input type="text" id="loginUsername" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="เช่น admin"></div>
-  <div class="field"><label>PIN 6 หลัก</label><input type="password" inputmode="numeric" pattern="[0-9]*" maxlength="6" id="loginPin" autocomplete="current-password" placeholder="••••••"></div>
-  <div class="modal-actions"><button class="primary" id="loginBtn" onclick="submitLogin()">เข้าสู่ระบบ</button></div>
-  <div class="sub" style="text-align:center;margin-top:12px">ติดต่อผู้ดูแลระบบหากยังไม่มี PIN</div>
-</div></div>
+<div class="modal" id="claimModal"><div class="sheet"><div class="handle"></div><div class="banner"><b>แบบฟอร์มส่งสินค้าซ่อม · STORE-03</b><span>บริษัท ล็อกซเล่ย์ จำกัด (มหาชน) · ฝ่ายระบบขนส่ง · ออกครั้งที่ 01</span></div><div class="section">ข้อมูลการส่งซ่อม</div><div class="field"><label>ส่งซ่อมที่บริษัท</label><input id="repairCompany"></div><div class="field"><label>ที่อยู่</label><textarea id="repairAddress"></textarea></div><div class="grid2"><div class="field"><label>โทร.</label><input id="repairPhone"></div><div class="field"><label>วันที่ส่งซ่อม</label><input type="date" id="repairSentDate"></div></div><div class="grid2"><label class="opt"><input type="radio" name="repairRef" value="Project" checked> Project</label><label class="opt"><input type="radio" name="repairRef" value="อื่น ๆ"> อื่น ๆ</label></div><div class="field"><label>Project / รายละเอียด</label><input id="repairReferenceValue"></div><div class="section">รายการส่งซ่อม</div><div class="field"><label>รายการ</label><select id="claimItem" onchange="updateRepairHint()"></select><div class="hint" id="repairItemHint"></div></div><div class="grid2"><div class="field"><label>Model</label><input id="repairModel"></div><div class="field"><label>S/N</label><input id="repairSerial"></div></div><div class="field"><label>จำนวน</label><input type="number" min="1" value="1" id="repairQty"></div><div class="field"><label>อาการเสีย</label><textarea id="claimIssue"></textarea></div><div class="grid2"><div class="field"><label>ผู้ส่งซ่อม</label><input id="repairSenderName"></div><div class="field"><label>ผู้รับสินค้า</label><input id="repairReceiverName"></div></div><div class="modal-actions"><button class="secondary" onclick="closeModal('claimModal')">ยกเลิก</button><button class="primary" onclick="submitClaim()">เปิดใบส่งซ่อม</button></div></div></div>
 
-<div class="modal" id="userAdminModal"><div class="sheet"><div class="handle"></div><h3>จัดการผู้ใช้งาน</h3>
-  <div class="field"><label>ผู้ใช้งาน</label><select id="adminUserSelect" onchange="fillAdminUser()"></select></div>
-  <div class="field"><label>Username</label><input id="adminUsername" autocapitalize="none" spellcheck="false" placeholder="เช่น stock01"></div>
-  <div class="field"><label>ตั้ง / รีเซ็ต PIN 6 หลัก</label><input type="password" inputmode="numeric" pattern="[0-9]*" maxlength="6" id="adminUserPin" placeholder="เว้นว่างถ้าไม่เปลี่ยน PIN"></div>
-  <div class="sub">ระบบจะเก็บเฉพาะค่า hash ของ PIN และไม่สามารถดู PIN เดิมย้อนหลังได้</div>
-  <div class="modal-actions"><button class="secondary" onclick="closeModal('userAdminModal')">ยกเลิก</button><button class="primary" onclick="submitUserCredentials()">บันทึก</button></div>
-</div></div>
+<div class="modal" id="updateModal"><div class="sheet"><div class="handle"></div><div class="banner"><b>ส่วนธุรการ · ติดตามการซ่อม</b><span>ข้อมูลต่อเนื่องจาก STORE-03</span></div><input type="hidden" id="updateClaimId"><div class="field"><label>สถานะงาน</label><select id="updateStatus"><option value="Open">เปิดงาน</option><option value="Sent">ส่งซ่อมแล้ว</option><option value="WaitingVendor">รอผู้ซ่อม</option><option value="WaitingParts">รออะไหล่</option><option value="Approved">อนุมัติซ่อม</option><option value="Rejected">ไม่ซ่อม</option><option value="Completed">เสร็จสิ้น</option><option value="Cancelled">ยกเลิก</option></select></div><div class="grid2"><div class="field"><label>สถานะใบเสนอราคา</label><select id="repairAdminStatus"><option value="">ยังไม่ระบุ</option><option>WARRANTY</option><option>คิดค่าซ่อม</option></select></div><div class="field"><label>เลขใบเสนอราคา</label><input id="repairQuoteNumber"></div></div><div class="grid2"><div class="field"><label>วันที่ใบเสนอราคา</label><input type="date" id="repairQuoteDate"></div><div class="field"><label>ผู้ติดต่อ</label><input id="repairContactName"></div></div><div class="grid2"><div class="field"><label>โทร.</label><input id="repairContactPhone"></div><div class="field"><label>แฟกซ์</label><input id="repairFax"></div></div><div class="field"><label>ที่อยู่ / รายละเอียดผู้เสนอราคา</label><textarea id="repairQuoteAddress"></textarea></div><div class="grid2"><div class="field"><label>ค่าเปิดเครื่อง</label><input type="number" step="0.01" id="repairCostInspection"></div><div class="field"><label>ค่าอะไหล่</label><input type="number" step="0.01" id="repairCostParts"></div></div><div class="field"><label>ค่าบริการ</label><input type="number" step="0.01" id="repairCostService"></div><div class="grid2"><div class="field"><label>สรุป</label><select id="repairDecision"><option value="">ยังไม่สรุป</option><option>ซ่อม</option><option>ไม่ซ่อม</option></select></div><div class="field"><label>ระยะเวลาซ่อม</label><input id="repairDuration"></div></div><div class="field"><label>เนื่องจาก</label><textarea id="repairDecisionReason"></textarea></div><div class="grid2"><div class="field"><label>วันที่รับเครื่อง</label><input type="date" id="repairReceivedDate"></div><div class="field"><label>ผู้อนุมัติซ่อม</label><input id="repairApproverName"></div></div><div class="field"><label>วันที่อนุมัติ</label><input type="date" id="repairApprovalDate"></div><div class="section">ติดตามงาน</div><div class="field"><label>ช่องทางติดต่อ</label><select id="updateChannel"><option>Phone</option><option>Email</option><option>Line</option><option>InPerson</option><option>Website</option><option>Other</option></select></div><div class="field"><label>รายละเอียด</label><textarea id="updateDetail"></textarea></div><div class="field"><label>ติดตามครั้งถัดไป</label><input type="date" id="updateNext"></div><div class="field"><label>สถานะวัสดุหลังปิดงาน</label><select id="updateItemStatus"><option value="">ไม่เปลี่ยน</option><option>Available</option><option>Maintenance</option><option>Lost</option><option>Retired</option></select></div><div class="modal-actions"><button class="secondary" onclick="closeModal('updateModal')">ยกเลิก</button><button class="primary" onclick="submitClaimUpdate()">บันทึก</button></div></div></div>
 
-<div class="modal" id="loanModal"><div class="sheet"><div class="handle"></div>
-  <div class="form-banner"><b>ใบเบิกวัสดุ · STORE 02</b><span>บริษัท ล็อกซเล่ย์ จำกัด (มหาชน) · ฝ่ายระบบขนส่ง · ออกครั้งที่ 01</span></div>
-  <div class="form-section">ข้อมูลผู้ขอเบิก</div>
-  <div class="field"><label>ชื่อผู้ขอเบิก</label><input id="loanRequesterName"></div>
-  <div class="mini-grid"><div class="field"><label>แผนก / ฝ่าย</label><input id="loanDepartment"></div><div class="field"><label>โทรศัพท์</label><input id="loanPhone" inputmode="tel"></div></div>
-  <div class="field"><label>ชื่องาน / ชื่อโครงการ</label><input id="loanProject"></div>
-  <div class="field"><label>สถานที่เก็บ</label><input id="loanStorageLocation"></div>
-  <div class="field"><label>ระยะเวลาในการเบิก</label><input id="loanBorrowPeriod" placeholder="เช่น 7 วัน / จนจบงาน"></div>
-  <div class="field"><label>สถานที่ใช้งาน</label><input id="loanUseLocation"></div>
-  <div class="form-section">ประเภทการเบิก</div>
-  <div class="option-grid">
-    <label class="option-pill"><input type="radio" name="loanRequestType" value="ติดตั้ง"> เบิกสำหรับติดตั้ง</label>
-    <label class="option-pill"><input type="radio" name="loanRequestType" value="ส่งมอบ"> เบิกเพื่อส่งมอบ</label>
-    <label class="option-pill"><input type="radio" name="loanRequestType" value="ทดสอบ"> เบิกสำหรับทดสอบ</label>
-    <label class="option-pill"><input type="radio" name="loanRequestType" value="ให้ยืม" checked> เบิกเพื่อให้ยืม</label>
-  </div>
-  <div class="field"><label>อื่น ๆ</label><input id="loanRequestTypeOther"></div>
-  <div class="field"><label>เหตุผลในการขอเบิก</label><textarea id="loanReason" placeholder="ระบุเหตุผลตามใบเบิกเดิม"></textarea></div>
-  <div class="form-section">รายการวัสดุ</div>
-  <div class="mini-grid">
-    <div class="field"><label>โครงการสต็อก</label><select id="loanStockProject" onchange="renderLoanStock()"><option value="ALL">ทั้งหมด</option><option value="M6">M6</option><option value="M81">M81</option></select></div>
-    <div class="field"><label>ค้นหา</label><input id="loanItemSearch" oninput="renderLoanStock()" placeholder="System / Description"></div>
-  </div>
-  <div class="field"><label>ระบุจำนวนที่ต้องการเบิก</label><div class="checklist" id="loanItems"></div><div class="hint">ใส่จำนวนเฉพาะรายการที่ต้องการ ระบบจะตรวจจำนวนคงเหลือก่อนอนุมัติและก่อนจ่ายออก</div></div>
-  <div class="modal-actions"><button class="secondary" onclick="closeModal('loanModal')">ยกเลิก</button><button class="primary" onclick="submitLoan()">ส่งใบเบิก</button></div>
-</div></div>
-
-<div class="modal" id="claimModal"><div class="sheet"><div class="handle"></div>
-  <div class="form-banner"><b>แบบฟอร์มส่งสินค้าซ่อม · STORE-03</b><span>บริษัท ล็อกซเล่ย์ จำกัด (มหาชน) · ฝ่ายระบบขนส่ง · ออกครั้งที่ 01</span></div>
-  <div class="form-section">ข้อมูลการส่งซ่อม</div>
-  <div class="field"><label>ส่งซ่อมที่บริษัท</label><input id="repairCompany"></div>
-  <div class="field"><label>ที่อยู่</label><textarea id="repairAddress"></textarea></div>
-  <div class="mini-grid"><div class="field"><label>โทร.</label><input id="repairPhone" inputmode="tel"></div><div class="field"><label>วันที่ส่งซ่อม</label><input type="date" id="repairSentDate"></div></div>
-  <div class="option-grid"><label class="option-pill"><input type="radio" name="repairRefType" value="Project" checked> Project</label><label class="option-pill"><input type="radio" name="repairRefType" value="อื่น ๆ"> อื่น ๆ</label></div>
-  <div class="field"><label>Project / รายละเอียดอื่น ๆ</label><input id="repairReferenceValue"></div>
-  <div class="form-section">รายการส่งซ่อม</div>
-  <div class="field"><label>รายการ</label><select id="claimItem" onchange="updateRepairItemHint()"></select><div class="hint" id="repairItemHint"></div></div>
-  <div class="mini-grid"><div class="field"><label>Model</label><input id="repairModel"></div><div class="field"><label>S/N</label><input id="repairSerial"></div></div>
-  <div class="field"><label>จำนวน</label><input type="number" min="1" value="1" id="repairQty"></div>
-  <div class="field"><label>อาการเสีย</label><textarea id="claimIssue" placeholder="ระบุอาการเสียตามแบบฟอร์มเดิม"></textarea></div>
-  <div class="mini-grid"><div class="field"><label>ผู้ส่งซ่อม</label><input id="repairSenderName"></div><div class="field"><label>ผู้รับสินค้า</label><input id="repairReceiverName"></div></div>
-  <div class="modal-actions"><button class="secondary" onclick="closeModal('claimModal')">ยกเลิก</button><button class="primary" onclick="submitClaim()">เปิดใบส่งซ่อม</button></div>
-</div></div>
-
-<div class="modal" id="updateModal"><div class="sheet"><div class="handle"></div>
-  <div class="form-banner"><b>ส่วนธุรการ · ติดตามการซ่อม</b><span>ข้อมูลต่อเนื่องจากแบบฟอร์ม STORE-03</span></div>
-  <input type="hidden" id="updateClaimId">
-  <div class="field"><label>สถานะงานในระบบ</label><select id="updateStatus"><option value="Open">เปิดงาน</option><option value="Sent">ส่งซ่อมแล้ว</option><option value="WaitingVendor">รอผู้ซ่อม</option><option value="WaitingParts">รออะไหล่</option><option value="Approved">อนุมัติซ่อม</option><option value="Rejected">ไม่ซ่อม</option><option value="Completed">เสร็จสิ้น</option><option value="Cancelled">ยกเลิก</option></select></div>
-  <div class="form-section">สถานะ / ใบเสนอราคา</div>
-  <div class="field"><label>สถานะ</label><select id="repairAdminStatus"><option value="">ยังไม่ระบุ</option><option>WARRANTY</option><option>คิดค่าซ่อม</option></select></div>
-  <div class="mini-grid"><div class="field"><label>ใบเสนอราคาเลขที่</label><input id="repairQuoteNumber"></div><div class="field"><label>วันที่</label><input type="date" id="repairQuoteDate"></div></div>
-  <div class="mini-grid"><div class="field"><label>ผู้ติดต่อ</label><input id="repairContactName"></div><div class="field"><label>โทร.</label><input id="repairContactPhone"></div></div>
-  <div class="field"><label>แฟกซ์</label><input id="repairFax"></div>
-  <div class="field"><label>ที่อยู่บริษัท / รายละเอียดผู้เสนอราคา</label><textarea id="repairQuoteAddress"></textarea></div>
-  <div class="form-section">ค่าใช้จ่าย</div>
-  <div class="mini-grid"><div class="field"><label>ค่าเปิดเครื่อง</label><input type="number" step="0.01" id="repairCostInspection"></div><div class="field"><label>ค่าอะไหล่</label><input type="number" step="0.01" id="repairCostParts"></div></div>
-  <div class="field"><label>ค่าบริการ</label><input type="number" step="0.01" id="repairCostService"></div>
-  <div class="form-section">สรุป</div>
-  <div class="field"><label>สรุป</label><select id="repairDecision"><option value="">ยังไม่สรุป</option><option>ซ่อม</option><option>ไม่ซ่อม</option></select></div>
-  <div class="field"><label>เนื่องจาก</label><textarea id="repairDecisionReason"></textarea></div>
-  <div class="field"><label>ระยะเวลาซ่อม</label><input id="repairDuration"></div>
-  <div class="mini-grid"><div class="field"><label>วันที่รับเครื่อง</label><input type="date" id="repairReceivedDate"></div><div class="field"><label>ผู้อนุมัติซ่อม</label><input id="repairApproverName"></div></div>
-  <div class="field"><label>วันที่อนุมัติ</label><input type="date" id="repairApprovalDate"></div>
-  <div class="form-section">ติดตามงาน</div>
-  <div class="field"><label>ช่องทางติดต่อ</label><select id="updateChannel"><option>Phone</option><option>Email</option><option>Line</option><option>InPerson</option><option>Website</option><option>Other</option></select></div>
-  <div class="field"><label>รายละเอียดการติดตาม</label><textarea id="updateDetail"></textarea></div>
-  <div class="field"><label>ติดตามครั้งถัดไป</label><input type="date" id="updateNext"></div>
-  <div class="field"><label>สถานะวัสดุหลังปิดงาน</label><select id="updateItemStatus"><option value="">ไม่เปลี่ยน</option><option>Available</option><option>Maintenance</option><option>Lost</option><option>Retired</option></select></div>
-  <div class="modal-actions"><button class="secondary" onclick="closeModal('updateModal')">ยกเลิก</button><button class="primary" onclick="submitClaimUpdate()">บันทึก</button></div>
-</div></div>
-
-<div class="sync-indicator" id="syncIndicator">กำลังซิงก์…</div>
-<div class="toast" id="toast"></div>
-
+<div class="modal" id="userModal"><div class="sheet"><div class="handle"></div><h3>จัดการผู้ใช้งาน</h3><div class="field"><label>ผู้ใช้งาน</label><select id="adminUserSelect" onchange="fillAdminUser()"></select></div><div class="field"><label>Username</label><input id="adminUsername"></div><div class="field"><label>ตั้ง / รีเซ็ต PIN 6 หลัก</label><input type="password" inputmode="numeric" maxlength="6" id="adminUserPin"></div><div class="hint">ระบบเก็บเฉพาะ hash ของ PIN และดู PIN เดิมย้อนหลังไม่ได้</div><div class="modal-actions"><button class="secondary" onclick="closeModal('userModal')">ยกเลิก</button><button class="primary" onclick="saveUserCredentials()">บันทึก</button></div></div></div>
+<div class="saving" id="saving">กำลังบันทึก…</div><div class="toast" id="toast"></div>
 <script>
-const EMPTY_DASHBOARD={total:0,m6Count:0,m81Count:0,m6Balance:0,m81Balance:0,inRepair:0,pending:0,openClaims:0};
-const USER_KEY='loxleyUserV1';
-let DATA={user:{},dashboard:{...EMPTY_DASHBOARD},items:[],loans:[],claims:[],users:[]};
-let ITEM_PROJECT='ALL';
-let LOANS_LOADED=false,LOANS_LOADING=false;
-let CLAIMS_LOADED=false,CLAIMS_LOADING=false;
-let USERS_LOADED=false,USERS_LOADING=false;
-let STOCK_LOADING=false,STOCK_SYNCING=false,STOCK_VERSION=0,LAST_STOCK_SYNC=0;
-let ACTIVE_PAGE='home';
-let ITEM_RENDER_LIMIT=60;
-let LOAN_DRAFT_QTY={};
-let TOKEN=localStorage.getItem('loxleyAuthToken')||'';
-const staff=()=>['Admin','StockOfficer','Approver'].includes(DATA.user.role);
-const stock=()=>['Admin','StockOfficer'].includes(DATA.user.role);
-const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-const fmt=d=>{if(!d)return '-'; const x=new Date(d); return isNaN(x)?esc(d):x.toLocaleDateString('th-TH',{day:'2-digit',month:'short',year:'2-digit'})};
-function statusLabel(s){return ({Available:'พร้อมเบิก',Reserved:'จองแล้ว',OnLoan:'เบิกออกแล้ว',InClaim:'ส่งซ่อม',PendingApproval:'รออนุมัติ',Approved:'อนุมัติแล้ว',HandedOver:'ส่งมอบแล้ว',Returned:'คืนแล้ว',Rejected:'ไม่อนุมัติ / ไม่ซ่อม',Cancelled:'ยกเลิก',Open:'เปิดงาน',Sent:'ส่งซ่อมแล้ว',WaitingVendor:'รอผู้ซ่อม',WaitingParts:'รออะไหล่',Completed:'เสร็จสิ้น',Maintenance:'ซ่อมบำรุง',Lost:'สูญหาย',Retired:'เลิกใช้งาน'})[s]||s||'-'}
-function badge(s){let c='blue'; if(['Available','Approved','Returned','Completed'].includes(s))c='ok'; else if(['PendingApproval','WaitingVendor','WaitingParts','Reserved','HandedOver'].includes(s))c='warn'; else if(['Rejected','Cancelled','Lost','Retired'].includes(s))c='bad'; return '<span class="badge '+c+'">'+esc(statusLabel(s))+'</span>'}
-function toast(msg,err=false){const e=document.getElementById('toast');e.textContent=msg;e.className='toast show'+(err?' err':'');setTimeout(()=>e.className='toast',2800)}
-let BUSY_COUNT=0;
-const INFLIGHT=new Set();
-let REFRESHING=false;
-const CACHE_KEY='loxleyBootstrapCacheV6';
-function setAuthenticated(on){
-  document.body.classList.toggle('auth-locked',!on);
-  if(on){
-    closeModal('loginModal');
-  }else{
-    document.getElementById('loginModal').classList.add('show');
-    document.getElementById('userPill').textContent='ยังไม่ได้เข้าสู่ระบบ';
-  }
-}
-function clearAppView(){
-  DATA={user:{},dashboard:{...EMPTY_DASHBOARD},items:[],loans:[],claims:[],users:[]};
-  LOANS_LOADED=false;CLAIMS_LOADED=false;USERS_LOADED=false;STOCK_VERSION=0;
-  const ids=['sTotal','sM6','sM81','sRepair','itemCount','loanCount','claimCount'];
-  ids.forEach(id=>{const e=document.getElementById(id);if(e)e.textContent='';});
-  ['itemList','loanList','claimList'].forEach(id=>{const e=document.getElementById(id);if(e)e.innerHTML='';});
-  const h=document.getElementById('hello');if(h)h.textContent='สวัสดีค่ะ';
-}
-
-function busy(on){
-  BUSY_COUNT=Math.max(0,BUSY_COUNT+(on?1:-1));
-  const e=document.getElementById('syncIndicator');
-  if(e)e.classList.toggle('show',BUSY_COUNT>0);
-}
-function saveCache(){
-  try{localStorage.setItem(CACHE_KEY,JSON.stringify({at:Date.now(),stockVersion:STOCK_VERSION,user:DATA.user,dashboard:DATA.dashboard,items:DATA.items}))}catch(_){}
-}
-function loadCache(){
-  try{
-    const x=JSON.parse(localStorage.getItem(CACHE_KEY)||'null');
-    if(TOKEN&&x&&Array.isArray(x.items)&&x.items.length&&Date.now()-Number(x.at||0)<12*60*60*1000){
-      STOCK_VERSION=Number(x.stockVersion||0);
-      DATA={user:x.user||{},dashboard:{...EMPTY_DASHBOARD,...(x.dashboard||{})},items:x.items,loans:[],claims:[],users:[]};
-      LOANS_LOADED=false;CLAIMS_LOADED=false;USERS_LOADED=false;
-      hydrate();setAuthenticated(true);return true;
-    }
-  }catch(_){}
-  return false;
-}
-
+'use strict';
 const API_URL='https://script.google.com/macros/s/AKfycbw7zd0yZqoY5iQrrQxQsGvzNWMGqADfqx0r_w93quCUoO8vTTt4OD_kQN0th5gwtimq/exec';
-let AUTH_WARM_STARTED=false;
-function warmAuthBackend(){
-  if(AUTH_WARM_STARTED)return;
-  AUTH_WARM_STARTED=true;
-  fetch(API_URL,{method:'POST',mode:'cors',credentials:'omit',cache:'no-store',headers:{'Content-Type':'text/plain;charset=UTF-8'},body:JSON.stringify({action:'ping'})}).catch(()=>{});
-}
-async function api(body){
-  const ctl=new AbortController();
-  const action=String(body&&body.action||'');
-  const reads=['ping','login','loans','claims','users','stock','stockDelta'];
-  const mutation=!reads.includes(action);
-  const timeout=action==='login'?30000:(['loans','claims','users','stock','stockDelta'].includes(action)?25000:(mutation?30000:15000));
-  const timer=setTimeout(()=>ctl.abort(),timeout);
-  try{
-    const r=await fetch(API_URL,{method:'POST',mode:'cors',credentials:'omit',cache:'no-store',signal:ctl.signal,headers:{'Content-Type':'text/plain;charset=UTF-8'},body:JSON.stringify(body)});
-    const raw=await r.text();
-    if(!r.ok)throw new Error('API HTTP '+r.status);
-    let j=null;
-    try{j=JSON.parse(raw)}catch(_){throw new Error('API_BAD_RESPONSE')}
-    if(!j.ok)throw new Error(j.error||'API_ERROR');
-    return j.result;
-  }catch(e){
-    if(e&&e.name==='AbortError'){
-      if(action==='login')throw new Error('ระบบ Login ตอบช้า กรุณาลองอีกครั้ง');
-      if(['loans','claims','users','stock','stockDelta'].includes(action))throw new Error('โหลดข้อมูลช้า กรุณาลองอีกครั้ง');
-      if(mutation)throw new Error('การบันทึกใช้เวลานานเกินไป กรุณาตรวจรายการก่อนกดซ้ำ');
-      throw new Error('เชื่อมต่อช้า');
-    }
-    throw e;
-  }finally{clearTimeout(timer)}
-}
-
-function authFail(msg){TOKEN='';localStorage.removeItem('loxleyAuthToken');localStorage.removeItem(CACHE_KEY);localStorage.removeItem(USER_KEY);LOANS_LOADED=false;CLAIMS_LOADED=false;USERS_LOADED=false;clearAppView();setAuthenticated(false);toast(msg||'กรุณาเข้าสู่ระบบใหม่',true)}
-async function call(name,args,ok){
-  if(!TOKEN){showLogin();return}
-  if(INFLIGHT.has(name)){toast('รายการนี้กำลังบันทึกอยู่');return}
-  INFLIGHT.add(name);busy(true);toast('รับคำสั่งแล้ว กำลังบันทึก…');
-  try{
-    let body={token:TOKEN};
-    if(name==='createLoanRequest') {body.action='createLoanRequest';body.payload=args||{}}
-    else if(name==='decideLoan') {body.action='decideLoan';body.loanId=args[0];body.approve=args[1];body.reason=args[2]||''}
-    else if(name==='handoverLoan') {body.action='handoverLoan';body.loanId=args}
-    else if(name==='returnLoan') {body.action='returnLoan';body.loanId=Array.isArray(args)?args[0]:args}
-    else if(name==='createClaim') {body.action='createClaim';body.payload=args||{}}
-    else if(name==='addClaimUpdate') {body.action='addClaimUpdate';body.payload=args||{}}
-    else if(name==='setUserCredentials') {body.action='setUserCredentials';body.payload=args||{}}
-    else throw new Error('UNKNOWN_ACTION');
-    const result=await api(body);
-    applyChangedItems(result&&result.changedItems,result&&result.stockVersion);
-    if(['createLoanRequest','decideLoan','handoverLoan','returnLoan'].includes(name))LOANS_LOADED=false;
-    if(['createClaim','addClaimUpdate'].includes(name))CLAIMS_LOADED=false;
-    if(name==='setUserCredentials')USERS_LOADED=false;
-    if(ok)ok(result);
-  }catch(e){
-    const msg=e.message||String(e);
-    if(msg.includes('AUTH_'))authFail('เซสชันหมดอายุ กรุณาเข้าสู่ระบบใหม่');else toast(msg,true);
-  }finally{INFLIGHT.delete(name);busy(false)}
-}
-
-function recalcStockDashboard(){
-  const m6=DATA.items.filter(x=>x.Project==='M6'),m81=DATA.items.filter(x=>x.Project==='M81');
-  DATA.dashboard={...(DATA.dashboard||{}),
-    total:DATA.items.length,m6Count:m6.length,m81Count:m81.length,
-    m6Balance:m6.reduce((a,x)=>a+Number(x.Balance||0),0),
-    m81Balance:m81.reduce((a,x)=>a+Number(x.Balance||0),0),
-    inRepair:DATA.items.reduce((a,x)=>a+Number(x.InRepair||0),0)
-  };
-}
-function applyStockSnapshot(snap){
-  if(!snap||!Array.isArray(snap.items))return;
-  DATA.items=snap.items;
-  DATA.dashboard={...DATA.dashboard,...(snap.dashboard||{})};
-  STOCK_VERSION=Number(snap.version||STOCK_VERSION||0);
-  recalcStockDashboard();hydrate();saveCache();
-}
-function applyChangedItems(changes,stockVersion){
-  if(Array.isArray(changes)&&changes.length){
-    const byId=new Map(changes.map(x=>[x.ItemID,x]));
-    DATA.items=DATA.items.map(x=>byId.has(x.ItemID)?{...x,...byId.get(x.ItemID),Available:Number(byId.get(x.ItemID).Balance||0)}:x);
-    recalcStockDashboard();
-  }
-  if(stockVersion)STOCK_VERSION=Number(stockVersion);
-  if((changes&&changes.length)||stockVersion){hydrate();saveCache()}
-}
-async function ensureStock(done){
-  if(!TOKEN){showLogin();return}
-  if(DATA.items.length){if(done)done();return}
-  if(STOCK_LOADING)return;
-  STOCK_LOADING=true;
-  try{
-    const snap=await api({action:'stock',token:TOKEN});
-    applyStockSnapshot(snap);if(done)done();
-  }catch(e){
-    const msg=e.message||String(e);
-    if(msg.includes('AUTH_'))authFail('เซสชันหมดอายุ กรุณาเข้าสู่ระบบใหม่');
-    else toast('โหลดสต็อกไม่สำเร็จ',true);
-  }finally{STOCK_LOADING=false}
-}
-async function syncStockDelta(force=false){
-  if(!TOKEN||STOCK_SYNCING||!DATA.items.length)return;
-  if(!force&&Date.now()-LAST_STOCK_SYNC<30000)return;
-  STOCK_SYNCING=true;LAST_STOCK_SYNC=Date.now();
-  try{
-    const r=await api({action:'stockDelta',token:TOKEN,sinceVersion:STOCK_VERSION});
-    if(r&&r.changed){
-      if(r.full&&r.stock)applyStockSnapshot(r.stock);
-      else{
-        DATA.dashboard={...DATA.dashboard,...(r.dashboard||{})};
-        applyChangedItems(r.changedItems||[],r.version);
-      }
-    }else if(r&&r.version){STOCK_VERSION=Number(r.version);saveCache()}
-  }catch(e){
-    const msg=e.message||String(e);
-    if(msg.includes('AUTH_'))authFail('เซสชันหมดอายุ กรุณาเข้าสู่ระบบใหม่');
-  }finally{STOCK_SYNCING=false}
-}
-async function ensureLoans(done){
-  if(!TOKEN){showLogin();return}
-  if(LOANS_LOADED){if(done)done();return}
-  if(LOANS_LOADING)return;
-  LOANS_LOADING=true;
-  const lp=document.getElementById('loanList');if(lp)lp.innerHTML='<div class="empty">กำลังโหลดใบเบิก…</div>';
-  try{
-    const r=await api({action:'loans',token:TOKEN});
-    DATA.loans=r.loans||[];DATA.dashboard={...DATA.dashboard,pending:Number(r.pending||0)};
-    LOANS_LOADED=true;renderLoans();saveCache();if(done)done();
-  }catch(e){
-    const msg=e.message||String(e);
-    if(msg.includes('AUTH_'))authFail('เซสชันหมดอายุ กรุณาเข้าสู่ระบบใหม่');
-    else if(lp)lp.innerHTML='<div class="empty">โหลดใบเบิกไม่สำเร็จ<br><button class="secondary" onclick="ensureLoans()">ลองใหม่</button></div>';
-  }finally{LOANS_LOADING=false}
-}
-async function ensureClaims(done){
-  if(!TOKEN){showLogin();return}
-  if(CLAIMS_LOADED){if(done)done();return}
-  if(CLAIMS_LOADING)return;
-  CLAIMS_LOADING=true;
-  const cp=document.getElementById('claimList');if(cp)cp.innerHTML='<div class="empty">กำลังโหลดงานซ่อม…</div>';
-  try{
-    const r=await api({action:'claims',token:TOKEN});
-    DATA.claims=r.claims||[];DATA.dashboard={...DATA.dashboard,openClaims:Number(r.openClaims||0)};
-    CLAIMS_LOADED=true;renderClaims();saveCache();if(done)done();
-  }catch(e){
-    const msg=e.message||String(e);
-    if(msg.includes('AUTH_'))authFail('เซสชันหมดอายุ กรุณาเข้าสู่ระบบใหม่');
-    else if(cp)cp.innerHTML='<div class="empty">โหลดงานซ่อมไม่สำเร็จ<br><button class="secondary" onclick="ensureClaims()">ลองใหม่</button></div>';
-  }finally{CLAIMS_LOADING=false}
-}
-async function ensureUsers(done){
-  if(DATA.user.role!=='Admin')return;
-  if(USERS_LOADED){if(done)done();return}
-  if(USERS_LOADING)return;
-  USERS_LOADING=true;
-  try{
-    const r=await api({action:'users',token:TOKEN});
-    DATA.users=r.users||[];USERS_LOADED=true;renderAdminUsers();if(done)done();
-  }catch(e){
-    const msg=e.message||String(e);
-    if(msg.includes('AUTH_'))authFail('เซสชันหมดอายุ กรุณาเข้าสู่ระบบใหม่');else toast('โหลดรายชื่อผู้ใช้ไม่สำเร็จ',true);
-  }finally{USERS_LOADING=false}
-}
-
-function showLogin(){clearAppView();setAuthenticated(false)}
-async function submitLogin(){
-  const username=document.getElementById('loginUsername').value.trim();
-  const pin=document.getElementById('loginPin').value.trim();
-  if(!username||!pin){toast('กรุณากรอก Username และ PIN',true);return}
-  if(INFLIGHT.has('login'))return;
-  const btn=document.getElementById('loginBtn');
-  INFLIGHT.add('login');
-  if(btn){btn.disabled=true;btn.textContent='กำลังเข้าสู่ระบบ…'}
-  try{
-    const r=await api({action:'login',username,pin});
-    TOKEN=r.token;localStorage.setItem('loxleyAuthToken',TOKEN);localStorage.setItem(USER_KEY,JSON.stringify(r.user||{}));
-    document.getElementById('loginPin').value='';
-    DATA={user:r.user||{},dashboard:{...EMPTY_DASHBOARD},items:[],loans:[],claims:[],users:[]};
-    LOANS_LOADED=false;CLAIMS_LOADED=false;USERS_LOADED=false;
-    if(r.stock)applyStockSnapshot(r.stock);
-    else{hydrate();saveCache()}
-    setAuthenticated(true);go('home');
-  }catch(e){
-    toast(e.message||String(e),true);setAuthenticated(false);
-  }finally{
-    INFLIGHT.delete('login');
-    if(btn){btn.disabled=false;btn.textContent='เข้าสู่ระบบ'}
-  }
-}
-function logout(){
-  TOKEN='';localStorage.removeItem('loxleyAuthToken');localStorage.removeItem(CACHE_KEY);localStorage.removeItem(USER_KEY);
-  LOANS_LOADED=false;CLAIMS_LOADED=false;USERS_LOADED=false;clearAppView();setAuthenticated(false);
-}
-function hydrate(){
-  document.getElementById('userPill').textContent=(DATA.user.name||DATA.user.email||'ผู้ใช้งาน')+' · '+(DATA.user.role||'');
-  document.getElementById('hello').textContent='สวัสดี '+(DATA.user.name||'');
-  document.getElementById('sTotal').textContent=DATA.dashboard.total??0;
-  document.getElementById('sM6').textContent=DATA.dashboard.m6Count??0;
-  document.getElementById('sM81').textContent=DATA.dashboard.m81Count??0;
-  document.getElementById('sRepair').textContent=Number(DATA.dashboard.inRepair||0).toLocaleString();
-  document.getElementById('m6Label').textContent='M6 · คงเหลือ '+Number(DATA.dashboard.m6Balance||0).toLocaleString();
-  document.getElementById('m81Label').textContent='M81 · คงเหลือ '+Number(DATA.dashboard.m81Balance||0).toLocaleString();
-  renderAdminUsers();
-  if(ACTIVE_PAGE==='items')renderItems();
-  else if(ACTIVE_PAGE==='loans'&&LOANS_LOADED)renderLoans();
-  else if(ACTIVE_PAGE==='claims'&&CLAIMS_LOADED)renderClaims();
-}
-function go(p){
-  ACTIVE_PAGE=p;
-  document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
-  document.getElementById(p+'Page').classList.add('active');
-  document.querySelectorAll('.nav').forEach(x=>x.classList.toggle('active',x.dataset.page===p));
-  scrollTo(0,0);
-  if(p==='items'){ITEM_RENDER_LIMIT=60;if(DATA.items.length)renderItems();else ensureStock(()=>renderItems());syncStockDelta();return}
-  if(p==='loans'){ensureLoans();return}
-  if(p==='claims'){ensureClaims();return}
-}
-function renderAdminUsers(){
-  const sec=document.getElementById('adminUserSection'); if(!sec)return;
-  const isAdmin=DATA.user.role==='Admin';
-  sec.style.display=isAdmin?'block':'none';
-  document.getElementById('adminUserCount').textContent=isAdmin?(DATA.users||[]).length+' คน':'';
-}
-function openUserAdmin(){
-  if(DATA.user.role!=='Admin')return;
-  if(!USERS_LOADED){toast('กำลังโหลดรายชื่อผู้ใช้…');ensureUsers(()=>openUserAdmin());return}
-  const sel=document.getElementById('adminUserSelect');
-  sel.innerHTML=(DATA.users||[]).map(u=>'<option value="'+esc(u.UserID)+'">'+esc((u.FullName||u.Email)+' · '+(u.Role||''))+'</option>').join('');
-  fillAdminUser();showModal('userAdminModal');
-}
-function fillAdminUser(){
-  const id=document.getElementById('adminUserSelect').value;
-  const u=(DATA.users||[]).find(x=>x.UserID===id)||{};
-  document.getElementById('adminUsername').value=u.Username||'';
-  document.getElementById('adminUserPin').value='';
-}
-function submitUserCredentials(){
-  const p={userId:document.getElementById('adminUserSelect').value,username:document.getElementById('adminUsername').value.trim(),pin:document.getElementById('adminUserPin').value.trim()};
-  call('setUserCredentials',p,()=>{toast('บันทึก Username / PIN แล้ว');document.getElementById('adminUserPin').value='';ensureUsers()})
-}
-function setItemProject(p,btn){
-  ITEM_PROJECT=p;
-  ITEM_RENDER_LIMIT=60;
-  document.querySelectorAll('#itemProjectChips .chip').forEach(x=>x.classList.remove('active'));
-  if(btn)btn.classList.add('active');
-  renderItems();
-}
-function stockBadge(x){return '<span class="badge '+(Number(x.Balance)>0?'ok':'bad')+'">'+(Number(x.Balance)>0?'พร้อมเบิก':'หมด')+'</span>'}
-function itemCard(x){
-  return '<div class="card"><div class="row"><div class="grow"><div class="asset">'+esc(x.Project)+' · '+esc(x.System||'')+' · '+esc(x.ItemID)+'</div><div class="title">'+esc(x.Description||'-')+'</div><div class="sub">Location: '+esc(x.LocationPackingNo||'-')+'</div></div>'+stockBadge(x)+'</div><div class="meta"><span>Qty '+Number(x.Qty||0).toLocaleString()+'</span><span>จ่ายออก '+Number(x.Issued||0).toLocaleString()+'</span><span>ส่งซ่อม '+Number(x.InRepair||0).toLocaleString()+'</span><span class="stock-balance">คงเหลือ '+Number(x.Balance||0).toLocaleString()+'</span></div></div>'
-}
-function renderItems(){
-  const q=(document.getElementById('itemSearch')?.value||'').trim().toLowerCase();
-  const a=DATA.items.filter(x=>(ITEM_PROJECT==='ALL'||x.Project===ITEM_PROJECT) && (!q||[x.ItemID,x.Project,x.System,x.Description,x.LocationPackingNo].join(' ').toLowerCase().includes(q)));
-  document.getElementById('itemCount').textContent=a.length+' รายการ';
-  const shown=a.slice(0,ITEM_RENDER_LIMIT);
-  let html=shown.map(itemCard).join('');
-  if(a.length>shown.length)html+='<button class="secondary load-more" onclick="ITEM_RENDER_LIMIT+=60;renderItems()">แสดงเพิ่ม '+Math.min(60,a.length-shown.length)+' รายการ</button>';
-  document.getElementById('itemList').innerHTML=html||'<div class="empty">ไม่พบวัสดุ</div>';
-}
-function loanCard(x){
-  const its=(x.Items||[]).map(i=>esc((i.SystemSnapshot||'')+' · '+(i.DescriptionSnapshot||i.ItemID)+' × '+Number(i.QtyRequested||0))).join('<br>');let acts='';
-  if(staff()&&x.Status==='PendingApproval')acts='<div class="actions"><button class="approve" onclick="decision(\''+x.LoanID+'\',true)">อนุมัติ</button><button class="reject" onclick="decision(\''+x.LoanID+'\',false)">ไม่อนุมัติ</button></div>';
-  if(stock()&&x.Status==='Approved')acts='<div class="actions"><button class="handover" onclick="handover(\''+x.LoanID+'\')">จ่ายออก / ส่งมอบ</button></div>';
-  if(stock()&&x.Status==='HandedOver')acts='<div class="actions"><button class="return" onclick="receiveReturn(\''+x.LoanID+'\')">รับคืนเข้าสต็อก</button></div>';
-  return '<div class="card"><div class="row"><div class="grow"><div class="asset">'+esc(x.DocumentNumber||x.LoanID)+' · STORE 02</div><div class="title">'+esc(x.ProjectName||x.RequestReason||'-')+'</div><div class="sub">'+esc(x.RequesterName||x.RequesterEmail||'')+(x.RequestType?' · '+esc(x.RequestType):'')+'</div><div class="sub">'+(its||'-')+'</div></div>'+badge(x.Status)+'</div><div class="meta"><span>'+fmt(x.RequestDateTime)+'</span>'+(x.UseLocation?'<span>'+esc(x.UseLocation)+'</span>':'')+'</div>'+acts+'</div>'
-}
-function renderLoans(){const q=(document.getElementById('loanSearch')?.value||'').toLowerCase();const a=DATA.loans.filter(x=>JSON.stringify(x).toLowerCase().includes(q));document.getElementById('loanCount').textContent=a.length+' ใบ';document.getElementById('loanList').innerHTML=a.map(loanCard).join('')||'<div class="empty">ยังไม่มีใบเบิกวัสดุ</div>'}
-function claimCard(x){
-  const timeline=(x.Updates||[]).slice(-3).reverse().map(u=>'<div class="event"><b>'+esc(statusLabel(u.Status))+' · '+fmt(u.UpdatedAt)+'</b><div>'+esc(u.Detail||'')+'</div></div>').join('');
-  const act=stock()?'<div class="actions"><button class="handover" onclick="openUpdate(\''+x.ClaimID+'\')">ส่วนธุรการ / อัปเดต</button></div>':'';
-  return '<div class="card"><div class="row"><div class="grow"><div class="asset">'+esc(x.ClaimNumber||x.ClaimID)+' · '+esc(x.SystemSnapshot||'')+' · STORE-03</div><div class="title">'+esc(x.ItemDescriptionSnapshot||'-')+'</div><div class="sub">'+esc([x.ModelEntered,x.SerialEntered].filter(Boolean).join(' · '))+'</div><div class="sub">จำนวน '+Number(x.Qty||0)+' · อาการเสีย: '+esc(x.IssueDescription||'-')+'</div></div>'+badge(x.Status)+'</div><div class="meta"><span>ส่งซ่อม '+fmt(x.RepairSentDate||x.OpenedAt)+'</span><span>'+esc(x.RepairCompany||'ยังไม่ระบุบริษัท')+'</span></div>'+(timeline?'<div class="timeline">'+timeline+'</div>':'')+act+'</div>'
-}
-function renderClaims(){const q=(document.getElementById('claimSearch')?.value||'').toLowerCase();const a=DATA.claims.filter(x=>JSON.stringify(x).toLowerCase().includes(q));document.getElementById('claimCount').textContent=a.length+' ใบ';document.getElementById('claimList').innerHTML=a.map(claimCard).join('')||'<div class="empty">ยังไม่มีแบบฟอร์มส่งสินค้าซ่อม</div>'}
-function setLoanQty(id,v){
-  const n=Math.max(0,Math.floor(Number(v)||0));
-  if(n>0)LOAN_DRAFT_QTY[id]=n; else delete LOAN_DRAFT_QTY[id];
-}
-function renderLoanStock(){
-  const project=document.getElementById('loanStockProject')?.value||'ALL';
-  const q=(document.getElementById('loanItemSearch')?.value||'').trim().toLowerCase();
-  const a=DATA.items.filter(x=>Number(x.Balance)>0&&(project==='ALL'||x.Project===project)&&(!q||[x.ItemID,x.System,x.Description,x.LocationPackingNo].join(' ').toLowerCase().includes(q)));
-  const shown=a.slice(0,q?100:60);
-  let html=shown.map(x=>'<div class="stock-row"><div><b>'+esc(x.Project)+' · '+esc(x.System||'')+'</b><div class="sub">'+esc(x.Description||'')+'</div><div class="sub">'+esc(x.LocationPackingNo||'')+' · คงเหลือ <b>'+Number(x.Balance||0).toLocaleString()+'</b></div></div><input class="loan-qty" data-item-id="'+esc(x.ItemID)+'" type="number" min="0" max="'+Number(x.Balance||0)+'" step="1" value="'+Number(LOAN_DRAFT_QTY[x.ItemID]||0)+'" inputmode="numeric" oninput="setLoanQty(this.dataset.itemId,this.value)"></div>').join('');
-  if(a.length>shown.length)html+='<div class="hint" style="padding:10px">แสดง '+shown.length+' จาก '+a.length+' รายการ · ค้นหาด้วย System / Description / Location เพื่อเจอรายการเร็วขึ้น</div>';
-  document.getElementById('loanItems').innerHTML=html||'<div class="empty">ไม่พบวัสดุพร้อมเบิก</div>';
-}
-function updateRepairItemHint(){
-  const id=document.getElementById('claimItem')?.value;const x=DATA.items.find(i=>i.ItemID===id);
-  const e=document.getElementById('repairItemHint');if(!e)return;
-  e.textContent=x?(x.Project+' · '+x.System+' · '+x.LocationPackingNo+' · คงเหลือ '+Number(x.Balance||0).toLocaleString()):'';
-  const qty=document.getElementById('repairQty');if(qty&&x)qty.max=Number(x.Balance||0);
-}
-function fillClaimItems(){
-  document.getElementById('claimItem').innerHTML=DATA.items.filter(x=>Number(x.Balance)>0).map(x=>'<option value="'+esc(x.ItemID)+'">'+esc(x.Project+' · '+x.System+' · '+x.Description+' · เหลือ '+Number(x.Balance||0).toLocaleString())+'</option>').join('');
-  updateRepairItemHint();
-}
-function showModal(id){document.getElementById(id).classList.add('show')} function closeModal(id){document.getElementById(id).classList.remove('show')}
-function openLoan(){
-  syncStockDelta(true);
-  LOAN_DRAFT_QTY={};
-  document.getElementById('loanRequesterName').value=DATA.user.name||'';
-  document.getElementById('loanDepartment').value=DATA.user.department||'';
-  document.getElementById('loanPhone').value=DATA.user.phone||'';
-  document.getElementById('loanItemSearch').value='';
-  document.getElementById('loanStockProject').value='ALL';
-  renderLoanStock();showModal('loanModal');
-}
-function submitLoan(){
-  const items=Object.entries(LOAN_DRAFT_QTY).map(([itemId,qty])=>({itemId,qty:Number(qty)})).filter(x=>x.qty>0);
-  const rt=document.querySelector('input[name="loanRequestType"]:checked');
-  call('createLoanRequest',{items,requesterName:document.getElementById('loanRequesterName').value,requesterDepartment:document.getElementById('loanDepartment').value,requesterPhone:document.getElementById('loanPhone').value,projectName:document.getElementById('loanProject').value,storageLocation:document.getElementById('loanStorageLocation').value,borrowPeriod:document.getElementById('loanBorrowPeriod').value,useLocation:document.getElementById('loanUseLocation').value,requestType:rt?rt.value:'',requestTypeOther:document.getElementById('loanRequestTypeOther').value,requestReason:document.getElementById('loanReason').value},()=>{closeModal('loanModal');toast('ส่งใบเบิกวัสดุแล้ว');go('loans');ensureLoans()})
-}
-function decision(id,yes){let reason='';if(!yes){reason=prompt('เหตุผลที่ไม่อนุมัติ')||'';if(!reason)return}call('decideLoan',[id,yes,reason],()=>{toast(yes?'อนุมัติใบเบิกแล้ว':'บันทึกไม่อนุมัติแล้ว');ensureLoans()})}
-function handover(id){if(!confirm('ยืนยันการจ่ายออก / ส่งมอบวัสดุ? ระบบจะหักคงเหลือ'))return;call('handoverLoan',id,()=>{toast('จ่ายออกและตัดสต็อกแล้ว');ensureLoans()})}
-function receiveReturn(id){if(!confirm('ยืนยันรับคืนวัสดุเข้าสต็อก?'))return;call('returnLoan',[id],()=>{toast('รับคืนเข้าสต็อกแล้ว');ensureLoans()})}
-function openClaim(){
-  syncStockDelta(true);
-  fillClaimItems();document.getElementById('repairSenderName').value=DATA.user.name||'';document.getElementById('repairQty').value=1;document.getElementById('repairSentDate').value=new Date().toISOString().slice(0,10);showModal('claimModal');
-}
-function submitClaim(){
-  const ref=document.querySelector('input[name="repairRefType"]:checked');
-  call('createClaim',{itemId:document.getElementById('claimItem').value,issue:document.getElementById('claimIssue').value,repairCompany:document.getElementById('repairCompany').value,repairAddress:document.getElementById('repairAddress').value,repairPhone:document.getElementById('repairPhone').value,repairSentDate:document.getElementById('repairSentDate').value,referenceType:ref?ref.value:'Project',referenceValue:document.getElementById('repairReferenceValue').value,qty:document.getElementById('repairQty').value,model:document.getElementById('repairModel').value,serial:document.getElementById('repairSerial').value,senderName:document.getElementById('repairSenderName').value,receiverName:document.getElementById('repairReceiverName').value},()=>{closeModal('claimModal');toast('เปิดแบบฟอร์มส่งสินค้าซ่อมแล้ว');go('claims');ensureClaims()})
-}
-function openUpdate(id){
-  document.getElementById('updateClaimId').value=id;const c=DATA.claims.find(x=>x.ClaimID===id)||{};
-  document.getElementById('updateStatus').value=c.Status||'Open';document.getElementById('repairAdminStatus').value=c.RepairAdminStatus||'';document.getElementById('repairQuoteNumber').value=c.QuoteNumber||'';document.getElementById('repairQuoteDate').value=(c.QuoteDate||'').slice(0,10);document.getElementById('repairContactName').value=c.RepairContactName||'';document.getElementById('repairContactPhone').value=c.RepairContactPhone||'';document.getElementById('repairFax').value=c.RepairFax||'';document.getElementById('repairQuoteAddress').value=c.QuoteCompanyAddress||'';document.getElementById('repairCostInspection').value=c.CostInspection||'';document.getElementById('repairCostParts').value=c.CostParts||'';document.getElementById('repairCostService').value=c.CostService||'';document.getElementById('repairDecision').value=c.RepairDecision||'';document.getElementById('repairDecisionReason').value=c.DecisionReason||'';document.getElementById('repairDuration').value=c.RepairDuration||'';document.getElementById('repairReceivedDate').value=(c.RepairReceivedDate||'').slice(0,10);document.getElementById('repairApproverName').value=c.RepairApproverName||'';document.getElementById('repairApprovalDate').value=(c.RepairApprovalDate||'').slice(0,10);showModal('updateModal');
-}
-function submitClaimUpdate(){
-  call('addClaimUpdate',{claimId:document.getElementById('updateClaimId').value,status:document.getElementById('updateStatus').value,repairAdminStatus:document.getElementById('repairAdminStatus').value,quoteNumber:document.getElementById('repairQuoteNumber').value,quoteDate:document.getElementById('repairQuoteDate').value,repairContactName:document.getElementById('repairContactName').value,repairContactPhone:document.getElementById('repairContactPhone').value,repairFax:document.getElementById('repairFax').value,quoteCompanyAddress:document.getElementById('repairQuoteAddress').value,costInspection:document.getElementById('repairCostInspection').value,costParts:document.getElementById('repairCostParts').value,costService:document.getElementById('repairCostService').value,repairDecision:document.getElementById('repairDecision').value,decisionReason:document.getElementById('repairDecisionReason').value,repairDuration:document.getElementById('repairDuration').value,repairReceivedDate:document.getElementById('repairReceivedDate').value,repairApproverName:document.getElementById('repairApproverName').value,repairApprovalDate:document.getElementById('repairApprovalDate').value,channel:document.getElementById('updateChannel').value,detail:document.getElementById('updateDetail').value,nextDate:document.getElementById('updateNext').value,itemStatus:document.getElementById('updateItemStatus').value},()=>{closeModal('updateModal');toast('บันทึกข้อมูลซ่อมแล้ว');ensureClaims()})
-}
-document.querySelectorAll('.modal').forEach(m=>m.addEventListener('click',e=>{if(e.target===m && m.id!=='loginModal')closeModal(m.id)}));
-function tokenExpired(){
-  try{
-    const p=TOKEN.split('.')[0].replace(/-/g,'+').replace(/_/g,'/');
-    const pad=p+'='.repeat((4-p.length%4)%4);
-    const j=JSON.parse(decodeURIComponent(escape(atob(pad))));
-    return !j.exp||Date.now()>Number(j.exp);
-  }catch(_){return true}
-}
-function startApp(){
-  if(!TOKEN||tokenExpired()){setAuthenticated(false);warmAuthBackend();return}
-  let user={};
-  try{user=JSON.parse(localStorage.getItem(USER_KEY)||'{}')}catch(_){}
-  const cached=loadCache();
-  if(!cached){
-    DATA={user:user,dashboard:{...EMPTY_DASHBOARD},items:[],loans:[],claims:[],users:[]};
-    hydrate();setAuthenticated(true);ensureStock();
-  }else if(Object.keys(user).length){DATA.user=user;hydrate();setAuthenticated(true)}
-  LOANS_LOADED=false;CLAIMS_LOADED=false;USERS_LOADED=false;
-  setTimeout(()=>syncStockDelta(),300);
-}
-startApp()
+const CACHE_KEY='loxleyLeanV2Cache1',USER_KEY='loxleyUserV1',TOKEN_KEY='loxleyAuthToken';
+const EMPTY={total:0,balance:0,issued:0,inRepair:0,pending:0,openClaims:0};
+let DATA={user:{},dashboard:{...EMPTY},items:[],loans:[],claims:[],users:[]};
+let TOKEN=localStorage.getItem(TOKEN_KEY)||'',STOCK_VERSION=0,LAST_STOCK_SYNC=0,LAST_LOAN_SYNC=0,LAST_CLAIM_SYNC=0;
+let ACTIVE='home',ITEM_LIMIT=50,LOAN_FILTER='ALL',LOAN_QTY={},PENDING_LOAN=null;
+let STOCK_LOADING=false,STOCK_SYNCING=false,LOANS_LOADING=false,CLAIMS_LOADING=false,USERS_LOADING=false,USERS_LOADED=false;
+const INFLIGHT=new Set();let SAVE_COUNT=0;
+const role=()=>String(DATA.user.role||'Viewer');
+const canRequest=()=>['Admin','StockOfficer','Requester'].includes(role());
+const canApprove=()=>['Admin','Approver'].includes(role());
+const canStock=()=>['Admin','StockOfficer'].includes(role());
+const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+const fmt=d=>{if(!d)return '-';const x=new Date(d);return isNaN(x)?String(d):x.toLocaleDateString('th-TH',{day:'2-digit',month:'short',year:'2-digit'})};
+function statusLabel(s){return({PendingApproval:'รออนุมัติ',Approved:'อนุมัติแล้ว',HandedOver:'ส่งมอบแล้ว',Returned:'คืนแล้ว',Rejected:'ไม่อนุมัติ / ไม่ซ่อม',Cancelled:'ยกเลิก',Open:'เปิดงาน',Sent:'ส่งซ่อมแล้ว',WaitingVendor:'รอผู้ซ่อม',WaitingParts:'รออะไหล่',Completed:'เสร็จสิ้น',Maintenance:'ซ่อมบำรุง',Lost:'สูญหาย',Retired:'เลิกใช้งาน'})[s]||s||'-'}
+function badge(s){let c='';if(['Approved','Returned','Completed'].includes(s))c='ok';else if(['PendingApproval','WaitingVendor','WaitingParts','HandedOver'].includes(s))c='warn';else if(['Rejected','Cancelled','Lost','Retired'].includes(s))c='bad';return '<span class="badge '+c+'">'+esc(statusLabel(s))+'</span>'}
+function toast(msg,err=false){const e=document.getElementById('toast');e.textContent=msg;e.className='toast show'+(err?' err':'');clearTimeout(toast.t);toast.t=setTimeout(()=>e.className='toast',2600)}
+function saving(on){SAVE_COUNT=Math.max(0,SAVE_COUNT+(on?1:-1));document.getElementById('saving').classList.toggle('show',SAVE_COUNT>0)}
+function m81(items){return (Array.isArray(items)?items:[]).filter(x=>String(x.Project)==='M81')}
+function recalc(){DATA.items=m81(DATA.items);DATA.dashboard={...DATA.dashboard,total:DATA.items.length,balance:DATA.items.reduce((a,x)=>a+Number(x.Balance||0),0),issued:DATA.items.reduce((a,x)=>a+Number(x.Issued||0),0),inRepair:DATA.items.reduce((a,x)=>a+Number(x.InRepair||0),0)};renderHeader()}
+function saveCache(){try{localStorage.setItem(CACHE_KEY,JSON.stringify({at:Date.now(),user:DATA.user,dashboard:DATA.dashboard,items:DATA.items,loans:DATA.loans,claims:DATA.claims,stockVersion:STOCK_VERSION,loansAt:LAST_LOAN_SYNC,claimsAt:LAST_CLAIM_SYNC}))}catch(_){}}
+function loadCache(){try{const x=JSON.parse(localStorage.getItem(CACHE_KEY)||'null');if(!TOKEN||!x||!Array.isArray(x.items)||Date.now()-Number(x.at||0)>24*60*60*1000)return false;DATA={user:x.user||{},dashboard:{...EMPTY,...(x.dashboard||{})},items:m81(x.items),loans:Array.isArray(x.loans)?x.loans:[],claims:Array.isArray(x.claims)?x.claims:[],users:[]};STOCK_VERSION=Number(x.stockVersion||0);LAST_LOAN_SYNC=Number(x.loansAt||0);LAST_CLAIM_SYNC=Number(x.claimsAt||0);recalc();setAuth(true);renderCurrent();return true}catch(_){return false}}
+async function api(body,timeout=20000){const ctl=new AbortController(),tm=setTimeout(()=>ctl.abort(),timeout);try{const r=await fetch(API_URL,{method:'POST',mode:'cors',credentials:'omit',cache:'no-store',signal:ctl.signal,headers:{'Content-Type':'text/plain;charset=UTF-8'},body:JSON.stringify(body)});const t=await r.text();if(!r.ok)throw new Error('API HTTP '+r.status);let j;try{j=JSON.parse(t)}catch(_){throw new Error('API_BAD_RESPONSE')}if(!j.ok)throw new Error(j.error||'API_ERROR');return j.result}catch(e){if(e&&e.name==='AbortError')throw new Error('ระบบตอบช้า กรุณาลองอีกครั้ง');throw e}finally{clearTimeout(tm)}}
+function setAuth(on){document.body.classList.toggle('locked',!on);if(on)closeModal('loginModal');else document.getElementById('loginModal').classList.add('show')}
+function authFail(){TOKEN='';localStorage.removeItem(TOKEN_KEY);localStorage.removeItem(USER_KEY);localStorage.removeItem(CACHE_KEY);DATA={user:{},dashboard:{...EMPTY},items:[],loans:[],claims:[],users:[]};setAuth(false);toast('เซสชันหมดอายุ กรุณาเข้าสู่ระบบใหม่',true)}
+function isAuthError(e){return String(e&&e.message||e).includes('AUTH_')}
+function renderHeader(){const u=DATA.user;document.getElementById('userPill').textContent=(u.name||u.email||'ผู้ใช้งาน')+' · '+(u.role||'');document.getElementById('hello').textContent='สวัสดี '+(u.name||'');document.getElementById('sItems').textContent=Number(DATA.dashboard.total||0).toLocaleString();document.getElementById('sBalance').textContent=Number(DATA.dashboard.balance||0).toLocaleString();document.getElementById('sIssued').textContent=Number(DATA.dashboard.issued||0).toLocaleString();document.getElementById('sRepair').textContent=Number(DATA.dashboard.inRepair||0).toLocaleString();applyRoleUI()}
+function applyRoleUI(){const r=role(),showLoans=r!=='Viewer',showClaims=canStock();document.querySelector('.nav[data-page="loans"]').classList.toggle('hidden',!showLoans);document.querySelector('.nav[data-page="claims"]').classList.toggle('hidden',!showClaims);document.getElementById('newLoanBtn').classList.toggle('hidden',!canRequest());document.getElementById('newClaimBtn').classList.toggle('hidden',!canStock());document.getElementById('adminBox').classList.toggle('hidden',r!=='Admin');const visible=[...document.querySelectorAll('#bottomNav .nav')].filter(x=>!x.classList.contains('hidden')).length;document.getElementById('bottomNav').style.gridTemplateColumns='repeat('+Math.max(2,visible)+',1fr)';if((ACTIVE==='loans'&&!showLoans)||(ACTIVE==='claims'&&!showClaims))ACTIVE='home'}
+function renderCurrent(){renderHeader();if(ACTIVE==='items')renderItems();else if(ACTIVE==='loans')renderLoans();else if(ACTIVE==='claims')renderClaims()}
+function go(p){const btn=document.querySelector('.nav[data-page="'+p+'"]');if(btn&&btn.classList.contains('hidden'))p='home';ACTIVE=p;document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById(p+'Page').classList.add('active');document.querySelectorAll('.nav').forEach(x=>x.classList.toggle('active',x.dataset.page===p));scrollTo(0,0);if(p==='items'){ITEM_LIMIT=50;renderItems();refreshStockIfStale()}else if(p==='loans'){renderLoans();ensureLoans(false)}else if(p==='claims'){renderClaims();ensureClaims(false)}}
+function showModal(id){document.getElementById(id).classList.add('show')}function closeModal(id){document.getElementById(id).classList.remove('show')}
+document.querySelectorAll('.modal').forEach(m=>m.addEventListener('click',e=>{if(e.target===m&&m.id!=='loginModal')closeModal(m.id)}));
+async function submitLogin(){const username=document.getElementById('loginUsername').value.trim(),pin=document.getElementById('loginPin').value.trim();if(!username||!pin){toast('กรุณากรอก Username และ PIN',true);return}if(INFLIGHT.has('login'))return;INFLIGHT.add('login');saving(true);const b=document.getElementById('loginBtn');b.disabled=true;b.textContent='กำลังเข้าสู่ระบบ…';try{const r=await api({action:'login',username,pin},30000);TOKEN=r.token;localStorage.setItem(TOKEN_KEY,TOKEN);localStorage.setItem(USER_KEY,JSON.stringify(r.user||{}));DATA={user:r.user||{},dashboard:{...EMPTY},items:[],loans:[],claims:[],users:[]};STOCK_VERSION=0;if(r.stock)applyStock(r.stock);else await ensureStock();setAuth(true);go('home');saveCache();document.getElementById('loginPin').value=''}catch(e){toast(e.message||String(e),true);setAuth(false)}finally{INFLIGHT.delete('login');saving(false);b.disabled=false;b.textContent='เข้าสู่ระบบ'}}
+function logout(){TOKEN='';localStorage.removeItem(TOKEN_KEY);localStorage.removeItem(USER_KEY);localStorage.removeItem(CACHE_KEY);DATA={user:{},dashboard:{...EMPTY},items:[],loans:[],claims:[],users:[]};setAuth(false)}
+function applyStock(s){if(!s||!Array.isArray(s.items))return;DATA.items=m81(s.items);STOCK_VERSION=Number(s.version||STOCK_VERSION||0);recalc();saveCache()}
+function applyChanged(changes,version){const relevant=m81(changes);if(relevant.length){const by=new Map(relevant.map(x=>[x.ItemID,x]));DATA.items=DATA.items.map(x=>by.has(x.ItemID)?{...x,...by.get(x.ItemID)}:x)}if(version)STOCK_VERSION=Number(version);recalc();saveCache()}
+async function ensureStock(){if(!TOKEN||STOCK_LOADING)return;if(DATA.items.length)return;STOCK_LOADING=true;try{applyStock(await api({action:'stock',token:TOKEN},25000))}catch(e){if(isAuthError(e))authFail();else toast('โหลดสต็อกไม่สำเร็จ',true)}finally{STOCK_LOADING=false}}
+async function refreshStockIfStale(force=false){if(!TOKEN||STOCK_SYNCING||!DATA.items.length)return;if(!force&&Date.now()-LAST_STOCK_SYNC<5*60*1000)return;STOCK_SYNCING=true;LAST_STOCK_SYNC=Date.now();try{const r=await api({action:'stockDelta',token:TOKEN,sinceVersion:STOCK_VERSION},25000);if(r&&r.changed){if(r.full&&r.stock)applyStock(r.stock);else applyChanged(r.changedItems||[],r.version)}else if(r&&r.version){STOCK_VERSION=Number(r.version);saveCache()}}catch(e){if(isAuthError(e))authFail()}finally{STOCK_SYNCING=false}}
+function renderItems(){const q=(document.getElementById('itemSearch').value||'').trim().toLowerCase(),a=DATA.items.filter(x=>!q||[x.ItemID,x.System,x.Description,x.LocationPackingNo].join(' ').toLowerCase().includes(q));document.getElementById('itemCount').textContent=a.length+' รายการ';const shown=a.slice(0,ITEM_LIMIT);let h=shown.map(x=>'<div class="card"><div class="row"><div class="grow"><div class="asset">M81 · '+esc(x.System||'')+' · '+esc(x.ItemID)+'</div><div class="title">'+esc(x.Description||'-')+'</div><div class="sub">Location: '+esc(x.LocationPackingNo||'-')+'</div></div><span class="badge '+(Number(x.Balance)>0?'ok':'bad')+'">'+(Number(x.Balance)>0?'พร้อมเบิก':'หมด')+'</span></div><div class="meta"><span>Qty '+Number(x.Qty||0).toLocaleString()+'</span><span>จ่ายออก '+Number(x.Issued||0).toLocaleString()+'</span><span>ส่งซ่อม '+Number(x.InRepair||0).toLocaleString()+'</span><span class="balance">คงเหลือ '+Number(x.Balance||0).toLocaleString()+'</span></div></div>').join('');if(a.length>shown.length)h+='<button class="secondary" onclick="ITEM_LIMIT+=50;renderItems()">แสดงเพิ่ม '+Math.min(50,a.length-shown.length)+' รายการ</button>';document.getElementById('itemList').innerHTML=h||'<div class="empty">ไม่พบวัสดุ</div>'}
+async function ensureLoans(force=false){if(!TOKEN||LOANS_LOADING)return;const fresh=Date.now()-LAST_LOAN_SYNC<2*60*1000;if(!force&&DATA.loans.length&&fresh)return;LOANS_LOADING=true;if(!DATA.loans.length)document.getElementById('loanList').innerHTML='<div class="empty">กำลังโหลดประวัติ…</div>';try{const r=await api({action:'loans',token:TOKEN},25000);DATA.loans=r.loans||[];DATA.dashboard.pending=Number(r.pending||0);LAST_LOAN_SYNC=Date.now();renderLoans();saveCache()}catch(e){if(isAuthError(e))authFail();else if(DATA.loans.length)toast('อัปเดตประวัติไม่สำเร็จ แต่ข้อมูลในเครื่องยังเปิดได้',true);else document.getElementById('loanList').innerHTML='<div class="empty">โหลดประวัติไม่สำเร็จ<br><button class="secondary" onclick="ensureLoans(true)">ลองใหม่</button></div>'}finally{LOANS_LOADING=false}}
+function setLoanFilter(v,b){LOAN_FILTER=v;document.querySelectorAll('#loanFilters .chip').forEach(x=>x.classList.remove('active'));b.classList.add('active');renderLoans()}
+function loanSearchText(x){return [x.DocumentNumber,x.LoanID,x.ProjectName,x.RequesterName,x.RequesterEmail,x.RequestType,x.RequestReason,x.UseLocation,x.Status].concat((x.Items||[]).map(i=>i.DescriptionSnapshot||i.ItemID)).join(' ').toLowerCase()}
+function loanCard(x){const its=(x.Items||[]).map(i=>esc((i.SystemSnapshot||'')+' · '+(i.DescriptionSnapshot||i.ItemID)+' × '+Number(i.QtyRequested||0))).join('<br>');let a='<div class="actions"><button class="secondary" onclick="showLoan(\''+esc(x.LoanID)+'\')">ดูใบเบิก</button>';if(canStock()&&x.Status==='Approved')a+='<button class="primary" onclick="handover(\''+esc(x.LoanID)+'\')">จ่ายออก</button>';if(canStock()&&x.Status==='HandedOver')a+='<button class="secondary" onclick="receiveReturn(\''+esc(x.LoanID)+'\')">รับคืน</button>';a+='</div>';return '<div class="card"><div class="row"><div class="grow"><div class="asset">'+esc(x.DocumentNumber||x.LoanID)+' · STORE 02</div><div class="title">'+esc(x.ProjectName||x.RequestReason||'-')+'</div><div class="sub">'+esc(x.RequesterName||x.RequesterEmail||'')+(x.RequestType?' · '+esc(x.RequestType):'')+'</div><div class="sub">'+(its||'-')+'</div></div>'+badge(x.Status)+'</div><div class="meta"><span>'+fmt(x.RequestDateTime)+'</span>'+(x.UseLocation?'<span>'+esc(x.UseLocation)+'</span>':'')+'</div>'+a+'</div>'}
+function renderLoans(){let a=DATA.loans.slice();if(role()==='Requester'){const me=String(DATA.user.email||DATA.user.Email||'').toLowerCase();a=a.filter(x=>String(x.RequesterEmail||'').toLowerCase()===me)}if(LOAN_FILTER!=='ALL')a=a.filter(x=>x.Status===LOAN_FILTER);const q=(document.getElementById('loanSearch').value||'').trim().toLowerCase();if(q)a=a.filter(x=>loanSearchText(x).includes(q));document.getElementById('loanCount').textContent=a.length+' ใบ';document.getElementById('loanList').innerHTML=a.map(loanCard).join('')||'<div class="empty">ยังไม่มีใบเบิกวัสดุ</div>'}
+function setLoanQty(id,v){const n=Math.max(0,Math.floor(Number(v)||0));if(n)LOAN_QTY[id]=n;else delete LOAN_QTY[id]}
+function renderLoanStock(){const q=(document.getElementById('loanItemSearch').value||'').trim().toLowerCase(),a=DATA.items.filter(x=>Number(x.Balance)>0&&(!q||[x.ItemID,x.System,x.Description,x.LocationPackingNo].join(' ').toLowerCase().includes(q))),shown=a.slice(0,q?80:40);document.getElementById('loanItems').innerHTML=shown.map(x=>'<div class="stock-row"><div><b>'+esc(x.System||'')+'</b><div class="sub">'+esc(x.Description||'')+'</div><div class="sub">'+esc(x.LocationPackingNo||'')+' · คงเหลือ <b>'+Number(x.Balance||0).toLocaleString()+'</b></div></div><input data-id="'+esc(x.ItemID)+'" type="number" min="0" max="'+Number(x.Balance||0)+'" value="'+Number(LOAN_QTY[x.ItemID]||0)+'" inputmode="numeric" oninput="setLoanQty(this.dataset.id,this.value)"></div>').join('')||'<div class="empty">ไม่พบวัสดุพร้อมเบิก</div>'}
+function openLoan(){if(!canRequest()){toast('บัญชีนี้ไม่มีสิทธิ์สร้างใบเบิก',true);return}LOAN_QTY={};PENDING_LOAN=null;const n=document.getElementById('loanRequesterName'),d=document.getElementById('loanDepartment'),locked=!canStock();n.value=DATA.user.name||'';d.value=DATA.user.department||'';n.readOnly=locked;d.readOnly=locked;n.classList.toggle('readonly',locked);d.classList.toggle('readonly',locked);document.getElementById('loanRequesterHint').textContent=locked?'ดึงจาก Profile อัตโนมัติ':'Admin / Stock Officer สามารถกรอกแทนผู้อื่นได้';document.getElementById('loanPhone').value=DATA.user.phone||'';document.getElementById('loanItemSearch').value='';renderLoanStock();showModal('loanModal');refreshStockIfStale()}
+function buildLoan(){const items=Object.entries(LOAN_QTY).map(([itemId,qty])=>({itemId,qty:Number(qty)})).filter(x=>x.qty>0);if(!items.length){toast('กรุณาเลือกรายการและจำนวน',true);return null}for(const it of items){const x=DATA.items.find(a=>a.ItemID===it.itemId);if(!x||x.Project!=='M81'||it.qty>Number(x.Balance||0)){toast('จำนวนที่ขอเกินคงเหลือ หรือเป็นรายการที่ไม่เปิดให้เบิก',true);return null}}const rt=document.querySelector('input[name="loanType"]:checked');return{items,requesterName:document.getElementById('loanRequesterName').value.trim(),requesterDepartment:document.getElementById('loanDepartment').value.trim(),requesterPhone:document.getElementById('loanPhone').value.trim(),projectName:document.getElementById('loanProject').value.trim(),storageLocation:document.getElementById('loanStorageLocation').value.trim(),borrowPeriod:document.getElementById('loanBorrowPeriod').value.trim(),useLocation:document.getElementById('loanUseLocation').value.trim(),requestType:rt?rt.value:'',requestTypeOther:document.getElementById('loanTypeOther').value.trim(),requestReason:document.getElementById('loanReason').value.trim()}}
+function previewHtml(x,draft=false){const rows=(x.Items||[]).map((i,k)=>'<tr><td>'+(k+1)+'</td><td>'+esc(i.SystemSnapshot||'')+'</td><td>'+esc(i.DescriptionSnapshot||i.ItemID||'')+'</td><td>'+esc(i.LocationSnapshot||'')+'</td><td>'+Number(i.QtyRequested||0).toLocaleString()+'</td></tr>').join('');return '<div class="doc"><div class="dochead"><b>ใบเบิกวัสดุ · STORE 02</b><span>บริษัท ล็อกซเล่ย์ จำกัด (มหาชน) · ฝ่ายระบบขนส่ง · ออกครั้งที่ 01</span></div><div class="docgrid"><div class="docfield"><small>เลขที่ใบเบิก</small><b>'+esc(x.DocumentNumber||(draft?'ออกเลขเมื่อส่ง':'-'))+'</b></div><div class="docfield"><small>วันที่</small>'+fmt(x.RequestDateTime||new Date())+'</div><div class="docfield"><small>ผู้ขอเบิก</small>'+esc(x.RequesterName||'-')+'</div><div class="docfield"><small>แผนก / ฝ่าย</small>'+esc(x.RequesterDepartment||'-')+'</div><div class="docfield"><small>โทรศัพท์</small>'+esc(x.RequesterPhone||'-')+'</div><div class="docfield"><small>ประเภท</small>'+esc(x.RequestType||'-')+'</div><div class="docfield full"><small>โครงการ</small>'+esc(x.ProjectName||'-')+'</div><div class="docfield"><small>สถานที่เก็บ</small>'+esc(x.StorageLocation||'-')+'</div><div class="docfield"><small>สถานที่ใช้งาน</small>'+esc(x.UseLocation||'-')+'</div><div class="docfield full"><small>เหตุผล</small>'+esc(x.RequestReason||'-')+'</div></div><table class="doctable"><thead><tr><th>#</th><th>System</th><th>รายการ</th><th>Location</th><th>จำนวน</th></tr></thead><tbody>'+rows+'</tbody></table></div>'}
+function previewDraftLoan(){const p=buildLoan();if(!p)return;PENDING_LOAN=p;const d={RequesterName:p.requesterName,RequesterDepartment:p.requesterDepartment,RequesterPhone:p.requesterPhone,ProjectName:p.projectName,StorageLocation:p.storageLocation,UseLocation:p.useLocation,RequestType:p.requestType,RequestReason:p.requestReason,Items:p.items.map(it=>{const x=DATA.items.find(a=>a.ItemID===it.itemId)||{};return{ItemID:it.itemId,SystemSnapshot:x.System,DescriptionSnapshot:x.Description,LocationSnapshot:x.LocationPackingNo,QtyRequested:it.qty}})};document.getElementById('loanPreviewBody').innerHTML=previewHtml(d,true);document.getElementById('loanPreviewActions').innerHTML='<button class="secondary" onclick="closeModal(\'loanPreviewModal\')">กลับไปแก้</button><button class="primary" onclick="confirmLoan()">ยืนยันส่งใบเบิก</button>';showModal('loanPreviewModal')}
+async function mutate(key,body,onok){if(INFLIGHT.has(key)){toast('รายการนี้กำลังบันทึกอยู่');return}INFLIGHT.add(key);saving(true);try{const r=await api({token:TOKEN,...body},30000);if(r&&r.changedItems)applyChanged(r.changedItems,r.stockVersion);if(onok)onok(r)}catch(e){if(isAuthError(e))authFail();else toast(e.message||String(e),true)}finally{INFLIGHT.delete(key);saving(false)}}
+function confirmLoan(){if(!PENDING_LOAN)return;mutate('createLoanRequest',{action:'createLoanRequest',payload:PENDING_LOAN},()=>{PENDING_LOAN=null;closeModal('loanPreviewModal');closeModal('loanModal');toast('ส่งใบเบิกวัสดุแล้ว');LAST_LOAN_SYNC=0;go('loans');ensureLoans(true)})}
+function showLoan(id){const x=DATA.loans.find(a=>a.LoanID===id);if(!x)return;document.getElementById('loanPreviewBody').innerHTML=previewHtml(x,false);let a='<button class="secondary" onclick="closeModal(\'loanPreviewModal\')">ปิด</button>';if(canApprove()&&x.Status==='PendingApproval')a+='<button class="danger" onclick="decideLoan(\''+esc(id)+'\',false)">ไม่อนุมัติ</button><button class="success" onclick="decideLoan(\''+esc(id)+'\',true)">อนุมัติ</button>';document.getElementById('loanPreviewActions').innerHTML=a;showModal('loanPreviewModal')}
+function decideLoan(id,yes){let reason='';if(!yes){reason=prompt('เหตุผลที่ไม่อนุมัติ')||'';if(!reason)return}mutate('decideLoan:'+id,{action:'decideLoan',loanId:id,approve:yes,reason},()=>{closeModal('loanPreviewModal');toast(yes?'อนุมัติใบเบิกแล้ว':'บันทึกไม่อนุมัติแล้ว');LAST_LOAN_SYNC=0;ensureLoans(true)})}
+function handover(id){if(!confirm('ยืนยันจ่ายออกและหักสต็อก?'))return;mutate('handover:'+id,{action:'handoverLoan',loanId:id},()=>{toast('จ่ายออกแล้ว');LAST_LOAN_SYNC=0;ensureLoans(true)})}
+function receiveReturn(id){if(!confirm('ยืนยันรับคืนเข้าสต็อก?'))return;mutate('return:'+id,{action:'returnLoan',loanId:id},()=>{toast('รับคืนเข้าสต็อกแล้ว');LAST_LOAN_SYNC=0;ensureLoans(true)})}
+async function ensureClaims(force=false){if(!TOKEN||CLAIMS_LOADING)return;const fresh=Date.now()-LAST_CLAIM_SYNC<2*60*1000;if(!force&&DATA.claims.length&&fresh)return;CLAIMS_LOADING=true;if(!DATA.claims.length)document.getElementById('claimList').innerHTML='<div class="empty">กำลังโหลดประวัติ…</div>';try{const r=await api({action:'claims',token:TOKEN},25000);DATA.claims=r.claims||[];DATA.dashboard.openClaims=Number(r.openClaims||0);LAST_CLAIM_SYNC=Date.now();renderClaims();saveCache()}catch(e){if(isAuthError(e))authFail();else if(DATA.claims.length)toast('อัปเดตงานซ่อมไม่สำเร็จ แต่ข้อมูลในเครื่องยังเปิดได้',true);else document.getElementById('claimList').innerHTML='<div class="empty">โหลดงานซ่อมไม่สำเร็จ<br><button class="secondary" onclick="ensureClaims(true)">ลองใหม่</button></div>'}finally{CLAIMS_LOADING=false}}
+function claimSearchText(x){return [x.ClaimNumber,x.ClaimID,x.SystemSnapshot,x.ItemDescriptionSnapshot,x.ModelEntered,x.SerialEntered,x.RepairCompany,x.Status].join(' ').toLowerCase()}
+function claimCard(x){const act=canStock()?'<div class="actions"><button class="primary" onclick="openUpdate(\''+esc(x.ClaimID)+'\')">อัปเดตงานซ่อม</button></div>':'';return '<div class="card"><div class="row"><div class="grow"><div class="asset">'+esc(x.ClaimNumber||x.ClaimID)+' · STORE-03</div><div class="title">'+esc(x.ItemDescriptionSnapshot||'-')+'</div><div class="sub">'+esc([x.SystemSnapshot,x.ModelEntered,x.SerialEntered].filter(Boolean).join(' · '))+'</div><div class="sub">จำนวน '+Number(x.Qty||0)+' · '+esc(x.IssueDescription||'-')+'</div></div>'+badge(x.Status)+'</div><div class="meta"><span>'+fmt(x.RepairSentDate||x.OpenedAt)+'</span><span>'+esc(x.RepairCompany||'ยังไม่ระบุบริษัท')+'</span></div>'+act+'</div>'}
+function renderClaims(){const q=(document.getElementById('claimSearch').value||'').trim().toLowerCase(),a=DATA.claims.filter(x=>!q||claimSearchText(x).includes(q));document.getElementById('claimCount').textContent=a.length+' ใบ';document.getElementById('claimList').innerHTML=a.map(claimCard).join('')||'<div class="empty">ยังไม่มีงานซ่อม</div>'}
+function fillClaimItems(){document.getElementById('claimItem').innerHTML=DATA.items.filter(x=>Number(x.Balance)>0).map(x=>'<option value="'+esc(x.ItemID)+'">'+esc((x.System||'')+' · '+(x.Description||'')+' · เหลือ '+Number(x.Balance||0).toLocaleString())+'</option>').join('');updateRepairHint()}
+function updateRepairHint(){const x=DATA.items.find(i=>i.ItemID===document.getElementById('claimItem').value);document.getElementById('repairItemHint').textContent=x?('M81 · '+x.System+' · '+x.LocationPackingNo+' · คงเหลือ '+Number(x.Balance||0).toLocaleString()):'';if(x)document.getElementById('repairQty').max=Number(x.Balance||0)}
+function openClaim(){if(!canStock()){toast('บัญชีนี้ไม่มีสิทธิ์เปิดงานซ่อม',true);return}fillClaimItems();document.getElementById('repairSenderName').value=DATA.user.name||'';document.getElementById('repairQty').value=1;document.getElementById('repairSentDate').value=new Date().toISOString().slice(0,10);showModal('claimModal');refreshStockIfStale()}
+function submitClaim(){const ref=document.querySelector('input[name="repairRef"]:checked'),itemId=document.getElementById('claimItem').value,x=DATA.items.find(i=>i.ItemID===itemId),qty=Number(document.getElementById('repairQty').value||0);if(!x||x.Project!=='M81'||qty<1||qty>Number(x.Balance||0)){toast('จำนวนส่งซ่อมไม่ถูกต้อง',true);return}const payload={itemId,issue:document.getElementById('claimIssue').value,repairCompany:document.getElementById('repairCompany').value,repairAddress:document.getElementById('repairAddress').value,repairPhone:document.getElementById('repairPhone').value,repairSentDate:document.getElementById('repairSentDate').value,referenceType:ref?ref.value:'Project',referenceValue:document.getElementById('repairReferenceValue').value,qty,model:document.getElementById('repairModel').value,serial:document.getElementById('repairSerial').value,senderName:document.getElementById('repairSenderName').value,receiverName:document.getElementById('repairReceiverName').value};mutate('createClaim',{action:'createClaim',payload},()=>{closeModal('claimModal');toast('เปิดใบส่งซ่อมแล้ว');LAST_CLAIM_SYNC=0;go('claims');ensureClaims(true)})}
+function openUpdate(id){const c=DATA.claims.find(x=>x.ClaimID===id)||{};document.getElementById('updateClaimId').value=id;const map={updateStatus:c.Status||'Open',repairAdminStatus:c.RepairAdminStatus||'',repairQuoteNumber:c.QuoteNumber||'',repairQuoteDate:(c.QuoteDate||'').slice(0,10),repairContactName:c.RepairContactName||'',repairContactPhone:c.RepairContactPhone||'',repairFax:c.RepairFax||'',repairQuoteAddress:c.QuoteCompanyAddress||'',repairCostInspection:c.CostInspection||'',repairCostParts:c.CostParts||'',repairCostService:c.CostService||'',repairDecision:c.RepairDecision||'',repairDecisionReason:c.DecisionReason||'',repairDuration:c.RepairDuration||'',repairReceivedDate:(c.RepairReceivedDate||'').slice(0,10),repairApproverName:c.RepairApproverName||'',repairApprovalDate:(c.RepairApprovalDate||'').slice(0,10)};Object.entries(map).forEach(([id,v])=>document.getElementById(id).value=v);showModal('updateModal')}
+function submitClaimUpdate(){const payload={claimId:document.getElementById('updateClaimId').value,status:document.getElementById('updateStatus').value,repairAdminStatus:document.getElementById('repairAdminStatus').value,quoteNumber:document.getElementById('repairQuoteNumber').value,quoteDate:document.getElementById('repairQuoteDate').value,repairContactName:document.getElementById('repairContactName').value,repairContactPhone:document.getElementById('repairContactPhone').value,repairFax:document.getElementById('repairFax').value,quoteCompanyAddress:document.getElementById('repairQuoteAddress').value,costInspection:document.getElementById('repairCostInspection').value,costParts:document.getElementById('repairCostParts').value,costService:document.getElementById('repairCostService').value,repairDecision:document.getElementById('repairDecision').value,decisionReason:document.getElementById('repairDecisionReason').value,repairDuration:document.getElementById('repairDuration').value,repairReceivedDate:document.getElementById('repairReceivedDate').value,repairApproverName:document.getElementById('repairApproverName').value,repairApprovalDate:document.getElementById('repairApprovalDate').value,channel:document.getElementById('updateChannel').value,detail:document.getElementById('updateDetail').value,nextDate:document.getElementById('updateNext').value,itemStatus:document.getElementById('updateItemStatus').value};mutate('claimUpdate:'+payload.claimId,{action:'addClaimUpdate',payload},()=>{closeModal('updateModal');toast('บันทึกข้อมูลซ่อมแล้ว');LAST_CLAIM_SYNC=0;ensureClaims(true)})}
+async function openUsers(){if(role()!=='Admin')return;if(!USERS_LOADED){if(USERS_LOADING)return;USERS_LOADING=true;try{const r=await api({action:'users',token:TOKEN},25000);DATA.users=r.users||[];USERS_LOADED=true}catch(e){toast('โหลดผู้ใช้ไม่สำเร็จ',true);USERS_LOADING=false;return}USERS_LOADING=false}const s=document.getElementById('adminUserSelect');s.innerHTML=DATA.users.map(u=>'<option value="'+esc(u.UserID)+'">'+esc((u.FullName||u.Email)+' · '+(u.Role||''))+'</option>').join('');fillAdminUser();showModal('userModal')}
+function fillAdminUser(){const u=DATA.users.find(x=>x.UserID===document.getElementById('adminUserSelect').value)||{};document.getElementById('adminUsername').value=u.Username||'';document.getElementById('adminUserPin').value=''}
+function saveUserCredentials(){const payload={userId:document.getElementById('adminUserSelect').value,username:document.getElementById('adminUsername').value.trim(),pin:document.getElementById('adminUserPin').value.trim()};mutate('setUserCredentials',{action:'setUserCredentials',payload},()=>{toast('บันทึก Username / PIN แล้ว');document.getElementById('adminUserPin').value='';USERS_LOADED=false;closeModal('userModal')})}
+function tokenExpired(){try{const p=TOKEN.split('.')[0].replace(/-/g,'+').replace(/_/g,'/'),pad=p+'='.repeat((4-p.length%4)%4),j=JSON.parse(decodeURIComponent(escape(atob(pad))));return !j.exp||Date.now()>Number(j.exp)}catch(_){return true}}
+function start(){if(!TOKEN||tokenExpired()){setAuth(false);setTimeout(()=>api({action:'ping'},12000).catch(()=>{}),400);return}let user={};try{user=JSON.parse(localStorage.getItem(USER_KEY)||'{}')}catch(_){}const cached=loadCache();if(!cached){DATA.user=user;renderHeader();setAuth(true);ensureStock()}else if(Object.keys(user).length){DATA.user=user;renderHeader();setAuth(true)}setTimeout(()=>refreshStockIfStale(false),5000)}
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)refreshStockIfStale(false)});start();
 </script>
 </body>
 </html>
