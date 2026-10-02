@@ -30,7 +30,7 @@ body.locked{padding-bottom:0;overflow:hidden}body.locked>.top,body.locked>main,b
 .sigbox{min-height:72px;border-right:1px solid #dfe3ee;border-bottom:1px solid #dfe3ee;padding:5px 6px;font-size:9px}
 .sigrole{font-size:8px;color:#666;margin-bottom:6px}.signame{font-weight:800;font-size:10px;min-height:15px}.sigline{margin:5px 0;border-bottom:1px dotted #777;min-height:13px}.login-remember{text-align:center;margin-top:8px;color:#7d879b}
 
-.home-summary{margin-top:12px}.summary-controls{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}.summary-top{display:grid;gap:6px;margin-top:8px}.summary-row{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px solid var(--line);font-size:11px}.summary-row:last-child{border-bottom:0}.summary-row b{color:var(--blue)}
+.home-summary{margin-top:12px}.summary-controls{display:grid;grid-template-columns:1fr .72fr;gap:7px;margin-top:7px}.summary-controls .search{height:38px;min-height:38px;font-size:13px;padding:6px 9px}.summary-top{display:grid;gap:6px;margin-top:8px}.summary-row{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px solid var(--line);font-size:11px}.summary-row:last-child{border-bottom:0}.summary-row b{color:var(--blue)}
 .dochead{display:grid;grid-template-columns:62px 1fr 145px;gap:10px;align-items:center;text-align:left;border-bottom:2px solid #222;padding:0 0 7px;margin-bottom:7px}.doc-logo{width:54px;height:62px;object-fit:contain}.doc-title{text-align:center}.doc-title .company{font-size:11px;font-weight:800}.doc-title b{display:block;color:#111;font-size:18px;margin-top:2px}.doc-title span{font-size:9px;color:#555}.doc-ref{border-left:1px solid #bbb;padding-left:9px;font-size:8px;line-height:1.35}.doc-ref small{display:block;color:#666}.doc-ref strong{display:block;font-size:10px;margin:1px 0 4px}
 .return-row{border:1px solid var(--line);border-radius:12px;padding:9px;margin:8px 0}.return-row .ret-head{display:flex;justify-content:space-between;gap:8px}.return-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px}.return-grid label{font-size:9px;color:var(--muted)}.return-grid input{width:100%;min-height:40px;border:1px solid var(--line);border-radius:9px;padding:6px;text-align:center}.return-note{width:100%;min-height:40px;margin-top:7px;border:1px solid var(--line);border-radius:9px;padding:8px}
 @media print{
@@ -52,8 +52,8 @@ body>*:not(#loanPreviewModal){display:none!important}
 <main class="wrap">
 <section class="page active" id="homePage">
 <div class="hello"><h2 id="hello">สวัสดีค่ะ</h2><p>ระบบเบิกวัสดุ M81</p></div>
-<div class="stats"><div class="stat"><b id="sItems">–</b><span>รายการ M81</span></div><div class="stat ok"><b id="sBalance">–</b><span>คงเหลือปัจจุบัน</span></div><div class="stat gold"><b id="sIssued">–</b><span>จ่ายออกค้างอยู่</span></div><div class="stat bad"><b id="sRepair">–</b><span>กำลังส่งซ่อม</span></div></div>
-<div class="card home-summary"><div class="head" style="margin-top:0"><h3>สรุปการเบิก</h3><span id="homeSummaryPeriod">เดือนนี้</span></div><div class="summary-controls"><select class="search" id="homeSummaryYear" onchange="loadHomeSummary(true)"></select><select class="search" id="homeSummaryMonth" onchange="loadHomeSummary(true)"><option value="0">ทั้งปี</option><option value="1">มกราคม</option><option value="2">กุมภาพันธ์</option><option value="3">มีนาคม</option><option value="4">เมษายน</option><option value="5">พฤษภาคม</option><option value="6">มิถุนายน</option><option value="7">กรกฎาคม</option><option value="8">สิงหาคม</option><option value="9">กันยายน</option><option value="10">ตุลาคม</option><option value="11">พฤศจิกายน</option><option value="12">ธันวาคม</option></select></div><div class="stats" id="homeSummaryStats"></div><div class="summary-top" id="homeSummaryTop"></div></div>
+<div class="head"><h3>สถานะสต็อกปัจจุบัน</h3><span>ข้อมูลล่าสุด</span></div><div class="stats"><div class="stat"><b id="sItems">–</b><span>รายการ M81</span></div><div class="stat ok"><b id="sBalance">–</b><span>คงเหลือพร้อมเบิก</span></div><div class="stat gold"><b id="sIssued">–</b><span>อยู่นอกคลัง</span></div><div class="stat bad"><b id="sRepair">–</b><span>กำลังซ่อม</span></div></div>
+<div class="card home-summary"><div class="head" style="margin-top:0"><h3 id="homeSummaryTitle">สรุปเดือนนี้</h3><span>เลือกช่วงย้อนหลังได้</span></div><div class="summary-controls"><select class="search" id="homeSummaryMonth" onchange="loadHomeSummary(true)"><option value="0">ทั้งปี</option><option value="1">มกราคม</option><option value="2">กุมภาพันธ์</option><option value="3">มีนาคม</option><option value="4">เมษายน</option><option value="5">พฤษภาคม</option><option value="6">มิถุนายน</option><option value="7">กรกฎาคม</option><option value="8">สิงหาคม</option><option value="9">กันยายน</option><option value="10">ตุลาคม</option><option value="11">พฤศจิกายน</option><option value="12">ธันวาคม</option></select><select class="search" id="homeSummaryYear" onchange="loadHomeSummary(true)"></select></div><div class="stats" id="homeSummaryStats"></div><div class="summary-top" id="homeSummaryTop"></div></div>
 <div id="adminBox" class="hidden"><div class="head"><h3>ผู้ดูแลระบบ</h3><span></span></div><div class="card"><div class="row"><div class="grow"><div class="title">จัดการผู้ใช้งาน</div><div class="sub">อนุมัติผู้ใช้ กำหนด Profile และ PIN</div></div><button class="primary" onclick="openUsers()">จัดการ</button></div></div></div>
 </section>
 <section class="page" id="itemsPage"><div class="head"><h3>วัสดุ M81</h3><span id="itemCount"></span></div><div class="toolbar"><input class="search" id="itemSearch" placeholder="ค้นหา System / Description / Location" oninput="ITEM_LIMIT=50;renderItems()"></div><div class="list" id="itemList"></div><div class="item-cart hidden" id="itemCartBar"><div><b id="itemCartCount">เลือก 0 รายการ</b><span id="itemCartQty">รวม 0 ชิ้น</span></div><button class="primary" onclick="openLoan(true)">ทำใบเบิก →</button></div></section>
@@ -79,13 +79,13 @@ body>*:not(#loanPreviewModal){display:none!important}
 <script>
 'use strict';
 const API_URL='https://script.google.com/macros/s/AKfycbw7zd0yZqoY5iQrrQxQsGvzNWMGqADfqx0r_w93quCUoO8vTTt4OD_kQN0th5gwtimq/exec';
-const CACHE_KEY='maStockPublicV5Cache1',USER_KEY='loxleyUserV1',TOKEN_KEY='loxleyAuthToken';
+const CACHE_KEY='maStockPublicV6Cache1',USER_KEY='loxleyUserV1',TOKEN_KEY='loxleyAuthToken';
 const STOCK_STALE_MS=30000;
 const EMPTY={total:0,balance:0,issued:0,inRepair:0,pending:0,openClaims:0};
 let DATA={user:{},dashboard:{...EMPTY},items:[],loans:[],claims:[],users:[]};
 let TOKEN=localStorage.getItem(TOKEN_KEY)||'',STOCK_VERSION=0,LAST_STOCK_SYNC=0,LAST_LOAN_SYNC=0,LAST_CLAIM_SYNC=0;
 let ACTIVE='home',ITEM_LIMIT=50,LOAN_FILTER='ALL',LOAN_QTY={},PENDING_LOAN=null,PENDING_AUTH_ACTION=null;
-const BUILD_ID='20261003-public-v5';
+const BUILD_ID='20261003-public-v6';
 let STOCK_LOADING=false,STOCK_SYNCING=false,LOANS_LOADING=false,CLAIMS_LOADING=false,USERS_LOADING=false,USERS_LOADED=false;
 const INFLIGHT=new Set();let SAVE_COUNT=0;
 const role=()=>String(DATA.user.role||'Viewer');
@@ -376,8 +376,9 @@ async function loadHomeSummary(force=false){
   HOME_SUMMARY_LOADING=true;
   try{
     const r=await api({action:'publicSummary',year:y,month:m},25000);HOME_SUMMARY_LAST=key;
-    document.getElementById('homeSummaryPeriod').textContent=m?(m+'/'+y):('ทั้งปี '+y);
-    document.getElementById('homeSummaryStats').innerHTML=[['ใบเบิก',r.loanCount],['ขอเบิก',r.requested],['จ่ายออก',r.issued],['คืนแล้ว',r.returned],['รออนุมัติ',r.pending],['ปิดรายการ',r.completed]].map(x=>'<div class="stat"><b>'+Number(x[1]||0).toLocaleString()+'</b><span>'+x[0]+'</span></div>').join('');
+    const monthNames=['','มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
+    document.getElementById('homeSummaryTitle').textContent=m?('สรุปเดือน'+monthNames[m]+' '+y):('สรุปทั้งปี '+y);
+    document.getElementById('homeSummaryStats').innerHTML=[['ใบเบิก',r.loanCount],[m?'ขอเบิกเดือนนี้':'ขอเบิกทั้งปี',r.requested],[m?'จ่ายออกเดือนนี้':'จ่ายออกทั้งปี',r.issued],[m?'คืนเดือนนี้':'คืนทั้งปี',r.returned],['รออนุมัติ',r.pending],['ปิดรายการ',r.completed]].map(x=>'<div class="stat"><b>'+Number(x[1]||0).toLocaleString()+'</b><span>'+x[0]+'</span></div>').join('');
     document.getElementById('homeSummaryTop').innerHTML=(r.top||[]).slice(0,5).map((x,i)=>'<div class="summary-row"><span>#'+(i+1)+' '+esc(x.name)+'</span><b>'+Number(x.qty||0).toLocaleString()+' ชิ้น</b></div>').join('')||'<div class="hint">ยังไม่มีรายการในช่วงนี้</div>'
   }catch(e){document.getElementById('homeSummaryTop').innerHTML='<div class="hint">โหลดสรุปไม่สำเร็จ</div>'}
   finally{HOME_SUMMARY_LOADING=false}
