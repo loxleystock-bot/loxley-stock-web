@@ -66,7 +66,7 @@ body>*:not(#loanPreviewModal){display:none!important}
 'use strict';
 const API_URL='https://script.google.com/macros/s/AKfycbw7zd0yZqoY5iQrrQxQsGvzNWMGqADfqx0r_w93quCUoO8vTTt4OD_kQN0th5gwtimq/exec';
 const CACHE_KEY='maStockLeanV3Cache1',USER_KEY='loxleyUserV1',TOKEN_KEY='loxleyAuthToken';
-const STOCK_STALE_MS=15000;
+const STOCK_STALE_MS=30000;
 const EMPTY={total:0,balance:0,issued:0,inRepair:0,pending:0,openClaims:0};
 let DATA={user:{},dashboard:{...EMPTY},items:[],loans:[],claims:[],users:[]};
 let TOKEN=localStorage.getItem(TOKEN_KEY)||'',STOCK_VERSION=0,LAST_STOCK_SYNC=0,LAST_LOAN_SYNC=0,LAST_CLAIM_SYNC=0;
@@ -140,7 +140,7 @@ function fillAdminUser(){const u=DATA.users.find(x=>x.UserID===document.getEleme
 function saveUserCredentials(){const payload={userId:document.getElementById('adminUserSelect').value,username:document.getElementById('adminUsername').value.trim(),pin:document.getElementById('adminUserPin').value.trim()};mutate('setUserCredentials',{action:'setUserCredentials',payload},()=>{toast('บันทึก Username / PIN แล้ว');document.getElementById('adminUserPin').value='';USERS_LOADED=false;closeModal('userModal')})}
 function tokenExpired(){try{const p=TOKEN.split('.')[0].replace(/-/g,'+').replace(/_/g,'/'),pad=p+'='.repeat((4-p.length%4)%4),j=JSON.parse(decodeURIComponent(escape(atob(pad))));return !j.exp||Date.now()>Number(j.exp)}catch(_){return true}}
 function start(){if(!TOKEN||tokenExpired()){setAuth(false);setTimeout(()=>api({action:'ping'},12000).catch(()=>{}),400);return}let user={};try{user=JSON.parse(localStorage.getItem(USER_KEY)||'{}')}catch(_){}const cached=loadCache();if(!cached){DATA.user=user;renderHeader();setAuth(true);ensureStock()}else if(Object.keys(user).length){DATA.user=user;renderHeader();setAuth(true)}setTimeout(()=>refreshStockIfStale(true),150)}
-document.addEventListener('visibilitychange',()=>{if(!document.hidden)refreshStockIfStale(true)});start();
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)refreshStockIfStale(true)});setInterval(()=>{if(!document.hidden&&TOKEN&&DATA.items.length)refreshStockIfStale(false)},30000);start();
 </script>
 </body>
 </html>
