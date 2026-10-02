@@ -2,6 +2,9 @@
 <html lang="th">
 <head>
 <meta charset="utf-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#1b3280">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -17,17 +20,17 @@
 .empty{text-align:center;color:var(--muted);background:#fff;border:1px dashed #d9ddea;border-radius:16px;padding:28px 14px}.filters{display:flex;gap:7px;overflow:auto;padding-bottom:3px}.chip{border:1px solid var(--line);background:#fff;color:var(--blue);border-radius:999px;padding:8px 12px;font-weight:800;font-size:11px;white-space:nowrap}.chip.active{background:var(--blue);color:#fff;border-color:var(--blue)}
 .bottom{position:fixed;left:0;right:0;bottom:0;z-index:40;display:grid;background:rgba(255,255,255,.97);border-top:1px solid var(--line);backdrop-filter:blur(10px);padding:6px 6px calc(6px + env(safe-area-inset-bottom))}.nav{border:0;background:transparent;color:#8790a7;min-height:52px;border-radius:11px;font-size:10px}.nav b{display:block;font-size:19px;margin-bottom:2px}.nav.active{background:#edf1ff;color:var(--blue);font-weight:900}
 .modal{position:fixed;inset:0;z-index:100;background:rgba(9,15,36,.55);display:none;align-items:flex-end}.modal.show{display:flex}.sheet{width:100%;max-height:92svh;overflow:auto;background:#fff;border-radius:22px 22px 0 0;padding:14px 14px calc(18px + env(safe-area-inset-bottom));box-shadow:0 -15px 40px rgba(0,0,0,.18)}.handle{width:42px;height:4px;background:#d8dbe4;border-radius:4px;margin:0 auto 10px}.sheet h3{font-size:18px;color:var(--blue);margin:0 0 12px}.section{border-top:1px solid var(--line);padding-top:10px;margin:15px 0 7px;color:var(--blue);font-size:13px;font-weight:900}.field{margin:9px 0}.field label{display:block;font-size:11px;font-weight:800;margin-bottom:5px}.field input,.field select,.field textarea{width:100%;min-height:44px;border:1px solid #dfe3ee;border-radius:11px;background:#fff;padding:10px 11px;font-size:16px;outline:none}.field textarea{min-height:80px;resize:vertical}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}.opts{display:grid;grid-template-columns:1fr 1fr;gap:7px}.opt{display:flex;align-items:center;gap:7px;border:1px solid var(--line);border-radius:11px;padding:9px;font-size:12px}.modal-actions{position:sticky;bottom:0;display:flex;gap:8px;background:#fff;padding-top:8px;margin-top:12px}.modal-actions button{flex:1}.hint{font-size:10px;color:var(--muted);line-height:1.45;margin-top:4px}.readonly{background:#f5f6f9!important;color:#5f687d}.stock-list{max-height:34svh;overflow:auto;border:1px solid var(--line);border-radius:13px}.stock-row{display:grid;grid-template-columns:1fr 72px;gap:8px;align-items:center;padding:9px;border-bottom:1px solid var(--line)}.stock-row:last-child{border-bottom:0}.stock-row input{text-align:center;font-size:16px}
-.banner{border:1px solid #dfe4f3;background:linear-gradient(145deg,#fff,#f3f5fb);border-radius:14px;padding:11px 12px}.banner b{display:block;color:var(--blue);font-size:14px}.banner span{display:block;color:var(--muted);font-size:10px;margin-top:3px}.doc{border:1px solid #dfe3ee;border-radius:15px;padding:13px}.dochead{text-align:center;border-bottom:2px solid var(--blue);padding-bottom:9px;margin-bottom:9px}.dochead b{display:block;color:var(--blue);font-size:17px}.dochead span{font-size:10px;color:var(--muted)}.docgrid{display:grid;grid-template-columns:1fr 1fr;gap:6px}.docfield{border-bottom:1px solid #eceef4;padding:7px 2px;font-size:11px}.docfield small{display:block;color:var(--muted);margin-bottom:2px}.docfield.full{grid-column:1/-1}.item-pick{display:flex;align-items:center;justify-content:flex-end;gap:7px;margin-top:11px}.item-pick button{min-width:40px;min-height:38px;padding:7px 10px}.item-pick b{min-width:28px;text-align:center;color:var(--blue);font-size:16px}.item-cart{position:sticky;bottom:74px;z-index:25;margin-top:12px;background:#17203a;color:#fff;border-radius:16px;padding:10px 11px;display:flex;align-items:center;justify-content:space-between;gap:10px;box-shadow:0 10px 28px rgba(0,0,0,.22)}.item-cart.hidden{display:none}.item-cart div{min-width:0}.item-cart b{display:block;font-size:13px}.item-cart span{display:block;font-size:10px;opacity:.72;margin-top:2px}.item-cart .primary{background:#fff;color:var(--blue);box-shadow:none;white-space:nowrap}.item-thumb{width:72px;height:72px;flex:0 0 72px;border:0;border-radius:12px;padding:0;overflow:hidden;background:#f3f5f9}.item-thumb img{width:100%;height:100%;object-fit:cover;display:block}.image-modal{align-items:center;justify-content:center;padding:18px}.image-sheet{position:relative;width:min(94vw,760px);max-height:90vh;background:#111;border-radius:18px;padding:10px;display:flex;flex-direction:column;gap:8px;box-shadow:0 18px 50px rgba(0,0,0,.35)}.image-sheet img{width:100%;max-height:78vh;object-fit:contain;border-radius:12px;background:#fff}.image-close{position:absolute;right:16px;top:16px;z-index:2;width:38px;height:38px;border:0;border-radius:999px;background:rgba(0,0,0,.65);color:#fff;font-size:24px;line-height:1}.image-caption{color:#fff;font-size:12px;text-align:center;padding:2px 8px 4px}.doctable{width:100%;border-collapse:collapse;margin-top:9px;font-size:10px}.doctable th,.doctable td{border:1px solid #dfe3ee;padding:6px;text-align:left;vertical-align:top}.doctable th{background:#f5f7fb;color:var(--blue)}
+.banner{border:1px solid #dfe4f3;background:linear-gradient(145deg,#fff,#f3f5fb);border-radius:14px;padding:11px 12px}.banner b{display:block;color:var(--blue);font-size:14px}.banner span{display:block;color:var(--muted);font-size:10px;margin-top:3px}.doc{border:1px solid #dfe3ee;border-radius:15px;padding:12px}.dochead{text-align:center;border-bottom:2px solid var(--blue);padding-bottom:6px;margin-bottom:6px}.dochead b{display:block;color:var(--blue);font-size:18px}.dochead span{font-size:9px;color:var(--muted)}.docgrid{display:grid;grid-template-columns:1.25fr .9fr .85fr;gap:0;border:1px solid #dfe3ee;border-bottom:0}.docfield{border-right:1px solid #eceef4;border-bottom:1px solid #eceef4;padding:5px 7px;font-size:10px;min-height:34px}.docfield:nth-child(3n){border-right:0}.docfield small{display:block;color:var(--muted);margin-bottom:2px;font-size:8px}.docfield strong{font-size:12px}.docfield.full{grid-column:1/-1;border-right:0}.docfield.span2{grid-column:span 2}.item-pick{display:flex;align-items:center;justify-content:flex-end;gap:7px;margin-top:11px}.item-pick button{min-width:40px;min-height:38px;padding:7px 10px}.item-pick b{min-width:28px;text-align:center;color:var(--blue);font-size:16px}.item-cart{position:sticky;bottom:74px;z-index:25;margin-top:12px;background:#17203a;color:#fff;border-radius:16px;padding:10px 11px;display:flex;align-items:center;justify-content:space-between;gap:10px;box-shadow:0 10px 28px rgba(0,0,0,.22)}.item-cart.hidden{display:none}.item-cart div{min-width:0}.item-cart b{display:block;font-size:13px}.item-cart span{display:block;font-size:10px;opacity:.72;margin-top:2px}.item-cart .primary{background:#fff;color:var(--blue);box-shadow:none;white-space:nowrap}.item-thumb{width:72px;height:72px;flex:0 0 72px;border:0;border-radius:12px;padding:0;overflow:hidden;background:#f3f5f9}.item-thumb img{width:100%;height:100%;object-fit:cover;display:block}.image-modal{align-items:center;justify-content:center;padding:18px}.image-sheet{position:relative;width:min(94vw,760px);max-height:90vh;background:#111;border-radius:18px;padding:10px;display:flex;flex-direction:column;gap:8px;box-shadow:0 18px 50px rgba(0,0,0,.35)}.image-sheet img{width:100%;max-height:78vh;object-fit:contain;border-radius:12px;background:#fff}.image-close{position:absolute;right:16px;top:16px;z-index:2;width:38px;height:38px;border:0;border-radius:999px;background:rgba(0,0,0,.65);color:#fff;font-size:24px;line-height:1}.image-caption{color:#fff;font-size:12px;text-align:center;padding:2px 8px 4px}.doctable{width:100%;border-collapse:collapse;margin-top:7px;font-size:9.5px;table-layout:fixed}.doctable th,.doctable td{border:1px solid #dfe3ee;padding:4px 5px;text-align:left;vertical-align:top;line-height:1.25}.doctable th{background:#f5f7fb;color:var(--blue)}.doctable th:nth-child(1),.doctable td:nth-child(1){width:5%;text-align:center}.doctable th:nth-child(2),.doctable td:nth-child(2){width:16%}.doctable th:nth-child(3),.doctable td:nth-child(3){width:47%}.doctable th:nth-child(4),.doctable td:nth-child(4){width:22%}.doctable th:nth-child(5),.doctable td:nth-child(5){width:10%;text-align:center}
 .toast{position:fixed;z-index:200;left:12px;right:12px;bottom:calc(78px + env(safe-area-inset-bottom));background:#17203a;color:#fff;border-radius:12px;padding:11px 13px;font-size:12px;display:none}.toast.show{display:block}.toast.err{background:#8f292e}.saving{position:fixed;z-index:210;top:calc(8px + env(safe-area-inset-top));right:10px;background:#fff;color:var(--blue);border:1px solid #dfe4f3;border-radius:999px;padding:5px 9px;font-size:10px;font-weight:800;display:none}.saving.show{display:block}
 body.locked{padding-bottom:0;overflow:hidden}body.locked>.top,body.locked>main,body.locked>.bottom{display:none!important}body.locked #loginModal{display:flex!important;align-items:center;justify-content:center;background:var(--bg);padding:18px}body.locked #loginModal .sheet{max-width:420px;max-height:none;border-radius:22px;padding:22px 18px}body.locked #loginModal .handle{display:none}
 @media(min-width:700px){.stats{grid-template-columns:repeat(4,1fr)}.list{grid-template-columns:repeat(2,1fr)}.modal{align-items:center;justify-content:center}.sheet{max-width:600px;border-radius:22px;padding-bottom:18px}.toolbar{top:70px}}
 .field input::placeholder,.field textarea::placeholder,.search::placeholder{color:#9aa3b5;opacity:1}
-.docnote{font-size:9px;line-height:1.45;text-align:center;padding:9px 4px;border:1px solid #dfe3ee;border-top:0;color:#444}
-.signature-grid{display:grid;grid-template-columns:1fr 1fr;border-left:1px solid #dfe3ee;border-top:1px solid #dfe3ee}
-.sigbox{min-height:92px;border-right:1px solid #dfe3ee;border-bottom:1px solid #dfe3ee;padding:8px;font-size:10px}
-.sigrole{font-size:9px;color:#666;margin-bottom:13px}.sigline{margin:8px 0;border-bottom:1px dotted #777;min-height:16px}.login-remember{text-align:center;margin-top:8px;color:#7d879b}
+.docnote{font-size:8px;line-height:1.3;text-align:center;padding:5px 4px;border:1px solid #dfe3ee;border-top:0;color:#444}
+.signature-grid{display:grid;grid-template-columns:repeat(4,1fr);border-left:1px solid #dfe3ee;border-top:1px solid #dfe3ee}
+.sigbox{min-height:72px;border-right:1px solid #dfe3ee;border-bottom:1px solid #dfe3ee;padding:5px 6px;font-size:9px}
+.sigrole{font-size:8px;color:#666;margin-bottom:6px}.signame{font-weight:800;font-size:10px;min-height:15px}.sigline{margin:5px 0;border-bottom:1px dotted #777;min-height:13px}.login-remember{text-align:center;margin-top:8px;color:#7d879b}
 @media print{
-@page{size:A4 portrait;margin:9mm}
+@page{size:A4 portrait;margin:7mm}
 html,body{background:#fff!important;margin:0!important;padding:0!important}
 body>*:not(#loanPreviewModal){display:none!important}
 #loanPreviewModal{display:block!important;position:static!important;inset:auto!important;background:#fff!important}
@@ -36,23 +39,24 @@ body>*:not(#loanPreviewModal){display:none!important}
 #loanPreviewBody .doc{border:0!important;border-radius:0!important;padding:0!important;color:#000!important}
 #loanPreviewBody .dochead b{color:#000!important}
 #loanPreviewBody .dochead span,#loanPreviewBody .docfield small{color:#555!important}
-#loanPreviewBody .doctable th{color:#000!important;background:#f1f1f1!important}
+#loanPreviewBody .doctable th{color:#000!important;background:#f1f1f1!important}#loanPreviewBody .doc{font-size:9px!important}#loanPreviewBody .signature-grid{grid-template-columns:repeat(4,1fr)!important}#loanPreviewBody .sigbox{min-height:58px!important;padding:4px!important}#loanPreviewBody .doc.dense .doctable{font-size:8px!important}#loanPreviewBody .doc.dense .doctable th,#loanPreviewBody .doc.dense .doctable td{padding:3px 4px!important}#loanPreviewBody .doc.ultra .doctable{font-size:7px!important}#loanPreviewBody .doc.ultra .doctable th,#loanPreviewBody .doc.ultra .doctable td{padding:2px 3px!important}
 }
 </style>
 </head>
-<body class="locked">
+<body>
 <header class="top"><div class="brand"><div class="mark">MA</div><div><h1>MA Stock</h1><small>M81 · เบิกวัสดุและส่งซ่อม</small></div><button class="user" id="userPill" onclick="logout()">ยังไม่ได้เข้าสู่ระบบ</button></div></header>
 <main class="wrap">
 <section class="page active" id="homePage"><div class="hello"><h2 id="hello">สวัสดีค่ะ</h2><p>ระบบเบิกวัสดุ M81</p></div><div class="stats"><div class="stat"><b id="sItems">–</b><span>รายการ M81</span></div><div class="stat ok"><b id="sBalance">–</b><span>คงเหลือปัจจุบัน</span></div><div class="stat gold"><b id="sIssued">–</b><span>จ่ายออกนับจากรอบใหม่</span></div><div class="stat bad"><b id="sRepair">–</b><span>กำลังส่งซ่อม</span></div></div><div id="adminBox" class="hidden"><div class="head"><h3>ผู้ดูแลระบบ</h3><span></span></div><div class="card"><div class="row"><div class="grow"><div class="title">จัดการ Username / PIN</div><div class="sub">ตั้งหรือรีเซ็ตข้อมูลเข้าสู่ระบบ</div></div><button class="primary" onclick="openUsers()">จัดการ</button></div></div></div></section>
 <section class="page" id="itemsPage"><div class="head"><h3>วัสดุ M81</h3><span id="itemCount"></span></div><div class="toolbar"><input class="search" id="itemSearch" placeholder="ค้นหา System / Description / Location" oninput="ITEM_LIMIT=50;renderItems()"></div><div class="list" id="itemList"></div><div class="item-cart hidden" id="itemCartBar"><div><b id="itemCartCount">เลือก 0 รายการ</b><span id="itemCartQty">รวม 0 ชิ้น</span></div><button class="primary" onclick="openLoan(true)">ทำใบเบิก →</button></div></section>
 <section class="page" id="loansPage"><div class="head"><h3>ใบเบิกวัสดุ</h3><span id="loanCount"></span></div><div class="filters" id="loanFilters"><button class="chip active" data-v="ALL" onclick="setLoanFilter('ALL',this)">ทั้งหมด</button><button class="chip" data-v="PendingApproval" onclick="setLoanFilter('PendingApproval',this)">รออนุมัติ</button><button class="chip" data-v="Approved" onclick="setLoanFilter('Approved',this)">อนุมัติแล้ว</button><button class="chip" data-v="Completed" onclick="setLoanFilter('Completed',this)">เสร็จสิ้น</button></div><div class="toolbar"><input class="search" id="loanSearch" placeholder="ค้นหาเลขใบเบิก / โครงการ / ผู้ขอ" oninput="renderLoans()"><button class="primary" id="newLoanBtn" onclick="openLoan()">+ ใบเบิก</button></div><div class="list" id="loanList"></div></section>
 <section class="page" id="claimsPage"><div class="head"><h3>ส่งสินค้าซ่อม</h3><span id="claimCount"></span></div><div class="toolbar"><input class="search" id="claimSearch" placeholder="ค้นหาเลขส่งซ่อม / รายการ / บริษัท" oninput="renderClaims()"><button class="primary" id="newClaimBtn" onclick="openClaim()">+ ส่งซ่อม</button></div><div class="list" id="claimList"></div></section>
+<section class="page" id="summaryPage"><div class="head"><h3>สรุปการเบิก</h3><span id="summaryPeriodLabel"></span></div><div class="toolbar"><select class="search" id="summaryYear" onchange="renderSummary()"></select><select class="search" id="summaryMonth" onchange="renderSummary()"><option value="0">ทั้งปี</option><option value="1">มกราคม</option><option value="2">กุมภาพันธ์</option><option value="3">มีนาคม</option><option value="4">เมษายน</option><option value="5">พฤษภาคม</option><option value="6">มิถุนายน</option><option value="7">กรกฎาคม</option><option value="8">สิงหาคม</option><option value="9">กันยายน</option><option value="10">ตุลาคม</option><option value="11">พฤศจิกายน</option><option value="12">ธันวาคม</option></select></div><div class="stats" id="summaryStats"></div><div class="head"><h3>รายการเบิกสูงสุด</h3><span></span></div><div class="list" id="summaryTop"></div></section>
 </main>
-<nav class="bottom" id="bottomNav"><button class="nav active" data-page="home" onclick="go('home')"><b>⌂</b>หน้าหลัก</button><button class="nav" data-page="items" onclick="go('items')"><b>▣</b>วัสดุ</button><button class="nav" data-page="loans" onclick="go('loans')"><b>⇄</b>ใบเบิก</button><button class="nav" data-page="claims" onclick="go('claims')"><b>⚒</b>ส่งซ่อม</button></nav>
+<nav class="bottom" id="bottomNav"><button class="nav active" data-page="home" onclick="go('home')"><b>⌂</b>หน้าหลัก</button><button class="nav" data-page="items" onclick="go('items')"><b>▣</b>วัสดุ</button><button class="nav" data-page="loans" onclick="go('loans')"><b>⇄</b>ใบเบิก</button><button class="nav" data-page="claims" onclick="go('claims')"><b>⚒</b>ส่งซ่อม</button><button class="nav" data-page="summary" onclick="go('summary')"><b>Σ</b>สรุป</button></nav>
 
-<div class="modal" id="loginModal"><div class="sheet"><div style="text-align:center;margin-bottom:14px"><div class="mark" style="margin:auto;width:58px;height:58px;font-size:20px;border:1px solid #e5e8f1">MA</div><h3 style="margin:10px 0 3px">เข้าสู่ระบบ MA Stock</h3><div class="sub">ใช้ Username และ PIN ที่ผู้ดูแลระบบกำหนด</div></div><div class="field"><label>Username</label><input id="loginUsername" autocomplete="username" autocapitalize="none" spellcheck="false"></div><div class="field"><label>PIN 6 หลัก</label><input id="loginPin" type="password" inputmode="numeric" maxlength="6" autocomplete="current-password"></div><div class="modal-actions"><button class="primary" id="loginBtn" onclick="submitLogin()">เข้าสู่ระบบ</button></div><div class="hint login-remember">จำเครื่องนี้ 12 ชั่วโมง (720 นาที) · เปิดกลับมาแล้วระบบจะเช็กสต็อกล่าสุดอัตโนมัติ</div></div></div>
+<div class="modal" id="loginModal"><div class="sheet"><div style="text-align:center;margin-bottom:14px"><div class="mark" style="margin:auto;width:58px;height:58px;font-size:20px;border:1px solid #e5e8f1">MA</div><h3 style="margin:10px 0 3px">เข้าสู่ระบบ MA Stock</h3><div class="sub">ใช้ Username และ PIN ที่ผู้ดูแลระบบกำหนด</div></div><div class="field"><label>Username</label><input id="loginUsername" autocomplete="username" autocapitalize="none" spellcheck="false"></div><div class="field"><label>PIN 6 หลัก</label><input id="loginPin" type="password" inputmode="numeric" maxlength="6" autocomplete="current-password"></div><div class="modal-actions"><button class="secondary" onclick="closeModal('loginModal')">ดูต่อแบบไม่ล็อกอิน</button><button class="primary" id="loginBtn" onclick="submitLogin()">เข้าสู่ระบบ</button></div><div class="hint login-remember">จำเครื่องนี้ 12 ชั่วโมง (720 นาที) · เปิดกลับมาแล้วระบบจะเช็กสต็อกล่าสุดอัตโนมัติ</div></div></div>
 
-<div class="modal" id="loanModal"><div class="sheet"><div class="handle"></div><div class="banner"><b>ใบเบิกวัสดุ · STORE 02</b><span>บริษัท ล็อกซเล่ย์ จำกัด (มหาชน) · ฝ่ายระบบขนส่ง · ออกครั้งที่ 01</span></div><div class="section">ข้อมูลผู้ขอเบิก</div><div class="field"><label>ชื่อผู้ขอเบิก</label><input id="loanRequesterName"><div class="hint" id="loanRequesterHint"></div></div><div class="grid2"><div class="field"><label>แผนก / ฝ่าย</label><input id="loanDepartment"></div><div class="field"><label>โทรศัพท์</label><input id="loanPhone" inputmode="tel" placeholder="เช่น 08x-xxx-xxxx"></div></div><div class="field"><label>ชื่องาน / ชื่อโครงการ</label><input id="loanProject" placeholder="เช่น Motorway M81"></div><div class="grid2"><div class="field"><label>สถานที่เก็บ</label><input id="loanStorageLocation" placeholder="เช่น WH-คลองเดช อาคาร ICT ชั้น 4"></div><div class="field"><label>สถานที่ใช้งาน</label><input id="loanUseLocation" placeholder="เช่น M81-5 / MA-81"></div></div><div class="field"><label>ระยะเวลาในการเบิก</label><input id="loanBorrowPeriod" placeholder="เช่น 7 วัน / จนจบงาน"></div><div class="section">ประเภทการเบิก</div><div class="opts"><label class="opt"><input type="radio" name="loanType" value="ติดตั้ง"> ติดตั้ง</label><label class="opt"><input type="radio" name="loanType" value="ส่งมอบ"> ส่งมอบ</label><label class="opt"><input type="radio" name="loanType" value="ทดสอบ"> ทดสอบ</label><label class="opt"><input type="radio" name="loanType" value="ให้ยืม" checked> ให้ยืม</label></div><div class="field"><label>อื่น ๆ</label><input id="loanTypeOther" placeholder="ระบุกรณีอื่น ๆ (ถ้ามี)"></div><div class="field"><label>เหตุผลในการขอเบิก</label><textarea id="loanReason" placeholder="เช่น นำไปแก้ไขงานระบบ WCS M81-5"></textarea></div><div class="section">รายการวัสดุ M81</div><input id="loanItemSearch" type="hidden"><div class="stock-list" id="loanItems"></div><div class="modal-actions"><button class="secondary" onclick="closeModal('loanModal')">ยกเลิก</button><button class="primary" onclick="previewDraftLoan()">ดูใบเบิกก่อนส่ง</button></div></div></div>
+<div class="modal" id="loanModal"><div class="sheet"><div class="handle"></div><div class="banner"><b>ใบเบิกวัสดุ</b><span>บริษัท ล็อกซเล่ย์ จำกัด (มหาชน) · ฝ่ายระบบขนส่ง · ออกครั้งที่ 01</span></div><div class="section">ข้อมูลผู้ขอเบิก</div><div class="field"><label>ชื่อผู้ขอเบิก</label><input id="loanRequesterName"><div class="hint" id="loanRequesterHint"></div></div><div class="grid2"><div class="field"><label>ตำแหน่ง</label><input id="loanPosition"></div><div class="field"><label>แผนก / ฝ่าย</label><input id="loanDepartment"></div></div><div class="field"><label>โทรศัพท์</label><input id="loanPhone" inputmode="tel" placeholder="เช่น 08x-xxx-xxxx"></div><div class="field"><label>ชื่องาน / ชื่อโครงการ</label><input id="loanProject" placeholder="เช่น Motorway M81"></div><div class="grid2"><div class="field"><label>สถานที่เก็บ</label><input id="loanStorageLocation" placeholder="เช่น WH-คลองเดช อาคาร ICT ชั้น 4"></div><div class="field"><label>สถานที่ใช้งาน</label><input id="loanUseLocation" placeholder="เช่น M81-5 / MA-81"></div></div><div class="field"><label>ระยะเวลาในการเบิก</label><input id="loanBorrowPeriod" placeholder="เช่น 7 วัน / จนจบงาน"></div><div class="section">ประเภทการเบิก</div><div class="opts"><label class="opt"><input type="radio" name="loanType" value="ติดตั้ง"> ติดตั้ง</label><label class="opt"><input type="radio" name="loanType" value="ส่งมอบ"> ส่งมอบ</label><label class="opt"><input type="radio" name="loanType" value="ทดสอบ"> ทดสอบ</label><label class="opt"><input type="radio" name="loanType" value="ให้ยืม" checked> ให้ยืม</label></div><div class="field"><label>อื่น ๆ</label><input id="loanTypeOther" placeholder="ระบุกรณีอื่น ๆ (ถ้ามี)"></div><div class="field"><label>เหตุผลในการขอเบิก</label><textarea id="loanReason" placeholder="เช่น นำไปแก้ไขงานระบบ WCS M81-5"></textarea></div><div class="section">รายการวัสดุ M81</div><input id="loanItemSearch" type="hidden"><div class="stock-list" id="loanItems"></div><div class="modal-actions"><button class="secondary" onclick="closeModal('loanModal')">ยกเลิก</button><button class="primary" onclick="previewDraftLoan()">ดูใบเบิกก่อนส่ง</button></div></div></div>
 <div class="modal" id="loanPreviewModal"><div class="sheet"><div class="handle"></div><div id="loanPreviewBody"></div><div class="modal-actions" id="loanPreviewActions"></div></div></div>
 <div class="modal image-modal" id="imageModal"><div class="image-sheet"><button class="image-close" onclick="closeModal('imageModal')" aria-label="ปิด">×</button><img id="itemImageLarge" alt=""><div class="image-caption" id="itemImageCaption"></div></div></div>
 
@@ -60,17 +64,18 @@ body>*:not(#loanPreviewModal){display:none!important}
 
 <div class="modal" id="updateModal"><div class="sheet"><div class="handle"></div><div class="banner"><b>ส่วนธุรการ · ติดตามการซ่อม</b><span>ข้อมูลต่อเนื่องจาก STORE-03</span></div><input type="hidden" id="updateClaimId"><div class="field"><label>สถานะงาน</label><select id="updateStatus"><option value="Open">เปิดงาน</option><option value="Sent">ส่งซ่อมแล้ว</option><option value="WaitingVendor">รอผู้ซ่อม</option><option value="WaitingParts">รออะไหล่</option><option value="Approved">อนุมัติซ่อม</option><option value="Rejected">ไม่ซ่อม</option><option value="Completed">เสร็จสิ้น</option><option value="Cancelled">ยกเลิก</option></select></div><div class="grid2"><div class="field"><label>สถานะใบเสนอราคา</label><select id="repairAdminStatus"><option value="">ยังไม่ระบุ</option><option>WARRANTY</option><option>คิดค่าซ่อม</option></select></div><div class="field"><label>เลขใบเสนอราคา</label><input id="repairQuoteNumber"></div></div><div class="grid2"><div class="field"><label>วันที่ใบเสนอราคา</label><input type="date" id="repairQuoteDate"></div><div class="field"><label>ผู้ติดต่อ</label><input id="repairContactName"></div></div><div class="grid2"><div class="field"><label>โทร.</label><input id="repairContactPhone"></div><div class="field"><label>แฟกซ์</label><input id="repairFax"></div></div><div class="field"><label>ที่อยู่ / รายละเอียดผู้เสนอราคา</label><textarea id="repairQuoteAddress"></textarea></div><div class="grid2"><div class="field"><label>ค่าเปิดเครื่อง</label><input type="number" step="0.01" id="repairCostInspection"></div><div class="field"><label>ค่าอะไหล่</label><input type="number" step="0.01" id="repairCostParts"></div></div><div class="field"><label>ค่าบริการ</label><input type="number" step="0.01" id="repairCostService"></div><div class="grid2"><div class="field"><label>สรุป</label><select id="repairDecision"><option value="">ยังไม่สรุป</option><option>ซ่อม</option><option>ไม่ซ่อม</option></select></div><div class="field"><label>ระยะเวลาซ่อม</label><input id="repairDuration"></div></div><div class="field"><label>เนื่องจาก</label><textarea id="repairDecisionReason"></textarea></div><div class="grid2"><div class="field"><label>วันที่รับเครื่อง</label><input type="date" id="repairReceivedDate"></div><div class="field"><label>ผู้อนุมัติซ่อม</label><input id="repairApproverName"></div></div><div class="field"><label>วันที่อนุมัติ</label><input type="date" id="repairApprovalDate"></div><div class="section">ติดตามงาน</div><div class="field"><label>ช่องทางติดต่อ</label><select id="updateChannel"><option>Phone</option><option>Email</option><option>Line</option><option>InPerson</option><option>Website</option><option>Other</option></select></div><div class="field"><label>รายละเอียด</label><textarea id="updateDetail"></textarea></div><div class="field"><label>ติดตามครั้งถัดไป</label><input type="date" id="updateNext"></div><div class="field"><label>สถานะวัสดุหลังปิดงาน</label><select id="updateItemStatus"><option value="">ไม่เปลี่ยน</option><option>Available</option><option>Maintenance</option><option>Lost</option><option>Retired</option></select></div><div class="modal-actions"><button class="secondary" onclick="closeModal('updateModal')">ยกเลิก</button><button class="primary" onclick="submitClaimUpdate()">บันทึก</button></div></div></div>
 
-<div class="modal" id="userModal"><div class="sheet"><div class="handle"></div><h3>จัดการผู้ใช้งาน</h3><div class="field"><label>ผู้ใช้งาน</label><select id="adminUserSelect" onchange="fillAdminUser()"></select></div><div class="field"><label>Username</label><input id="adminUsername"></div><div class="field"><label>ตั้ง / รีเซ็ต PIN 6 หลัก</label><input type="password" inputmode="numeric" maxlength="6" id="adminUserPin"></div><div class="hint">ระบบเก็บเฉพาะ hash ของ PIN และดู PIN เดิมย้อนหลังไม่ได้</div><div class="modal-actions"><button class="secondary" onclick="closeModal('userModal')">ยกเลิก</button><button class="primary" onclick="saveUserCredentials()">บันทึก</button></div></div></div>
+<div class="modal" id="userModal"><div class="sheet"><div class="handle"></div><h3>จัดการผู้ใช้งาน</h3><div class="field"><label>ผู้ใช้งาน</label><select id="adminUserSelect" onchange="fillAdminUser()"></select></div><div class="banner"><b id="adminApprovalStatus">สถานะ</b><span id="adminUserModeHint"></span></div><div class="field"><label>Username</label><input id="adminUsername"></div><div class="field"><label>ชื่อ-นามสกุล</label><input id="adminFullName"></div><div class="grid2"><div class="field"><label>ตำแหน่ง</label><input id="adminPosition"></div><div class="field"><label>แผนก / ฝ่าย</label><input id="adminDepartment"></div></div><div class="field"><label>โทรศัพท์</label><input id="adminPhone"></div><div class="field"><label>รูปแบบ Profile</label><select id="adminProfileMode"><option value="Fixed">Fixed · ล็อกข้อมูลจาก Profile</option><option value="Shared">Shared · ให้กรอกชื่อผู้เบิกจริง</option></select></div><div class="field"><label>ตั้ง / รีเซ็ต PIN 6 หลัก</label><input type="password" inputmode="numeric" maxlength="6" id="adminUserPin"></div><div class="hint">บัญชี Pending จะยังล็อกอินไม่ได้จนกว่า Admin จะอนุมัติและตั้ง PIN</div><div class="modal-actions"><button class="secondary" onclick="closeModal('userModal')">ปิด</button><button class="secondary" onclick="saveUserAccess(false)">บันทึก</button><button class="primary" id="approveUserBtn" onclick="saveUserAccess(true)">อนุมัติ</button></div></div></div>
 <div class="saving" id="saving">กำลังบันทึก…</div><div class="toast" id="toast"></div>
 <script>
 'use strict';
 const API_URL='https://script.google.com/macros/s/AKfycbw7zd0yZqoY5iQrrQxQsGvzNWMGqADfqx0r_w93quCUoO8vTTt4OD_kQN0th5gwtimq/exec';
-const CACHE_KEY='maStockLeanV3Cache1',USER_KEY='loxleyUserV1',TOKEN_KEY='loxleyAuthToken';
+const CACHE_KEY='maStockPublicV4Cache1',USER_KEY='loxleyUserV1',TOKEN_KEY='loxleyAuthToken';
 const STOCK_STALE_MS=30000;
 const EMPTY={total:0,balance:0,issued:0,inRepair:0,pending:0,openClaims:0};
 let DATA={user:{},dashboard:{...EMPTY},items:[],loans:[],claims:[],users:[]};
 let TOKEN=localStorage.getItem(TOKEN_KEY)||'',STOCK_VERSION=0,LAST_STOCK_SYNC=0,LAST_LOAN_SYNC=0,LAST_CLAIM_SYNC=0;
-let ACTIVE='home',ITEM_LIMIT=50,LOAN_FILTER='ALL',LOAN_QTY={},PENDING_LOAN=null;
+let ACTIVE='home',ITEM_LIMIT=50,LOAN_FILTER='ALL',LOAN_QTY={},PENDING_LOAN=null,PENDING_AUTH_ACTION=null;
+const BUILD_ID='20261003-public-v4';
 let STOCK_LOADING=false,STOCK_SYNCING=false,LOANS_LOADING=false,CLAIMS_LOADING=false,USERS_LOADING=false,USERS_LOADED=false;
 const INFLIGHT=new Set();let SAVE_COUNT=0;
 const role=()=>String(DATA.user.role||'Viewer');
@@ -86,61 +91,348 @@ function saving(on){SAVE_COUNT=Math.max(0,SAVE_COUNT+(on?1:-1));document.getElem
 function m81(items){return (Array.isArray(items)?items:[]).filter(x=>String(x.Project)==='M81')}
 function recalc(){DATA.items=m81(DATA.items);DATA.dashboard={...DATA.dashboard,total:DATA.items.length,balance:DATA.items.reduce((a,x)=>a+Number(x.Balance||0),0),issued:DATA.items.reduce((a,x)=>a+Number(x.Issued||0),0),inRepair:DATA.items.reduce((a,x)=>a+Number(x.InRepair||0),0)};renderHeader()}
 function saveCache(){try{localStorage.setItem(CACHE_KEY,JSON.stringify({at:Date.now(),user:DATA.user,dashboard:DATA.dashboard,items:DATA.items,loans:DATA.loans,claims:DATA.claims,stockVersion:STOCK_VERSION,stockAt:LAST_STOCK_SYNC,loansAt:LAST_LOAN_SYNC,claimsAt:LAST_CLAIM_SYNC}))}catch(_){}}
-function loadCache(){try{const x=JSON.parse(localStorage.getItem(CACHE_KEY)||'null');if(!TOKEN||!x||!Array.isArray(x.items)||Date.now()-Number(x.at||0)>24*60*60*1000)return false;DATA={user:x.user||{},dashboard:{...EMPTY,...(x.dashboard||{})},items:m81(x.items),loans:Array.isArray(x.loans)?x.loans:[],claims:Array.isArray(x.claims)?x.claims:[],users:[]};STOCK_VERSION=Number(x.stockVersion||0);LAST_STOCK_SYNC=Number(x.stockAt||0);LAST_LOAN_SYNC=Number(x.loansAt||0);LAST_CLAIM_SYNC=Number(x.claimsAt||0);recalc();setAuth(true);renderCurrent();return true}catch(_){return false}}
+function loadCache(){
+  try{
+    const x=JSON.parse(localStorage.getItem(CACHE_KEY)||'null');
+    if(!x||!Array.isArray(x.items)||Date.now()-Number(x.at||0)>24*60*60*1000)return false;
+    const cachedUser=TOKEN?(x.user||{}):{name:'ผู้ชม',role:'Viewer'};
+    DATA={user:cachedUser,dashboard:{...EMPTY,...(x.dashboard||{})},items:m81(x.items),loans:Array.isArray(x.loans)?x.loans:[],claims:Array.isArray(x.claims)?x.claims:[],users:[]};
+    STOCK_VERSION=Number(x.stockVersion||0);LAST_STOCK_SYNC=Number(x.stockAt||0);LAST_LOAN_SYNC=Number(x.loansAt||0);LAST_CLAIM_SYNC=Number(x.claimsAt||0);
+    recalc();renderCurrent();return true
+  }catch(_){return false}
+}
 async function api(body,timeout=20000){const ctl=new AbortController(),tm=setTimeout(()=>ctl.abort(),timeout);try{const r=await fetch(API_URL,{method:'POST',mode:'cors',credentials:'omit',cache:'no-store',signal:ctl.signal,headers:{'Content-Type':'text/plain;charset=UTF-8'},body:JSON.stringify(body)});const t=await r.text();if(!r.ok)throw new Error('API HTTP '+r.status);let j;try{j=JSON.parse(t)}catch(_){throw new Error('API_BAD_RESPONSE')}if(!j.ok)throw new Error(j.error||'API_ERROR');return j.result}catch(e){if(e&&e.name==='AbortError')throw new Error('ระบบตอบช้า กรุณาลองอีกครั้ง');throw e}finally{clearTimeout(tm)}}
-function setAuth(on){document.body.classList.toggle('locked',!on);if(on)closeModal('loginModal');else document.getElementById('loginModal').classList.add('show')}
-function authFail(){TOKEN='';localStorage.removeItem(TOKEN_KEY);localStorage.removeItem(USER_KEY);localStorage.removeItem(CACHE_KEY);DATA={user:{},dashboard:{...EMPTY},items:[],loans:[],claims:[],users:[]};setAuth(false);toast('เซสชันหมดอายุ กรุณาเข้าสู่ระบบใหม่',true)}
+function setAuth(on){
+  document.body.classList.remove('locked');
+  if(on)closeModal('loginModal');
+  renderHeader();
+}
+function showLogin(action=null){
+  PENDING_AUTH_ACTION=action;
+  document.getElementById('loginModal').classList.add('show');
+}
+function requireLogin(action=null){
+  if(TOKEN&&!tokenExpired())return true;
+  showLogin(action);
+  return false;
+}
+function resumeAuthAction(){
+  const a=PENDING_AUTH_ACTION;PENDING_AUTH_ACTION=null;
+  if(!a)return;
+  if(a.type==='addItem')changeItemQty(a.id,a.delta||1);
+  else if(a.type==='openLoan')openLoan(!!a.prefill);
+  else if(a.type==='openClaim')openClaim();
+}
+function authFail(){
+  TOKEN='';localStorage.removeItem(TOKEN_KEY);localStorage.removeItem(USER_KEY);
+  DATA.user={name:'ผู้ชม',role:'Viewer'};setAuth(false);renderCurrent();
+  toast('เซสชันหมดอายุ คุณยังดูข้อมูลได้ และล็อกอินใหม่เมื่อต้องทำรายการ',true)
+}
 function isAuthError(e){return String(e&&e.message||e).includes('AUTH_')}
-function renderHeader(){const u=DATA.user;document.getElementById('userPill').textContent=(u.name||u.email||'ผู้ใช้งาน')+' · '+(u.role||'');document.getElementById('hello').textContent='สวัสดี '+(u.name||'');document.getElementById('sItems').textContent=Number(DATA.dashboard.total||0).toLocaleString();document.getElementById('sBalance').textContent=Number(DATA.dashboard.balance||0).toLocaleString();document.getElementById('sIssued').textContent=Number(DATA.dashboard.issued||0).toLocaleString();document.getElementById('sRepair').textContent=Number(DATA.dashboard.inRepair||0).toLocaleString();applyRoleUI()}
-function applyRoleUI(){const r=role(),showLoans=r!=='Viewer',showClaims=canStock();document.querySelector('.nav[data-page="loans"]').classList.toggle('hidden',!showLoans);document.querySelector('.nav[data-page="claims"]').classList.toggle('hidden',!showClaims);document.getElementById('newLoanBtn').classList.toggle('hidden',!canRequest());document.getElementById('newClaimBtn').classList.toggle('hidden',!canStock());document.getElementById('adminBox').classList.toggle('hidden',r!=='Admin');const visible=[...document.querySelectorAll('#bottomNav .nav')].filter(x=>!x.classList.contains('hidden')).length;document.getElementById('bottomNav').style.gridTemplateColumns='repeat('+Math.max(2,visible)+',1fr)';if((ACTIVE==='loans'&&!showLoans)||(ACTIVE==='claims'&&!showClaims))ACTIVE='home'}
-function renderCurrent(){renderHeader();if(ACTIVE==='items')renderItems();else if(ACTIVE==='loans')renderLoans();else if(ACTIVE==='claims')renderClaims()}
-function go(p){const btn=document.querySelector('.nav[data-page="'+p+'"]');if(btn&&btn.classList.contains('hidden'))p='home';ACTIVE=p;document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById(p+'Page').classList.add('active');document.querySelectorAll('.nav').forEach(x=>x.classList.toggle('active',x.dataset.page===p));scrollTo(0,0);if(p==='items'){ITEM_LIMIT=50;renderItems();refreshStockIfStale(true)}else if(p==='loans'){renderLoans();ensureLoans(false)}else if(p==='claims'){renderClaims();ensureClaims(false)}}
+function renderHeader(){
+  const u=DATA.user||{},signed=!!TOKEN&&!tokenExpired();
+  const pill=document.getElementById('userPill');
+  pill.textContent=signed?((u.name||u.email||'ผู้ใช้งาน')+' · '+(u.role||'')):'เข้าสู่ระบบ';
+  pill.onclick=signed?logout:()=>showLogin();
+  document.getElementById('hello').textContent=signed?('สวัสดี '+(u.name||'')):'MA Stock · ดูข้อมูลได้โดยไม่ต้องเข้าสู่ระบบ';
+  document.getElementById('sItems').textContent=Number(DATA.dashboard.total||0).toLocaleString();
+  document.getElementById('sBalance').textContent=Number(DATA.dashboard.balance||0).toLocaleString();
+  document.getElementById('sIssued').textContent=Number(DATA.dashboard.issued||0).toLocaleString();
+  document.getElementById('sRepair').textContent=Number(DATA.dashboard.inRepair||0).toLocaleString();
+  applyRoleUI()
+}
+function applyRoleUI(){
+  const r=role(),signed=!!TOKEN&&!tokenExpired();
+  ['loans','claims','summary'].forEach(p=>{const n=document.querySelector('.nav[data-page="'+p+'"]');if(n)n.classList.remove('hidden')});
+  document.getElementById('newLoanBtn').classList.remove('hidden');
+  document.getElementById('newClaimBtn').classList.remove('hidden');
+  document.getElementById('adminBox').classList.toggle('hidden',r!=='Admin');
+  const visible=[...document.querySelectorAll('#bottomNav .nav')].filter(x=>!x.classList.contains('hidden')).length;
+  document.getElementById('bottomNav').style.gridTemplateColumns='repeat('+Math.max(2,visible)+',1fr)'
+}
+function renderCurrent(){
+  renderHeader();
+  if(ACTIVE==='items')renderItems();
+  else if(ACTIVE==='loans')renderLoans();
+  else if(ACTIVE==='claims')renderClaims();
+  else if(ACTIVE==='summary')renderSummary()
+}
+function go(p){
+  ACTIVE=p;
+  document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
+  const page=document.getElementById(p+'Page');if(page)page.classList.add('active');
+  document.querySelectorAll('.nav').forEach(x=>x.classList.toggle('active',x.dataset.page===p));
+  scrollTo(0,0);
+  if(p==='items'){ITEM_LIMIT=50;renderItems();refreshStockIfStale(true)}
+  else if(p==='loans'){renderLoans();ensureLoans(false)}
+  else if(p==='claims'){renderClaims();ensureClaims(false)}
+  else if(p==='summary'){ensureLoans(false);ensureClaims(false);setTimeout(renderSummary,50)}
+}
 function showModal(id){document.getElementById(id).classList.add('show')}function closeModal(id){document.getElementById(id).classList.remove('show')}
 document.querySelectorAll('.modal').forEach(m=>m.addEventListener('click',e=>{if(e.target===m&&m.id!=='loginModal')closeModal(m.id)}));
-async function submitLogin(){const username=document.getElementById('loginUsername').value.trim(),pin=document.getElementById('loginPin').value.trim();if(!username||!pin){toast('กรุณากรอก Username และ PIN',true);return}if(INFLIGHT.has('login'))return;INFLIGHT.add('login');saving(true);const b=document.getElementById('loginBtn');b.disabled=true;b.textContent='กำลังเข้าสู่ระบบ…';try{const r=await api({action:'login',username,pin},30000);TOKEN=r.token;localStorage.setItem(TOKEN_KEY,TOKEN);localStorage.setItem(USER_KEY,JSON.stringify(r.user||{}));DATA={user:r.user||{},dashboard:{...EMPTY},items:[],loans:[],claims:[],users:[]};STOCK_VERSION=0;if(r.stock)applyStock(r.stock);else await ensureStock();setAuth(true);go('home');saveCache();document.getElementById('loginPin').value=''}catch(e){toast(e.message||String(e),true);setAuth(false)}finally{INFLIGHT.delete('login');saving(false);b.disabled=false;b.textContent='เข้าสู่ระบบ'}}
-function logout(){TOKEN='';localStorage.removeItem(TOKEN_KEY);localStorage.removeItem(USER_KEY);localStorage.removeItem(CACHE_KEY);DATA={user:{},dashboard:{...EMPTY},items:[],loans:[],claims:[],users:[]};setAuth(false)}
+async function submitLogin(){
+  const username=document.getElementById('loginUsername').value.trim(),pin=document.getElementById('loginPin').value.trim();
+  if(!username||!pin){toast('กรุณากรอก Username และ PIN',true);return}
+  if(INFLIGHT.has('login'))return;
+  INFLIGHT.add('login');saving(true);
+  const b=document.getElementById('loginBtn');b.disabled=true;b.textContent='กำลังเข้าสู่ระบบ…';
+  try{
+    const r=await api({action:'login',username,pin},30000);
+    TOKEN=r.token;localStorage.setItem(TOKEN_KEY,TOKEN);localStorage.setItem(USER_KEY,JSON.stringify(r.user||{}));
+    DATA.user=r.user||{};STOCK_VERSION=0;
+    if(r.stock)applyStock(r.stock);else await ensureStock();
+    setAuth(true);saveCache();document.getElementById('loginPin').value='';
+    resumeAuthAction()
+  }catch(e){toast(e.message||String(e),true);showLogin(PENDING_AUTH_ACTION)}
+  finally{INFLIGHT.delete('login');saving(false);b.disabled=false;b.textContent='เข้าสู่ระบบ'}
+}
+function logout(){
+  TOKEN='';localStorage.removeItem(TOKEN_KEY);localStorage.removeItem(USER_KEY);
+  DATA.user={name:'ผู้ชม',role:'Viewer'};DATA.users=[];USERS_LOADED=false;setAuth(false);renderCurrent();
+  ensureStock();toast('ออกจากระบบแล้ว · ยังดูข้อมูลได้ตามปกติ')
+}
 function applyStock(s){if(!s||!Array.isArray(s.items))return;DATA.items=m81(s.items);STOCK_VERSION=Number(s.version||STOCK_VERSION||0);LAST_STOCK_SYNC=Date.now();recalc();saveCache()}
 function applyChanged(changes,version){const relevant=m81(changes);if(relevant.length){const by=new Map(relevant.map(x=>[x.ItemID,x]));DATA.items=DATA.items.map(x=>by.has(x.ItemID)?{...x,...by.get(x.ItemID)}:x)}if(version)STOCK_VERSION=Number(version);LAST_STOCK_SYNC=Date.now();recalc();saveCache()}
-async function ensureStock(){if(!TOKEN||STOCK_LOADING)return;if(DATA.items.length)return;STOCK_LOADING=true;try{applyStock(await api({action:'stock',token:TOKEN},25000))}catch(e){if(isAuthError(e))authFail();else toast('โหลดสต็อกไม่สำเร็จ',true)}finally{STOCK_LOADING=false}}
-async function refreshStockIfStale(force=false){if(!TOKEN||STOCK_SYNCING||!DATA.items.length)return;if(!force&&Date.now()-LAST_STOCK_SYNC<STOCK_STALE_MS)return;STOCK_SYNCING=true;LAST_STOCK_SYNC=Date.now();try{const r=await api({action:'stockDelta',token:TOKEN,sinceVersion:STOCK_VERSION},25000);if(r&&r.changed){if(r.full&&r.stock)applyStock(r.stock);else applyChanged(r.changedItems||[],r.version)}else if(r&&r.version){STOCK_VERSION=Number(r.version);saveCache()}}catch(e){if(isAuthError(e))authFail()}finally{STOCK_SYNCING=false}}
-function updateItemCartBar(){const bar=document.getElementById('itemCartBar');if(!bar)return;const pairs=Object.entries(LOAN_QTY).filter(([id,q])=>Number(q)>0&&DATA.items.some(x=>x.ItemID===id&&x.Project==='M81'));const count=pairs.length,total=pairs.reduce((a,[,q])=>a+Number(q||0),0);bar.classList.toggle('hidden',!canRequest()||!count);document.getElementById('itemCartCount').textContent='เลือก '+count+' รายการ';document.getElementById('itemCartQty').textContent='รวม '+total.toLocaleString()+' ชิ้น'}
-function changeItemQty(id,delta){if(!canRequest()){toast('บัญชีนี้ไม่มีสิทธิ์สร้างใบเบิก',true);return}const x=DATA.items.find(a=>a.ItemID===id);if(!x||x.Project!=='M81'||Number(x.Balance||0)<1){toast('รายการนี้ไม่พร้อมเบิก',true);return}const now=Number(LOAN_QTY[id]||0),next=Math.max(0,Math.min(Number(x.Balance||0),now+Number(delta||0)));if(next)LOAN_QTY[id]=next;else delete LOAN_QTY[id];renderItems()}
+async function ensureStock(){
+  if(STOCK_LOADING||DATA.items.length)return;
+  STOCK_LOADING=true;
+  try{applyStock(await api(TOKEN?{action:'stock',token:TOKEN}:{action:'publicStock'},25000))}
+  catch(e){if(TOKEN&&isAuthError(e))authFail();else toast('โหลดสต็อกไม่สำเร็จ',true)}
+  finally{STOCK_LOADING=false}
+}
+async function refreshStockIfStale(force=false){
+  if(STOCK_SYNCING||!DATA.items.length)return;
+  if(!force&&Date.now()-LAST_STOCK_SYNC<STOCK_STALE_MS)return;
+  STOCK_SYNCING=true;LAST_STOCK_SYNC=Date.now();
+  try{
+    const body=TOKEN?{action:'stockDelta',token:TOKEN,sinceVersion:STOCK_VERSION}:{action:'publicStockDelta',sinceVersion:STOCK_VERSION};
+    const r=await api(body,25000);
+    if(r&&r.changed){if(r.full&&r.stock)applyStock(r.stock);else applyChanged(r.changedItems||[],r.version)}
+    else if(r&&r.version){STOCK_VERSION=Number(r.version);saveCache()}
+  }catch(e){if(TOKEN&&isAuthError(e))authFail()}
+  finally{STOCK_SYNCING=false}
+}
+function updateItemCartBar(){
+  const bar=document.getElementById('itemCartBar');if(!bar)return;
+  const pairs=Object.entries(LOAN_QTY).filter(([id,q])=>Number(q)>0&&DATA.items.some(x=>x.ItemID===id&&x.Project==='M81'));
+  const count=pairs.length,total=pairs.reduce((a,[,q])=>a+Number(q||0),0);
+  bar.classList.toggle('hidden',!count);
+  document.getElementById('itemCartCount').textContent='เลือก '+count+' รายการ';
+  document.getElementById('itemCartQty').textContent='รวม '+total.toLocaleString()+' ชิ้น'
+}
+function changeItemQty(id,delta){
+  if(!canRequest()){
+    if(!TOKEN){showLogin({type:'addItem',id:id,delta:delta});return}
+    toast('บัญชีนี้ไม่มีสิทธิ์สร้างใบเบิก',true);return
+  }
+  const x=DATA.items.find(a=>a.ItemID===id);
+  if(!x||x.Project!=='M81'||Number(x.Balance||0)<1){toast('รายการนี้ไม่พร้อมเบิก',true);return}
+  const now=Number(LOAN_QTY[id]||0),next=Math.max(0,Math.min(Number(x.Balance||0),now+Number(delta||0)));
+  if(next)LOAN_QTY[id]=next;else delete LOAN_QTY[id];renderItems()
+}
 function openItemImage(url,caption){if(!url)return;const img=document.getElementById('itemImageLarge');img.src=url;img.alt=caption||'รูปวัสดุ';document.getElementById('itemImageCaption').textContent=caption||'';showModal('imageModal')}
-function renderItems(){const q=(document.getElementById('itemSearch').value||'').trim().toLowerCase(),a=DATA.items.filter(x=>!q||[x.ItemID,x.System,x.Description,x.LocationPackingNo].join(' ').toLowerCase().includes(q));document.getElementById('itemCount').textContent=a.length+' รายการ'+(LAST_STOCK_SYNC?' · ล่าสุด '+new Date(LAST_STOCK_SYNC).toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'}):'');const shown=a.slice(0,ITEM_LIMIT);let h=shown.map(x=>{const bal=Number(x.Balance||0),sel=Number(LOAN_QTY[x.ItemID]||0),img=encodeURIComponent(x.ItemID)+'.jpg';let pick='';if(canRequest()&&bal>0)pick=sel?'<div class="item-pick"><button class="secondary" onclick="changeItemQty(\''+esc(x.ItemID)+'\',-1)">−</button><b>'+sel+'</b><button class="primary" onclick="changeItemQty(\''+esc(x.ItemID)+'\',1)">+</button></div>':'<div class="item-pick"><button class="secondary" onclick="changeItemQty(\''+esc(x.ItemID)+'\',1)">+ เพิ่มลงใบเบิก</button></div>';const pic=img?'<button class="item-thumb" data-url="'+esc(img)+'" data-alt="'+esc(x.Description||'รูปวัสดุ')+'" onclick="openItemImage(this.dataset.url,this.dataset.alt)" aria-label="ดูรูปใหญ่"><img src="'+esc(img)+'" alt="'+esc(x.Description||'รูปวัสดุ')+'" loading="lazy"></button>':'';return '<div class="card"><div class="row">'+pic+'<div class="grow"><div class="asset">'+esc(x.System||'')+'</div><div class="title">'+esc(x.Description||'-')+'</div><div class="sub">Location: '+esc(x.LocationPackingNo||'-')+'</div></div><span class="badge '+(bal===0?'bad':bal<=2?'warn':'ok')+'">'+(bal===0?'หมด':bal<=2?'ใกล้หมด':'พร้อมเบิก')+'</span></div><div class="meta"><span class="balance">คงเหลือ '+bal.toLocaleString()+' ชิ้น</span></div>'+pick+'</div>'}).join('');if(a.length>shown.length)h+='<button class="secondary" onclick="ITEM_LIMIT+=50;renderItems()">แสดงเพิ่ม '+Math.min(50,a.length-shown.length)+' รายการ</button>';document.getElementById('itemList').innerHTML=h||'<div class="empty">ไม่พบวัสดุ</div>';updateItemCartBar()}
-async function ensureLoans(force=false){if(!TOKEN||LOANS_LOADING)return;const fresh=Date.now()-LAST_LOAN_SYNC<2*60*1000;if(!force&&DATA.loans.length&&fresh)return;LOANS_LOADING=true;if(!DATA.loans.length)document.getElementById('loanList').innerHTML='<div class="empty">กำลังโหลดประวัติ…</div>';try{const r=await api({action:'loans',token:TOKEN},25000);DATA.loans=r.loans||[];DATA.dashboard.pending=Number(r.pending||0);LAST_LOAN_SYNC=Date.now();renderLoans();saveCache()}catch(e){if(isAuthError(e))authFail();else if(DATA.loans.length)toast('อัปเดตประวัติไม่สำเร็จ แต่ข้อมูลในเครื่องยังเปิดได้',true);else document.getElementById('loanList').innerHTML='<div class="empty">โหลดประวัติไม่สำเร็จ<br><button class="secondary" onclick="ensureLoans(true)">ลองใหม่</button></div>'}finally{LOANS_LOADING=false}}
+function renderItems(){const q=(document.getElementById('itemSearch').value||'').trim().toLowerCase(),a=DATA.items.filter(x=>!q||[x.ItemID,x.System,x.Description,x.LocationPackingNo].join(' ').toLowerCase().includes(q));document.getElementById('itemCount').textContent=a.length+' รายการ'+(LAST_STOCK_SYNC?' · ล่าสุด '+new Date(LAST_STOCK_SYNC).toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'}):'');const shown=a.slice(0,ITEM_LIMIT);let h=shown.map(x=>{const bal=Number(x.Balance||0),sel=Number(LOAN_QTY[x.ItemID]||0),img=encodeURIComponent(x.ItemID)+'.jpg';let pick='';if(bal>0)pick=sel?'<div class="item-pick"><button class="secondary" onclick="changeItemQty(\''+esc(x.ItemID)+'\',-1)">−</button><b>'+sel+'</b><button class="primary" onclick="changeItemQty(\''+esc(x.ItemID)+'\',1)">+</button></div>':'<div class="item-pick"><button class="secondary" onclick="changeItemQty(\''+esc(x.ItemID)+'\',1)">+ เพิ่มลงใบเบิก</button></div>';const pic=img?'<button class="item-thumb" data-url="'+esc(img)+'" data-alt="'+esc(x.Description||'รูปวัสดุ')+'" onclick="openItemImage(this.dataset.url,this.dataset.alt)" aria-label="ดูรูปใหญ่"><img src="'+esc(img)+'" alt="'+esc(x.Description||'รูปวัสดุ')+'" loading="lazy"></button>':'';return '<div class="card"><div class="row">'+pic+'<div class="grow"><div class="asset">'+esc(x.System||'')+'</div><div class="title">'+esc(x.Description||'-')+'</div><div class="sub">Location: '+esc(x.LocationPackingNo||'-')+'</div></div><span class="badge '+(bal===0?'bad':bal<=2?'warn':'ok')+'">'+(bal===0?'หมด':bal<=2?'ใกล้หมด':'พร้อมเบิก')+'</span></div><div class="meta"><span class="balance">คงเหลือ '+bal.toLocaleString()+' ชิ้น</span></div>'+pick+'</div>'}).join('');if(a.length>shown.length)h+='<button class="secondary" onclick="ITEM_LIMIT+=50;renderItems()">แสดงเพิ่ม '+Math.min(50,a.length-shown.length)+' รายการ</button>';document.getElementById('itemList').innerHTML=h||'<div class="empty">ไม่พบวัสดุ</div>';updateItemCartBar()}
+async function ensureLoans(force=false){
+  if(LOANS_LOADING)return;
+  const fresh=Date.now()-LAST_LOAN_SYNC<2*60*1000;
+  if(!force&&DATA.loans.length&&fresh)return;
+  LOANS_LOADING=true;
+  if(!DATA.loans.length)document.getElementById('loanList').innerHTML='<div class="empty">กำลังโหลดประวัติ…</div>';
+  try{
+    const r=await api({action:'publicLoans'},25000);
+    DATA.loans=r.loans||[];DATA.dashboard.pending=Number(r.pending||0);LAST_LOAN_SYNC=Date.now();renderLoans();if(ACTIVE==='summary')renderSummary();saveCache()
+  }catch(e){
+    if(DATA.loans.length)toast('อัปเดตประวัติไม่สำเร็จ แต่ข้อมูลในเครื่องยังเปิดได้',true);
+    else document.getElementById('loanList').innerHTML='<div class="empty">โหลดประวัติไม่สำเร็จ<br><button class="secondary" onclick="ensureLoans(true)">ลองใหม่</button></div>'
+  }finally{LOANS_LOADING=false}
+}
 function setLoanFilter(v,b){LOAN_FILTER=v;document.querySelectorAll('#loanFilters .chip').forEach(x=>x.classList.remove('active'));b.classList.add('active');renderLoans()}
 function loanSearchText(x){return [x.DocumentNumber,x.LoanID,x.ProjectName,x.RequesterName,x.RequesterEmail,x.RequestType,x.RequestReason,x.UseLocation,x.Status].concat((x.Items||[]).map(i=>i.DescriptionSnapshot||i.ItemID)).join(' ').toLowerCase()}
-function loanCard(x){const its=(x.Items||[]).map(i=>esc((i.SystemSnapshot||'')+' · '+(i.DescriptionSnapshot||i.ItemID)+' × '+Number(i.QtyRequested||0))).join('<br>');let a='<div class="actions"><button class="secondary" onclick="showLoan(\''+esc(x.LoanID)+'\')">ดูใบเบิก</button>';if(canStock()&&x.Status==='Approved')a+='<button class="primary" onclick="handover(\''+esc(x.LoanID)+'\')">จ่ายออก</button>';if(canStock()&&x.Status==='HandedOver')a+='<button class="secondary" onclick="receiveReturn(\''+esc(x.LoanID)+'\')">รับคืน</button>';a+='</div>';return '<div class="card"><div class="row"><div class="grow"><div class="asset">'+esc(x.DocumentNumber||x.LoanID)+' · STORE 02</div><div class="title">'+esc(x.ProjectName||x.RequestReason||'-')+'</div><div class="sub">'+esc(x.RequesterName||x.RequesterEmail||'')+(x.RequestType?' · '+esc(x.RequestType):'')+'</div><div class="sub">'+(its||'-')+'</div></div>'+badge(x.Status)+'</div><div class="meta"><span>'+fmt(x.RequestDateTime)+'</span>'+(x.UseLocation?'<span>'+esc(x.UseLocation)+'</span>':'')+'</div>'+a+'</div>'}
-function renderLoans(){let a=DATA.loans.slice();if(role()==='Requester'){const me=String(DATA.user.email||DATA.user.Email||'').toLowerCase();a=a.filter(x=>String(x.RequesterEmail||'').toLowerCase()===me)}if(LOAN_FILTER!=='ALL')a=a.filter(x=>x.Status===LOAN_FILTER);const q=(document.getElementById('loanSearch').value||'').trim().toLowerCase();if(q)a=a.filter(x=>loanSearchText(x).includes(q));document.getElementById('loanCount').textContent=a.length+' ใบ';document.getElementById('loanList').innerHTML=a.map(loanCard).join('')||'<div class="empty">ยังไม่มีใบเบิกวัสดุ</div>'}
+function loanCard(x){const its=(x.Items||[]).map(i=>esc((i.SystemSnapshot||'')+' · '+(i.DescriptionSnapshot||i.ItemID)+' × '+Number(i.QtyRequested||0))).join('<br>');let a='<div class="actions"><button class="secondary" onclick="showLoan(\''+esc(x.LoanID)+'\')">ดูใบเบิก</button>';if(canStock()&&x.Status==='Approved')a+='<button class="primary" onclick="handover(\''+esc(x.LoanID)+'\')">จ่ายออก</button>';if(canStock()&&x.Status==='HandedOver')a+='<button class="secondary" onclick="receiveReturn(\''+esc(x.LoanID)+'\')">รับคืน</button>';a+='</div>';return '<div class="card"><div class="row"><div class="grow"><div class="asset">'+esc(x.DocumentNumber||x.LoanID)+'</div><div class="title">'+esc(x.ProjectName||x.RequestReason||'-')+'</div><div class="sub">'+esc(x.RequesterName||x.RequesterEmail||'')+(x.RequestType?' · '+esc(x.RequestType):'')+'</div><div class="sub">'+(its||'-')+'</div></div>'+badge(x.Status)+'</div><div class="meta"><span>'+fmt(x.RequestDateTime)+'</span>'+(x.UseLocation?'<span>'+esc(x.UseLocation)+'</span>':'')+'</div>'+a+'</div>'}
+function renderLoans(){
+  let a=DATA.loans.slice();
+  if(LOAN_FILTER!=='ALL')a=a.filter(x=>x.Status===LOAN_FILTER);
+  const q=(document.getElementById('loanSearch').value||'').trim().toLowerCase();
+  if(q)a=a.filter(x=>loanSearchText(x).includes(q));
+  document.getElementById('loanCount').textContent=a.length+' ใบ';
+  document.getElementById('loanList').innerHTML=a.map(loanCard).join('')||'<div class="empty">ยังไม่มีใบเบิกวัสดุ</div>'
+}
 function setLoanQty(id,v){const x=DATA.items.find(a=>a.ItemID===id),max=x?Number(x.Balance||0):0,n=Math.max(0,Math.min(max,Math.floor(Number(v)||0)));if(n)LOAN_QTY[id]=n;else delete LOAN_QTY[id];updateItemCartBar()}
 function renderLoanStock(){const selected=Object.entries(LOAN_QTY).map(([id,qty])=>({x:DATA.items.find(a=>a.ItemID===id&&a.Project==='M81'),qty:Number(qty||0)})).filter(o=>o.x&&o.qty>0);document.getElementById('loanItems').innerHTML=selected.map(o=>{const x=o.x;return '<div class="stock-row"><div><b>'+esc(x.System||'')+'</b><div class="sub">'+esc(x.Description||'')+'</div><div class="sub">'+esc(x.LocationPackingNo||'')+' · คงเหลือ <b>'+Number(x.Balance||0).toLocaleString()+'</b></div></div><input data-id="'+esc(x.ItemID)+'" type="number" min="0" max="'+Number(x.Balance||0)+'" value="'+o.qty+'" inputmode="numeric" oninput="setLoanQty(this.dataset.id,this.value);renderLoanStock()"></div>'}).join('')}
-function openLoan(prefill=false){if(!canRequest()){toast('บัญชีนี้ไม่มีสิทธิ์สร้างใบเบิก',true);return}if(!prefill)LOAN_QTY={};PENDING_LOAN=null;const n=document.getElementById('loanRequesterName'),d=document.getElementById('loanDepartment'),locked=!canStock();n.value=DATA.user.name||'';d.value=DATA.user.department||'';n.readOnly=locked;d.readOnly=locked;n.classList.toggle('readonly',locked);d.classList.toggle('readonly',locked);document.getElementById('loanRequesterHint').textContent=locked?'ดึงจาก Profile อัตโนมัติ':'Admin / Stock Officer สามารถกรอกแทนผู้อื่นได้';document.getElementById('loanPhone').value=DATA.user.phone||'';document.getElementById('loanItemSearch').value='';renderLoanStock();showModal('loanModal');refreshStockIfStale()}
-function buildLoan(){const items=Object.entries(LOAN_QTY).map(([itemId,qty])=>({itemId,qty:Number(qty)})).filter(x=>x.qty>0);if(!items.length){toast('กรุณาเลือกรายการและจำนวน',true);return null}for(const it of items){const x=DATA.items.find(a=>a.ItemID===it.itemId);if(!x||x.Project!=='M81'||it.qty>Number(x.Balance||0)){toast('จำนวนที่ขอเกินคงเหลือ หรือเป็นรายการที่ไม่เปิดให้เบิก',true);return null}}const rt=document.querySelector('input[name="loanType"]:checked');return{items,requesterName:document.getElementById('loanRequesterName').value.trim(),requesterDepartment:document.getElementById('loanDepartment').value.trim(),requesterPhone:document.getElementById('loanPhone').value.trim(),projectName:document.getElementById('loanProject').value.trim(),storageLocation:document.getElementById('loanStorageLocation').value.trim(),borrowPeriod:document.getElementById('loanBorrowPeriod').value.trim(),useLocation:document.getElementById('loanUseLocation').value.trim(),requestType:rt?rt.value:'',requestTypeOther:document.getElementById('loanTypeOther').value.trim(),requestReason:document.getElementById('loanReason').value.trim()}}
+function openLoan(prefill=false){
+  if(!canRequest()){
+    if(!TOKEN){showLogin({type:'openLoan',prefill:prefill});return}
+    toast('บัญชีนี้ไม่มีสิทธิ์สร้างใบเบิก',true);return
+  }
+  if(!prefill)LOAN_QTY={};PENDING_LOAN=null;
+  const n=document.getElementById('loanRequesterName'),d=document.getElementById('loanDepartment'),pos=document.getElementById('loanPosition'),ph=document.getElementById('loanPhone');
+  const shared=String(DATA.user.profileMode||'Fixed')==='Shared',staff=canStock();
+  n.value=shared?'':(DATA.user.name||'');d.value=DATA.user.department||'';pos.value=DATA.user.position||'';ph.value=DATA.user.phone||'';
+  [n,d,pos,ph].forEach(e=>{e.readOnly=!staff&&!shared;e.classList.toggle('readonly',e.readOnly)});
+  document.getElementById('loanRequesterHint').textContent=shared?'บัญชีส่วนกลาง · กรุณากรอกชื่อผู้เบิกจริง':'ดึงข้อมูลจาก Profile อัตโนมัติ';
+  document.getElementById('loanItemSearch').value='';renderLoanStock();showModal('loanModal');refreshStockIfStale(true)
+}
+function buildLoan(){const items=Object.entries(LOAN_QTY).map(([itemId,qty])=>({itemId,qty:Number(qty)})).filter(x=>x.qty>0);if(!items.length){toast('กรุณาเลือกรายการและจำนวน',true);return null}for(const it of items){const x=DATA.items.find(a=>a.ItemID===it.itemId);if(!x||x.Project!=='M81'||it.qty>Number(x.Balance||0)){toast('จำนวนที่ขอเกินคงเหลือ หรือเป็นรายการที่ไม่เปิดให้เบิก',true);return null}}const rt=document.querySelector('input[name="loanType"]:checked');return{items,requesterName:document.getElementById('loanRequesterName').value.trim(),requesterDepartment:document.getElementById('loanDepartment').value.trim(),requesterPosition:document.getElementById('loanPosition').value.trim(),requesterPhone:document.getElementById('loanPhone').value.trim(),projectName:document.getElementById('loanProject').value.trim(),storageLocation:document.getElementById('loanStorageLocation').value.trim(),borrowPeriod:document.getElementById('loanBorrowPeriod').value.trim(),useLocation:document.getElementById('loanUseLocation').value.trim(),requestType:rt?rt.value:'',requestTypeOther:document.getElementById('loanTypeOther').value.trim(),requestReason:document.getElementById('loanReason').value.trim()}}
 function printLoan(){window.print()}
-function previewHtml(x,draft=false){const rows=(x.Items||[]).map((i,k)=>'<tr><td>'+(k+1)+'</td><td>'+esc(i.SystemSnapshot||'')+'</td><td>'+esc(i.DescriptionSnapshot||i.ItemID||'')+'</td><td>'+esc(i.LocationSnapshot||'')+'</td><td>'+Number(i.QtyRequested||0).toLocaleString()+'</td></tr>').join('');return '<div class="doc"><div class="dochead"><b>ใบเบิกวัสดุ · STORE 02</b><span>บริษัท ล็อกซเล่ย์ จำกัด (มหาชน) · ฝ่ายระบบขนส่ง · ออกครั้งที่ 01</span></div><div class="docgrid"><div class="docfield"><small>เลขที่ใบเบิก</small><b>'+esc(x.DocumentNumber||(draft?'ออกเลขเมื่อส่ง':'-'))+'</b></div><div class="docfield"><small>วันที่</small>'+fmt(x.RequestDateTime||new Date())+'</div><div class="docfield"><small>ผู้ขอเบิก</small>'+esc(x.RequesterName||'-')+'</div><div class="docfield"><small>แผนก / ฝ่าย</small>'+esc(x.RequesterDepartment||'-')+'</div><div class="docfield"><small>โทรศัพท์</small>'+esc(x.RequesterPhone||'-')+'</div><div class="docfield"><small>ประเภท</small>'+esc(x.RequestType||'-')+(x.RequestTypeOther?' · '+esc(x.RequestTypeOther):'')+'</div><div class="docfield full"><small>โครงการ</small>'+esc(x.ProjectName||'-')+'</div><div class="docfield"><small>สถานที่เก็บ</small>'+esc(x.StorageLocation||'-')+'</div><div class="docfield"><small>สถานที่ใช้งาน</small>'+esc(x.UseLocation||'-')+'</div><div class="docfield full"><small>เหตุผล</small>'+esc(x.RequestReason||'-')+'</div></div><table class="doctable"><thead><tr><th>#</th><th>System</th><th>รายการ</th><th>Location</th><th>จำนวน</th></tr></thead><tbody>'+rows+'</tbody></table><div class="docnote">ข้าพเจ้าได้รับวัสดุตามรายการข้างต้นไว้ถูกต้องเรียบร้อยแล้ว และอยู่ในความรับผิดชอบของข้าพเจ้าทั้งสิ้น</div><div class="signature-grid"><div class="sigbox"><div class="sigrole">(หัวหน้างาน / ผู้จัดการโครงการ)</div><div class="sigline">ผู้อนุมัติ</div><div class="sigline">วันที่</div></div><div class="sigbox"><div class="sigrole">(เจ้าหน้าที่ธุรการ)</div><div class="sigline">ผู้ให้เบิก</div><div class="sigline">วันที่</div><div class="sigline">หมายเหตุ</div></div><div class="sigbox"><div class="sigrole">ผู้เบิก</div><div class="sigline">'+esc(x.RequesterName||'')+'</div><div class="sigline">วันที่</div></div><div class="sigbox"><div class="sigrole">(กรณียืม)</div><div class="sigline">ผู้รับคืน</div><div class="sigline">วันที่</div></div></div></div>'}
-function previewDraftLoan(){const p=buildLoan();if(!p)return;PENDING_LOAN=p;const d={RequesterName:p.requesterName,RequesterDepartment:p.requesterDepartment,RequesterPhone:p.requesterPhone,ProjectName:p.projectName,StorageLocation:p.storageLocation,UseLocation:p.useLocation,RequestType:p.requestType,RequestReason:p.requestReason,Items:p.items.map(it=>{const x=DATA.items.find(a=>a.ItemID===it.itemId)||{};return{ItemID:it.itemId,SystemSnapshot:x.System,DescriptionSnapshot:x.Description,LocationSnapshot:x.LocationPackingNo,QtyRequested:it.qty}})};document.getElementById('loanPreviewBody').innerHTML=previewHtml(d,true);document.getElementById('loanPreviewActions').innerHTML='<button class="secondary" onclick="closeModal(\'loanPreviewModal\')">กลับไปแก้</button><button class="primary" onclick="confirmLoan()">ยืนยันส่งใบเบิก</button>';showModal('loanPreviewModal')}
+function previewHtml(x,draft=false){
+  const items=x.Items||[],cls=items.length>18?' ultra':items.length>10?' dense':'';
+  const rows=items.map((i,k)=>'<tr><td>'+(k+1)+'</td><td>'+esc(i.SystemSnapshot||'')+'</td><td>'+esc(i.DescriptionSnapshot||i.ItemID||'')+'</td><td>'+esc(i.LocationSnapshot||'')+'</td><td>'+Number(i.QtyRequested||0).toLocaleString()+'</td></tr>').join('');
+  const isBorrow=['ให้ยืม','ทดสอบ'].includes(String(x.RequestType||''));
+  const requester=esc(x.RequesterName||'-'),handover=esc(x.HandoverByName||''),returner=esc(x.ReturnReceivedByName||'');
+  return '<div class="doc'+cls+'"><div class="dochead"><b>ใบเบิกวัสดุ</b><span>บริษัท ล็อกซเล่ย์ จำกัด (มหาชน) · ฝ่ายระบบขนส่ง · ออกครั้งที่ 01</span></div>'+
+  '<div class="docgrid">'+
+    '<div class="docfield"><small>เลขที่ใบเบิก</small><strong>'+esc(x.DocumentNumber||(draft?'ออกเลขเมื่อส่ง':'-'))+'</strong></div>'+
+    '<div class="docfield"><small>วันที่</small><strong>'+fmt(x.RequestDateTime||new Date())+'</strong></div>'+
+    '<div class="docfield"><small>ประเภท</small><strong>'+esc(x.RequestType||'-')+(x.RequestTypeOther?' · '+esc(x.RequestTypeOther):'')+'</strong></div>'+
+    '<div class="docfield"><small>ผู้ขอเบิก</small><strong>'+requester+'</strong></div>'+
+    '<div class="docfield"><small>ตำแหน่ง</small>'+esc(x.RequesterPosition||'-')+'</div>'+
+    '<div class="docfield"><small>แผนก / ฝ่าย · โทรศัพท์</small>'+esc(x.RequesterDepartment||'-')+(x.RequesterPhone?' · '+esc(x.RequesterPhone):'')+'</div>'+
+    '<div class="docfield span2"><small>โครงการ / สถานที่ใช้งาน</small>'+esc(x.ProjectName||'-')+(x.UseLocation?' · '+esc(x.UseLocation):'')+'</div>'+
+    '<div class="docfield"><small>ระยะเวลา</small>'+esc(x.BorrowPeriod||'-')+'</div>'+
+    '<div class="docfield full"><small>เหตุผล</small>'+esc(x.RequestReason||'-')+'</div>'+
+  '</div>'+
+  '<table class="doctable"><thead><tr><th>#</th><th>System</th><th>รายการวัสดุ</th><th>Location</th><th>จำนวน</th></tr></thead><tbody>'+rows+'</tbody></table>'+
+  '<div class="docnote">ผู้เบิกรับรองว่าได้รับวัสดุตามรายการข้างต้นถูกต้อง และกรณียืมจะนำส่งคืนตามจำนวนและสภาพที่รับไป</div>'+
+  '<div class="signature-grid">'+
+    '<div class="sigbox"><div class="sigrole">ผู้เบิก</div><div class="signame">'+requester+'</div><div class="sigline">ลายเซ็น / วันที่</div></div>'+
+    '<div class="sigbox"><div class="sigrole">ผู้ให้เบิก</div><div class="signame">'+(handover||'&nbsp;')+'</div><div class="sigline">ลายเซ็น / วันที่</div></div>'+
+    '<div class="sigbox"><div class="sigrole">ผู้ยืม (กรณียืม)</div><div class="signame">'+(isBorrow?requester:'&nbsp;')+'</div><div class="sigline">ลายเซ็น / วันที่</div></div>'+
+    '<div class="sigbox"><div class="sigrole">ผู้รับคืน / ผู้ให้ยืม (กรณีคืน)</div><div class="signame">'+(returner||'&nbsp;')+'</div><div class="sigline">ลายเซ็น / วันที่</div></div>'+
+  '</div></div>'
+}
+function previewDraftLoan(){
+  const p=buildLoan();if(!p)return;PENDING_LOAN=p;
+  const d={RequesterName:p.requesterName,RequesterDepartment:p.requesterDepartment,RequesterPosition:p.requesterPosition,RequesterPhone:p.requesterPhone,ProjectName:p.projectName,StorageLocation:p.storageLocation,BorrowPeriod:p.borrowPeriod,UseLocation:p.useLocation,RequestType:p.requestType,RequestTypeOther:p.requestTypeOther,RequestReason:p.requestReason,Items:p.items.map(it=>{const x=DATA.items.find(a=>a.ItemID===it.itemId)||{};return{ItemID:it.itemId,SystemSnapshot:x.System,DescriptionSnapshot:x.Description,LocationSnapshot:x.LocationPackingNo,QtyRequested:it.qty}})};
+  document.getElementById('loanPreviewBody').innerHTML=previewHtml(d,true);
+  document.getElementById('loanPreviewActions').innerHTML='<button class="secondary" onclick="closeModal(\'loanPreviewModal\')">กลับไปแก้</button><button class="primary" onclick="confirmLoan()">ยืนยันส่งใบเบิก</button>';
+  showModal('loanPreviewModal')
+}
 async function mutate(key,body,onok){if(INFLIGHT.has(key)){toast('รายการนี้กำลังบันทึกอยู่');return}INFLIGHT.add(key);saving(true);try{const r=await api({token:TOKEN,...body},30000);if(r&&r.changedItems){applyChanged(r.changedItems,r.stockVersion);setTimeout(()=>refreshStockIfStale(true),250)}if(onok)onok(r)}catch(e){if(isAuthError(e))authFail();else toast(e.message||String(e),true)}finally{INFLIGHT.delete(key);saving(false)}}
 function confirmLoan(){if(!PENDING_LOAN)return;mutate('createLoanRequest',{action:'createLoanRequest',payload:PENDING_LOAN},()=>{PENDING_LOAN=null;LOAN_QTY={};updateItemCartBar();closeModal('loanPreviewModal');closeModal('loanModal');toast('ส่งใบเบิกวัสดุแล้ว');LAST_LOAN_SYNC=0;go('loans');ensureLoans(true)})}
 function showLoan(id){const x=DATA.loans.find(a=>a.LoanID===id);if(!x)return;document.getElementById('loanPreviewBody').innerHTML=previewHtml(x,false);let a='<button class="secondary" onclick="closeModal(\'loanPreviewModal\')">ปิด</button><button class="secondary" onclick="printLoan()">พิมพ์</button>';if(canApprove()&&x.Status==='PendingApproval')a+='<button class="danger" onclick="decideLoan(\''+esc(id)+'\',false)">ไม่อนุมัติ</button><button class="success" onclick="decideLoan(\''+esc(id)+'\',true)">อนุมัติ</button>';document.getElementById('loanPreviewActions').innerHTML=a;showModal('loanPreviewModal')}
 function decideLoan(id,yes){let reason='';if(!yes){reason=prompt('เหตุผลที่ไม่อนุมัติ')||'';if(!reason)return}mutate('decideLoan:'+id,{action:'decideLoan',loanId:id,approve:yes,reason},()=>{closeModal('loanPreviewModal');toast(yes?'อนุมัติใบเบิกแล้ว':'บันทึกไม่อนุมัติแล้ว');LAST_LOAN_SYNC=0;ensureLoans(true)})}
 function handover(id){if(!confirm('ยืนยันจ่ายออกและหักสต็อก?'))return;mutate('handover:'+id,{action:'handoverLoan',loanId:id},()=>{toast('จ่ายออกแล้ว');LAST_LOAN_SYNC=0;ensureLoans(true)})}
 function receiveReturn(id){if(!confirm('ยืนยันรับคืนเข้าสต็อก?'))return;mutate('return:'+id,{action:'returnLoan',loanId:id},()=>{toast('รับคืนเข้าสต็อกแล้ว');LAST_LOAN_SYNC=0;ensureLoans(true)})}
-async function ensureClaims(force=false){if(!TOKEN||CLAIMS_LOADING)return;const fresh=Date.now()-LAST_CLAIM_SYNC<2*60*1000;if(!force&&DATA.claims.length&&fresh)return;CLAIMS_LOADING=true;if(!DATA.claims.length)document.getElementById('claimList').innerHTML='<div class="empty">กำลังโหลดประวัติ…</div>';try{const r=await api({action:'claims',token:TOKEN},25000);DATA.claims=r.claims||[];DATA.dashboard.openClaims=Number(r.openClaims||0);LAST_CLAIM_SYNC=Date.now();renderClaims();saveCache()}catch(e){if(isAuthError(e))authFail();else if(DATA.claims.length)toast('อัปเดตงานซ่อมไม่สำเร็จ แต่ข้อมูลในเครื่องยังเปิดได้',true);else document.getElementById('claimList').innerHTML='<div class="empty">โหลดงานซ่อมไม่สำเร็จ<br><button class="secondary" onclick="ensureClaims(true)">ลองใหม่</button></div>'}finally{CLAIMS_LOADING=false}}
+async function ensureClaims(force=false){
+  if(CLAIMS_LOADING)return;
+  const fresh=Date.now()-LAST_CLAIM_SYNC<2*60*1000;
+  if(!force&&DATA.claims.length&&fresh)return;
+  CLAIMS_LOADING=true;
+  if(!DATA.claims.length)document.getElementById('claimList').innerHTML='<div class="empty">กำลังโหลดประวัติ…</div>';
+  try{
+    const r=await api({action:'publicClaims'},25000);
+    DATA.claims=r.claims||[];DATA.dashboard.openClaims=Number(r.openClaims||0);LAST_CLAIM_SYNC=Date.now();renderClaims();if(ACTIVE==='summary')renderSummary();saveCache()
+  }catch(e){
+    if(DATA.claims.length)toast('อัปเดตงานซ่อมไม่สำเร็จ แต่ข้อมูลในเครื่องยังเปิดได้',true);
+    else document.getElementById('claimList').innerHTML='<div class="empty">โหลดงานซ่อมไม่สำเร็จ<br><button class="secondary" onclick="ensureClaims(true)">ลองใหม่</button></div>'
+  }finally{CLAIMS_LOADING=false}
+}
 function claimSearchText(x){return [x.ClaimNumber,x.ClaimID,x.SystemSnapshot,x.ItemDescriptionSnapshot,x.ModelEntered,x.SerialEntered,x.RepairCompany,x.Status].join(' ').toLowerCase()}
 function claimCard(x){const act=canStock()?'<div class="actions"><button class="primary" onclick="openUpdate(\''+esc(x.ClaimID)+'\')">อัปเดตงานซ่อม</button></div>':'';return '<div class="card"><div class="row"><div class="grow"><div class="asset">'+esc(x.ClaimNumber||x.ClaimID)+' · STORE-03</div><div class="title">'+esc(x.ItemDescriptionSnapshot||'-')+'</div><div class="sub">'+esc([x.SystemSnapshot,x.ModelEntered,x.SerialEntered].filter(Boolean).join(' · '))+'</div><div class="sub">จำนวน '+Number(x.Qty||0)+' · '+esc(x.IssueDescription||'-')+'</div></div>'+badge(x.Status)+'</div><div class="meta"><span>'+fmt(x.RepairSentDate||x.OpenedAt)+'</span><span>'+esc(x.RepairCompany||'ยังไม่ระบุบริษัท')+'</span></div>'+act+'</div>'}
 function renderClaims(){const q=(document.getElementById('claimSearch').value||'').trim().toLowerCase(),a=DATA.claims.filter(x=>!q||claimSearchText(x).includes(q));document.getElementById('claimCount').textContent=a.length+' ใบ';document.getElementById('claimList').innerHTML=a.map(claimCard).join('')||'<div class="empty">ยังไม่มีงานซ่อม</div>'}
 function fillClaimItems(){document.getElementById('claimItem').innerHTML=DATA.items.filter(x=>Number(x.Balance)>0).map(x=>'<option value="'+esc(x.ItemID)+'">'+esc((x.System||'')+' · '+(x.Description||'')+' · เหลือ '+Number(x.Balance||0).toLocaleString())+'</option>').join('');updateRepairHint()}
 function updateRepairHint(){const x=DATA.items.find(i=>i.ItemID===document.getElementById('claimItem').value);document.getElementById('repairItemHint').textContent=x?('M81 · '+x.System+' · '+x.LocationPackingNo+' · คงเหลือ '+Number(x.Balance||0).toLocaleString()):'';if(x)document.getElementById('repairQty').max=Number(x.Balance||0)}
-function openClaim(){if(!canStock()){toast('บัญชีนี้ไม่มีสิทธิ์เปิดงานซ่อม',true);return}fillClaimItems();document.getElementById('repairSenderName').value=DATA.user.name||'';document.getElementById('repairQty').value=1;document.getElementById('repairSentDate').value=new Date().toISOString().slice(0,10);showModal('claimModal');refreshStockIfStale()}
+function openClaim(){
+  if(!canStock()){
+    if(!TOKEN){showLogin({type:'openClaim'});return}
+    toast('บัญชีนี้ไม่มีสิทธิ์เปิดงานซ่อม',true);return
+  }
+  fillClaimItems();document.getElementById('repairSenderName').value=DATA.user.name||'';
+  document.getElementById('repairQty').value=1;document.getElementById('repairSentDate').value=new Date().toISOString().slice(0,10);
+  showModal('claimModal');refreshStockIfStale(true)
+}
 function submitClaim(){const ref=document.querySelector('input[name="repairRef"]:checked'),itemId=document.getElementById('claimItem').value,x=DATA.items.find(i=>i.ItemID===itemId),qty=Number(document.getElementById('repairQty').value||0);if(!x||x.Project!=='M81'||qty<1||qty>Number(x.Balance||0)){toast('จำนวนส่งซ่อมไม่ถูกต้อง',true);return}const payload={itemId,issue:document.getElementById('claimIssue').value,repairCompany:document.getElementById('repairCompany').value,repairAddress:document.getElementById('repairAddress').value,repairPhone:document.getElementById('repairPhone').value,repairSentDate:document.getElementById('repairSentDate').value,referenceType:ref?ref.value:'Project',referenceValue:document.getElementById('repairReferenceValue').value,qty,model:document.getElementById('repairModel').value,serial:document.getElementById('repairSerial').value,senderName:document.getElementById('repairSenderName').value,receiverName:document.getElementById('repairReceiverName').value};mutate('createClaim',{action:'createClaim',payload},()=>{closeModal('claimModal');toast('เปิดใบส่งซ่อมแล้ว');LAST_CLAIM_SYNC=0;go('claims');ensureClaims(true)})}
 function openUpdate(id){const c=DATA.claims.find(x=>x.ClaimID===id)||{};document.getElementById('updateClaimId').value=id;const map={updateStatus:c.Status||'Open',repairAdminStatus:c.RepairAdminStatus||'',repairQuoteNumber:c.QuoteNumber||'',repairQuoteDate:(c.QuoteDate||'').slice(0,10),repairContactName:c.RepairContactName||'',repairContactPhone:c.RepairContactPhone||'',repairFax:c.RepairFax||'',repairQuoteAddress:c.QuoteCompanyAddress||'',repairCostInspection:c.CostInspection||'',repairCostParts:c.CostParts||'',repairCostService:c.CostService||'',repairDecision:c.RepairDecision||'',repairDecisionReason:c.DecisionReason||'',repairDuration:c.RepairDuration||'',repairReceivedDate:(c.RepairReceivedDate||'').slice(0,10),repairApproverName:c.RepairApproverName||'',repairApprovalDate:(c.RepairApprovalDate||'').slice(0,10)};Object.entries(map).forEach(([id,v])=>document.getElementById(id).value=v);showModal('updateModal')}
 function submitClaimUpdate(){const payload={claimId:document.getElementById('updateClaimId').value,status:document.getElementById('updateStatus').value,repairAdminStatus:document.getElementById('repairAdminStatus').value,quoteNumber:document.getElementById('repairQuoteNumber').value,quoteDate:document.getElementById('repairQuoteDate').value,repairContactName:document.getElementById('repairContactName').value,repairContactPhone:document.getElementById('repairContactPhone').value,repairFax:document.getElementById('repairFax').value,quoteCompanyAddress:document.getElementById('repairQuoteAddress').value,costInspection:document.getElementById('repairCostInspection').value,costParts:document.getElementById('repairCostParts').value,costService:document.getElementById('repairCostService').value,repairDecision:document.getElementById('repairDecision').value,decisionReason:document.getElementById('repairDecisionReason').value,repairDuration:document.getElementById('repairDuration').value,repairReceivedDate:document.getElementById('repairReceivedDate').value,repairApproverName:document.getElementById('repairApproverName').value,repairApprovalDate:document.getElementById('repairApprovalDate').value,channel:document.getElementById('updateChannel').value,detail:document.getElementById('updateDetail').value,nextDate:document.getElementById('updateNext').value,itemStatus:document.getElementById('updateItemStatus').value};mutate('claimUpdate:'+payload.claimId,{action:'addClaimUpdate',payload},()=>{closeModal('updateModal');toast('บันทึกข้อมูลซ่อมแล้ว');LAST_CLAIM_SYNC=0;ensureClaims(true)})}
-async function openUsers(){if(role()!=='Admin')return;if(!USERS_LOADED){if(USERS_LOADING)return;USERS_LOADING=true;try{const r=await api({action:'users',token:TOKEN},25000);DATA.users=r.users||[];USERS_LOADED=true}catch(e){toast('โหลดผู้ใช้ไม่สำเร็จ',true);USERS_LOADING=false;return}USERS_LOADING=false}const s=document.getElementById('adminUserSelect');s.innerHTML=DATA.users.map(u=>'<option value="'+esc(u.UserID)+'">'+esc((u.FullName||u.Email)+' · '+(u.Role||''))+'</option>').join('');fillAdminUser();showModal('userModal')}
-function fillAdminUser(){const u=DATA.users.find(x=>x.UserID===document.getElementById('adminUserSelect').value)||{};document.getElementById('adminUsername').value=u.Username||'';document.getElementById('adminUserPin').value=''}
-function saveUserCredentials(){const payload={userId:document.getElementById('adminUserSelect').value,username:document.getElementById('adminUsername').value.trim(),pin:document.getElementById('adminUserPin').value.trim()};mutate('setUserCredentials',{action:'setUserCredentials',payload},()=>{toast('บันทึก Username / PIN แล้ว');document.getElementById('adminUserPin').value='';USERS_LOADED=false;closeModal('userModal')})}
+function summaryDate(x){
+  const v=x.RequestDateTime||x.CreatedAt||'';
+  if(typeof v==='string'){
+    const m=v.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/);if(m)return {y:Number(m[3]),m:Number(m[2])};
+  }
+  const d=new Date(v);return isNaN(d)?{y:0,m:0}:{y:d.getFullYear(),m:d.getMonth()+1}
+}
+function renderSummary(){
+  const ys=[...new Set(DATA.loans.map(x=>summaryDate(x).y).filter(Boolean))].sort((a,b)=>b-a);
+  const ySel=document.getElementById('summaryYear'),mSel=document.getElementById('summaryMonth');
+  const current=new Date().getFullYear();if(!ys.includes(current))ys.unshift(current);
+  const oldY=Number(ySel.value||current);ySel.innerHTML=ys.map(y=>'<option value="'+y+'">'+y+'</option>').join('');ySel.value=String(ys.includes(oldY)?oldY:ys[0]);
+  const y=Number(ySel.value),m=Number(mSel.value||0);
+  const loans=DATA.loans.filter(x=>{const d=summaryDate(x);return d.y===y&&(!m||d.m===m)});
+  let requested=0,issued=0,returned=0;const top={};
+  loans.forEach(l=>(l.Items||[]).forEach(i=>{const q=Number(i.QtyRequested||0),qi=Number(i.QtyIssued||0),qr=Number(i.QtyReturned||0);requested+=q;issued+=qi;returned+=qr;const k=i.DescriptionSnapshot||i.ItemID||'-';top[k]=(top[k]||0)+q}));
+  const pending=loans.filter(x=>x.Status==='PendingApproval').length,done=loans.filter(x=>['Completed','Returned'].includes(x.Status)).length;
+  document.getElementById('summaryPeriodLabel').textContent=(m?m+'/':'')+y;
+  document.getElementById('summaryStats').innerHTML=[
+    ['ใบเบิก',loans.length],['ขอเบิก',requested],['จ่ายออก',issued],['คืนแล้ว',returned],['รออนุมัติ',pending],['ปิดรายการ',done]
+  ].map(x=>'<div class="stat"><b>'+Number(x[1]).toLocaleString()+'</b><span>'+x[0]+'</span></div>').join('');
+  const arr=Object.entries(top).sort((a,b)=>b[1]-a[1]).slice(0,10);
+  document.getElementById('summaryTop').innerHTML=arr.map(([k,v],i)=>'<div class="card"><div class="row"><div class="grow"><div class="asset">#'+(i+1)+'</div><div class="title">'+esc(k)+'</div></div><b>'+Number(v).toLocaleString()+' ชิ้น</b></div></div>').join('')||'<div class="empty">ยังไม่มีรายการในช่วงนี้</div>'
+}
+async function openUsers(){
+  if(role()!=='Admin')return;
+  if(!USERS_LOADED){
+    if(USERS_LOADING)return;USERS_LOADING=true;
+    try{const r=await api({action:'users',token:TOKEN},25000);DATA.users=r.users||[];USERS_LOADED=true}
+    catch(e){toast('โหลดผู้ใช้ไม่สำเร็จ',true);USERS_LOADING=false;return}
+    USERS_LOADING=false
+  }
+  const s=document.getElementById('adminUserSelect');
+  s.innerHTML=DATA.users.map(u=>'<option value="'+esc(u.UserID)+'">'+esc((u.FullName||u.Email)+' · '+(u.ApprovalStatus||'Approved'))+'</option>').join('');
+  fillAdminUser();showModal('userModal')
+}
+function fillAdminUser(){
+  const u=DATA.users.find(x=>x.UserID===document.getElementById('adminUserSelect').value)||{};
+  document.getElementById('adminUsername').value=u.Username||'';
+  document.getElementById('adminFullName').value=u.FullName||'';
+  document.getElementById('adminPosition').value=u.Position||'';
+  document.getElementById('adminDepartment').value=u.Department||'';
+  document.getElementById('adminPhone').value=u.Phone||'';
+  document.getElementById('adminProfileMode').value=u.ProfileMode||'Fixed';
+  document.getElementById('adminUserPin').value='';
+  document.getElementById('adminApprovalStatus').textContent='สถานะ: '+(u.ApprovalStatus||'Approved');
+  document.getElementById('adminUserModeHint').textContent=(u.ProfileMode||'Fixed')==='Shared'?'ผู้ใช้ส่วนกลาง · กรอกชื่อผู้เบิกจริงตอนทำรายการ':'Profile Fixed · ใช้ข้อมูลที่ Admin กำหนด';
+  document.getElementById('approveUserBtn').classList.toggle('hidden',(u.ApprovalStatus||'Approved')==='Approved')
+}
+function saveUserAccess(approve){
+  const payload={
+    userId:document.getElementById('adminUserSelect').value,
+    username:document.getElementById('adminUsername').value.trim(),
+    fullName:document.getElementById('adminFullName').value.trim(),
+    position:document.getElementById('adminPosition').value.trim(),
+    department:document.getElementById('adminDepartment').value.trim(),
+    phone:document.getElementById('adminPhone').value.trim(),
+    profileMode:document.getElementById('adminProfileMode').value,
+    pin:document.getElementById('adminUserPin').value.trim(),
+    approve:!!approve
+  };
+  if(approve&&!payload.pin){toast('ตั้ง PIN 6 หลักก่อนอนุมัติ',true);return}
+  mutate('setUserAccess',{action:'setUserAccess',payload},()=>{
+    toast(approve?'อนุมัติผู้ใช้แล้ว':'บันทึกข้อมูลผู้ใช้แล้ว');
+    USERS_LOADED=false;closeModal('userModal')
+  })
+}
 function tokenExpired(){try{const p=TOKEN.split('.')[0].replace(/-/g,'+').replace(/_/g,'/'),pad=p+'='.repeat((4-p.length%4)%4),j=JSON.parse(decodeURIComponent(escape(atob(pad))));return !j.exp||Date.now()>Number(j.exp)}catch(_){return true}}
-function start(){if(!TOKEN||tokenExpired()){setAuth(false);setTimeout(()=>api({action:'ping'},12000).catch(()=>{}),400);return}let user={};try{user=JSON.parse(localStorage.getItem(USER_KEY)||'{}')}catch(_){}const cached=loadCache();if(!cached){DATA.user=user;renderHeader();setAuth(true);ensureStock()}else if(Object.keys(user).length){DATA.user=user;renderHeader();setAuth(true)}setTimeout(()=>refreshStockIfStale(true),150)}
-document.addEventListener('visibilitychange',()=>{if(!document.hidden)refreshStockIfStale(true)});setInterval(()=>{if(!document.hidden&&TOKEN&&DATA.items.length)refreshStockIfStale(false)},30000);start();
+async function checkBuild(){
+  try{
+    const r=await fetch('version.json?t='+Date.now(),{cache:'no-store'});
+    const j=await r.json();
+    if(j&&j.build&&j.build!==BUILD_ID){
+      location.replace(location.pathname+'?v='+encodeURIComponent(j.build));return false
+    }
+  }catch(_){}
+  return true
+}
+function start(){
+  if(TOKEN&&tokenExpired()){TOKEN='';localStorage.removeItem(TOKEN_KEY);localStorage.removeItem(USER_KEY)}
+  let user={};try{user=JSON.parse(localStorage.getItem(USER_KEY)||'{}')}catch(_){}
+  if(!TOKEN)user={name:'ผู้ชม',role:'Viewer'};
+  DATA.user=user;
+  const cached=loadCache();
+  if(!cached){renderHeader();ensureStock()}else{DATA.user=user;renderHeader()}
+  setTimeout(()=>refreshStockIfStale(true),150);
+  setTimeout(checkBuild,400)
+}
+document.addEventListener('visibilitychange',()=>{if(!document.hidden){checkBuild();refreshStockIfStale(true)}});setInterval(()=>{if(!document.hidden&&DATA.items.length)refreshStockIfStale(false)},30000);start();
 </script>
 </body>
 </html>
