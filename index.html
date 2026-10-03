@@ -79,13 +79,13 @@ body>*:not(#loanPreviewModal){display:none!important}
 <script>
 'use strict';
 const API_URL='https://script.google.com/macros/s/AKfycbw7zd0yZqoY5iQrrQxQsGvzNWMGqADfqx0r_w93quCUoO8vTTt4OD_kQN0th5gwtimq/exec';
-const CACHE_KEY='maStockPublicV6Cache1',USER_KEY='loxleyUserV1',TOKEN_KEY='loxleyAuthToken';
+const CACHE_KEY='maStockPublicV7Cache1',USER_KEY='loxleyUserV1',TOKEN_KEY='loxleyAuthToken';
 const STOCK_STALE_MS=30000;
 const EMPTY={total:0,balance:0,issued:0,inRepair:0,pending:0,openClaims:0};
 let DATA={user:{},dashboard:{...EMPTY},items:[],loans:[],claims:[],users:[]};
 let TOKEN=localStorage.getItem(TOKEN_KEY)||'',STOCK_VERSION=0,LAST_STOCK_SYNC=0,LAST_LOAN_SYNC=0,LAST_CLAIM_SYNC=0;
 let ACTIVE='home',ITEM_LIMIT=50,LOAN_FILTER='ALL',LOAN_QTY={},PENDING_LOAN=null,PENDING_AUTH_ACTION=null;
-const BUILD_ID='20261003-public-v6';
+const BUILD_ID='20261004-public-v7';
 let STOCK_LOADING=false,STOCK_SYNCING=false,LOANS_LOADING=false,CLAIMS_LOADING=false,USERS_LOADING=false,USERS_LOADED=false;
 const INFLIGHT=new Set();let SAVE_COUNT=0;
 const role=()=>String(DATA.user.role||'Viewer');
@@ -437,6 +437,17 @@ async function checkBuild(){
   }catch(_){}
   return true
 }
+async function refreshSessionUser(){
+  if(!TOKEN||tokenExpired())return;
+  try{
+    const r=await api({action:'me',token:TOKEN},15000);
+    if(r&&r.user){
+      DATA.user=r.user;
+      localStorage.setItem(USER_KEY,JSON.stringify(r.user));
+      renderHeader();saveCache()
+    }
+  }catch(e){if(isAuthError(e))authFail()}
+}
 function start(){
   if(TOKEN&&tokenExpired()){TOKEN='';localStorage.removeItem(TOKEN_KEY);localStorage.removeItem(USER_KEY)}
   let user={};try{user=JSON.parse(localStorage.getItem(USER_KEY)||'{}')}catch(_){}
@@ -444,11 +455,12 @@ function start(){
   DATA.user=user;
   const cached=loadCache();
   if(!cached){renderHeader();ensureStock()}else{DATA.user=user;renderHeader()}
+  setTimeout(()=>refreshSessionUser(),80);
   setTimeout(()=>refreshStockIfStale(true),150);
   setTimeout(()=>loadHomeSummary(false),250);
   setTimeout(checkBuild,400)
 }
-document.addEventListener('visibilitychange',()=>{if(!document.hidden){checkBuild();refreshStockIfStale(true)}});setInterval(()=>{if(!document.hidden&&DATA.items.length)refreshStockIfStale(false)},30000);start();
+document.addEventListener('visibilitychange',()=>{if(!document.hidden){checkBuild();refreshSessionUser();refreshStockIfStale(true)}});setInterval(()=>{if(!document.hidden&&DATA.items.length)refreshStockIfStale(false)},30000);start();
 </script>
 </body>
 </html>
