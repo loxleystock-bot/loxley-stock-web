@@ -52,7 +52,7 @@ body>*:not(#loanPreviewModal){display:none!important}
 <main class="wrap">
 <section class="page active" id="homePage">
 <div class="hello"><h2 id="hello">สวัสดีค่ะ</h2><p>ระบบเบิกวัสดุ M81</p></div>
-<div class="head"><h3>สถานะสต็อกปัจจุบัน</h3><span>ข้อมูลล่าสุด</span></div><div class="stats"><div class="stat"><b id="sItems">–</b><span>รายการ M81</span></div><div class="stat ok"><b id="sBalance">–</b><span>คงเหลือพร้อมเบิก</span></div><div class="stat gold"><b id="sIssued">–</b><span>อยู่นอกคลัง</span></div><div class="stat bad"><b id="sRepair">–</b><span>กำลังซ่อม</span></div></div>
+<div class="head"><h3>สถานะสต็อกปัจจุบัน</h3><span>ข้อมูลล่าสุด</span></div><div class="stats"><div class="stat"><b id="sItems">–</b><span>รายการ M81</span></div><div class="stat ok"><b id="sBalance">–</b><span>คงเหลือพร้อมเบิก</span></div><div class="stat bad"><b id="sRepair">–</b><span>กำลังซ่อม</span></div></div>
 <div class="card home-summary"><div class="head" style="margin-top:0"><h3 id="homeSummaryTitle">สรุปเดือนนี้</h3><span>เลือกช่วงย้อนหลังได้</span></div><div class="summary-controls"><select class="search" id="homeSummaryMonth" onchange="loadHomeSummary(true)"><option value="0">ทั้งปี</option><option value="1">มกราคม</option><option value="2">กุมภาพันธ์</option><option value="3">มีนาคม</option><option value="4">เมษายน</option><option value="5">พฤษภาคม</option><option value="6">มิถุนายน</option><option value="7">กรกฎาคม</option><option value="8">สิงหาคม</option><option value="9">กันยายน</option><option value="10">ตุลาคม</option><option value="11">พฤศจิกายน</option><option value="12">ธันวาคม</option></select><select class="search" id="homeSummaryYear" onchange="loadHomeSummary(true)"></select></div><div class="stats" id="homeSummaryStats"></div><div class="summary-top" id="homeSummaryTop"></div></div>
 <div id="adminBox" class="hidden"><div class="head"><h3>ผู้ดูแลระบบ</h3><span></span></div><div class="card"><div class="row"><div class="grow"><div class="title">จัดการผู้ใช้งาน</div><div class="sub">อนุมัติผู้ใช้ กำหนด Profile และ PIN</div></div><button class="primary" onclick="openUsers()">จัดการ</button></div></div></div>
 </section>
@@ -79,13 +79,13 @@ body>*:not(#loanPreviewModal){display:none!important}
 <script>
 'use strict';
 const API_URL='https://script.google.com/macros/s/AKfycbw7zd0yZqoY5iQrrQxQsGvzNWMGqADfqx0r_w93quCUoO8vTTt4OD_kQN0th5gwtimq/exec';
-const CACHE_KEY='maStockPublicV7Cache1',USER_KEY='loxleyUserV1',TOKEN_KEY='loxleyAuthToken';
+const CACHE_KEY='maStockPublicV8Cache1',USER_KEY='loxleyUserV1',TOKEN_KEY='loxleyAuthToken';
 const STOCK_STALE_MS=30000;
 const EMPTY={total:0,balance:0,issued:0,inRepair:0,pending:0,openClaims:0};
 let DATA={user:{},dashboard:{...EMPTY},items:[],loans:[],claims:[],users:[]};
 let TOKEN=localStorage.getItem(TOKEN_KEY)||'',STOCK_VERSION=0,LAST_STOCK_SYNC=0,LAST_LOAN_SYNC=0,LAST_CLAIM_SYNC=0;
 let ACTIVE='home',ITEM_LIMIT=50,LOAN_FILTER='ALL',LOAN_QTY={},PENDING_LOAN=null,PENDING_AUTH_ACTION=null;
-const BUILD_ID='20261004-public-v7';
+const BUILD_ID='20261004-public-v8';
 let STOCK_LOADING=false,STOCK_SYNCING=false,LOANS_LOADING=false,CLAIMS_LOADING=false,USERS_LOADING=false,USERS_LOADED=false;
 const INFLIGHT=new Set();let SAVE_COUNT=0;
 const role=()=>String(DATA.user.role||'Viewer');
@@ -147,7 +147,6 @@ function renderHeader(){
   document.getElementById('hello').textContent=signed?('สวัสดี '+(u.name||'')):'MA Stock · ดูข้อมูลได้โดยไม่ต้องเข้าสู่ระบบ';
   document.getElementById('sItems').textContent=Number(DATA.dashboard.total||0).toLocaleString();
   document.getElementById('sBalance').textContent=Number(DATA.dashboard.balance||0).toLocaleString();
-  document.getElementById('sIssued').textContent=Number(DATA.dashboard.issued||0).toLocaleString();
   document.getElementById('sRepair').textContent=Number(DATA.dashboard.inRepair||0).toLocaleString();
   applyRoleUI()
 }
