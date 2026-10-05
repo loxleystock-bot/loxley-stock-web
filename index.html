@@ -117,7 +117,7 @@ const EMPTY={total:0,balance:0,issued:0,inRepair:0,pending:0,openClaims:0};
 let DATA={user:{},dashboard:{...EMPTY},items:[],loans:[],claims:[],users:[]};
 let TOKEN=localStorage.getItem(TOKEN_KEY)||'',STOCK_VERSION=0,LAST_STOCK_SYNC=0,LAST_LOAN_SYNC=0,LAST_CLAIM_SYNC=0;
 let ACTIVE='home',ITEM_LIMIT=50,LOAN_FILTER='ALL',LOAN_QTY={},LOAN_PHOTOS={},PENDING_LOAN=null,PENDING_AUTH_ACTION=null;
-const BUILD_ID='20261006-clean-v2.1.2';
+const BUILD_ID='20261006-clean-v2.2';
 let STOCK_LOADING=false,STOCK_SYNCING=false,LOANS_LOADING=false,CLAIMS_LOADING=false,USERS_LOADING=false,USERS_LOADED=false;
 const INFLIGHT=new Set();let SAVE_COUNT=0;
 const role=()=>String(DATA.user.role||'Viewer');
@@ -126,8 +126,8 @@ const canApprove=()=>['Admin','Approver'].includes(role());
 const canStock=()=>['Admin','StockOfficer'].includes(role());
 const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 const fmt=d=>{if(!d)return '-';let x;if(typeof d==='string'){const m=d.trim().match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})(?:\s+(\d{1,2}):(\d{2})(?::(\d{2}))?)?$/);x=m?new Date(Number(m[3]),Number(m[2])-1,Number(m[1]),Number(m[4]||0),Number(m[5]||0),Number(m[6]||0)):new Date(d)}else x=new Date(d);return isNaN(x)?String(d):x.toLocaleDateString('th-TH',{day:'2-digit',month:'short',year:'2-digit'})};
-function statusLabel(s){return({PendingApproval:'รออนุมัติ',Approved:'อนุมัติแล้ว',HandedOver:'ส่งมอบแล้ว',Returned:'คืนแล้ว',Rejected:'ไม่อนุมัติ / ไม่ซ่อม',Cancelled:'ยกเลิก',Open:'เปิดงาน',Sent:'ส่งซ่อมแล้ว',WaitingVendor:'รอผู้ซ่อม',WaitingParts:'รออะไหล่',Completed:'เสร็จสิ้น',Maintenance:'ซ่อมบำรุง',Lost:'สูญหาย',Retired:'เลิกใช้งาน'})[s]||s||'-'}
-function badge(s){let c='';if(['Approved','Returned','Completed'].includes(s))c='ok';else if(['PendingApproval','WaitingVendor','WaitingParts','HandedOver'].includes(s))c='warn';else if(['Rejected','Cancelled','Lost','Retired'].includes(s))c='bad';return '<span class="badge '+c+'">'+esc(statusLabel(s))+'</span>'}
+function statusLabel(s){return({PendingApproval:'รออนุมัติ',ApprovedWaitingPhoto:'อนุมัติแล้ว · รอรูป',Approved:'อนุมัติแล้ว',HandedOver:'รับวัสดุแล้ว · รอคืน',PartiallyReturned:'คืนบางส่วน',Returned:'คืนแล้ว',Rejected:'ไม่อนุมัติ / ไม่ซ่อม',Cancelled:'ยกเลิก',Open:'เปิดงาน',Sent:'ส่งซ่อมแล้ว',WaitingVendor:'รอผู้ซ่อม',WaitingParts:'รออะไหล่',Completed:'เสร็จสิ้น',Maintenance:'ซ่อมบำรุง',Lost:'สูญหาย',Retired:'เลิกใช้งาน'})[s]||s||'-'}
+function badge(s){let c='';if(['Approved','Returned','Completed'].includes(s))c='ok';else if(['PendingApproval','ApprovedWaitingPhoto','WaitingVendor','WaitingParts','HandedOver','PartiallyReturned'].includes(s))c='warn';else if(['Rejected','Cancelled','Lost','Retired'].includes(s))c='bad';return '<span class="badge '+c+'">'+esc(statusLabel(s))+'</span>'}
 function toast(msg,err=false){const e=document.getElementById('toast');e.textContent=msg;e.className='toast show'+(err?' err':'');clearTimeout(toast.t);toast.t=setTimeout(()=>e.className='toast',2600)}
 function saving(on){SAVE_COUNT=Math.max(0,SAVE_COUNT+(on?1:-1));document.getElementById('saving').classList.toggle('show',SAVE_COUNT>0)}
 function m81(items){return (Array.isArray(items)?items:[]).filter(x=>String(x.Project)==='M81')}
@@ -150,7 +150,7 @@ function apiIframe(body,timeout=20000){
     const frame=document.createElement('iframe');frame.name='maApi_'+id;frame.style.display='none';
     const form=document.createElement('form');form.method='POST';form.action=API_URL;form.target=frame.name;form.style.display='none';
     const add=(name,value)=>{const i=document.createElement('input');i.type='hidden';i.name=name;i.value=value;form.appendChild(i)};
-    add('transport','iframe');add('requestId',id);add('payload',JSON.stringify(body));
+    add('transport','iframe');add('requestId',id);add('returnOrigin',location.origin);add('payload',JSON.stringify(body));
     let done=false;
     const clean=()=>{if(done)return;done=true;clearTimeout(tm);window.removeEventListener('message',onmsg);try{form.remove()}catch(_){};setTimeout(()=>{try{frame.remove()}catch(_){}},0)};
     const onmsg=e=>{
@@ -313,7 +313,7 @@ function renderItems(){const q=(document.getElementById('itemSearch').value||'')
 async function ensureLoans(force=false){
   if(!TOKEN||tokenExpired()||LOANS_LOADING)return;
   const fresh=Date.now()-LAST_LOAN_SYNC<2*60*1000;
-  if(!force&&DATA.loans.length&&fresh)return;
+  if(!force&&fresh)return;
   LOANS_LOADING=true;
   if(!DATA.loans.length)document.getElementById('loanList').innerHTML='<div class="empty">กำลังโหลดประวัติ…</div>';
   try{
@@ -523,7 +523,7 @@ function submitReturn(){
 async function ensureClaims(force=false){
   if(!TOKEN||tokenExpired()||CLAIMS_LOADING)return;
   const fresh=Date.now()-LAST_CLAIM_SYNC<2*60*1000;
-  if(!force&&DATA.claims.length&&fresh)return;
+  if(!force&&fresh)return;
   CLAIMS_LOADING=true;
   if(!DATA.claims.length)document.getElementById('claimList').innerHTML='<div class="empty">กำลังโหลดประวัติ…</div>';
   try{
@@ -658,10 +658,11 @@ function start(){
   DATA.user=user;
   const cached=loadCache();if(!cached){renderHeader()}else{DATA.user=user;renderHeader()}
   setAuth(true);
-  setTimeout(()=>refreshSessionUser(),30);
-  setTimeout(()=>refreshStockIfStale(true),80);
-  setTimeout(()=>loadHomeSummary(false),180);setTimeout(()=>loadPhotoRetentionStatus(false),260);
-  setTimeout(checkBuild,300)
+  setTimeout(()=>refreshSessionUser(),60);
+  setTimeout(()=>refreshStockIfStale(true),320);
+  setTimeout(()=>loadHomeSummary(false),900);
+  setTimeout(()=>loadPhotoRetentionStatus(false),1600);
+  setTimeout(checkBuild,220)
 }
 document.addEventListener('visibilitychange',()=>{if(!document.hidden&&TOKEN&&!tokenExpired()){checkBuild();refreshSessionUser();refreshStockIfStale(false)}});
 setInterval(()=>{if(!document.hidden&&TOKEN&&!tokenExpired()&&DATA.items.length)refreshStockIfStale(false)},60000);

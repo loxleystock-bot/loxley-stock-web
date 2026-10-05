@@ -1,0 +1,38 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "headers": [
+    {
+      "source": "/",
+      "headers": [
+        {"key": "Cache-Control", "value": "public, max-age=0, must-revalidate"},
+        {"key": "X-Content-Type-Options", "value": "nosniff"},
+        {"key": "Referrer-Policy", "value": "no-referrer"},
+        {"key": "Permissions-Policy", "value": "geolocation=(), microphone=()"}
+      ]
+    },
+    {
+      "source": "/index.html",
+      "headers": [
+        {"key": "Cache-Control", "value": "public, max-age=0, must-revalidate"},
+        {"key": "X-Content-Type-Options", "value": "nosniff"},
+        {"key": "Referrer-Policy", "value": "no-referrer"},
+        {"key": "Permissions-Policy", "value": "geolocation=(), microphone=()"}
+      ]
+    },
+    {
+      "source": "/version.json",
+      "headers": [
+        {"key": "Cache-Control", "value": "no-store"},
+        {"key": "X-Content-Type-Options", "value": "nosniff"}
+      ]
+    },
+    {
+      "source": "/(.*)\\.(jpg|jpeg|png|svg)",
+      "headers": [
+        {"key": "Cache-Control", "value": "public, max-age=86400, stale-while-revalidate=604800"},
+        {"key": "X-Content-Type-Options", "value": "nosniff"}
+      ]
+    }
+  ]
+}
