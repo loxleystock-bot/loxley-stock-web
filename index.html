@@ -12,7 +12,7 @@
 <style>
 :root{--blue:#1b3280;--blue2:#294ab4;--gold:#c9a227;--bg:#f4f6fb;--card:#fff;--text:#18213a;--muted:#6d7890;--line:#e4e8f1;--ok:#138a54;--warn:#bb7600;--bad:#bb3439;--shadow:0 7px 22px rgba(27,50,128,.08)}
 *{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans Thai",sans-serif}body{min-height:100vh;padding-bottom:calc(72px + env(safe-area-inset-bottom))}button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:none!important}
-.top{position:sticky;top:0;z-index:30;background:linear-gradient(135deg,var(--blue),#11235e);color:#fff;padding:calc(10px + env(safe-area-inset-top)) 14px 10px;box-shadow:0 3px 14px rgba(0,0,0,.12)}.brand{display:flex;align-items:center;gap:10px}.mark{display:grid;place-items:center;width:36px;height:36px;border-radius:11px;background:#fff;color:var(--blue);font-weight:900;font-size:20px}.brand-logo{width:34px;height:39px;object-fit:contain;background:#fff;border-radius:8px;padding:3px}.brand h1{font-size:16px;margin:0}.brand small{font-size:10px;opacity:.76}.user{margin-left:auto;max-width:145px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;background:rgba(255,255,255,.13);border:0;color:#fff;border-radius:999px;padding:7px 9px;font-size:10px}
+.top{position:sticky;top:0;z-index:30;background:linear-gradient(135deg,var(--blue),#11235e);color:#fff;padding:calc(10px + env(safe-area-inset-top)) 14px 10px;box-shadow:0 3px 14px rgba(0,0,0,.12)}.brand{display:flex;align-items:center;gap:10px}.mark{display:grid;place-items:center;width:36px;height:36px;border-radius:11px;background:#fff;color:var(--blue);font-weight:900;font-size:20px}.brand-logo{width:34px;height:39px;object-fit:contain;background:#fff;border-radius:8px;padding:3px}.brand h1{font-family:"Avenir Next","SF Pro Display",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:17px;font-weight:700;letter-spacing:-.15px;line-height:1.15;margin:0}.brand small{font-size:10px;opacity:.76}.user{margin-left:auto;max-width:145px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;background:rgba(255,255,255,.13);border:0;color:#fff;border-radius:999px;padding:7px 9px;font-size:10px}
 .wrap{max-width:980px;margin:auto;padding:12px}.page{display:none}.page.active{display:block}.hello{background:linear-gradient(145deg,#fff,#eef2ff);border:1px solid #e5e9fa;border-radius:18px;padding:14px 16px;box-shadow:var(--shadow)}.hello h2{margin:0;color:var(--blue);font-size:20px}.hello p{margin:4px 0 0;color:var(--muted);font-size:11px}
 .stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.stat{background:#fff;border:1px solid var(--line);border-radius:15px;padding:12px;box-shadow:0 4px 14px rgba(27,50,128,.05)}.stat b{display:block;color:var(--blue);font-size:24px;line-height:1}.stat span{display:block;color:var(--muted);font-size:11px;margin-top:5px}.stat.gold b{color:#a47d00}.stat.ok b{color:var(--ok)}.stat.bad b{color:var(--bad)}
 .head{display:flex;align-items:center;justify-content:space-between;margin:18px 2px 8px}.head h3{margin:0;font-size:15px}.head span{font-size:11px;color:var(--muted)}.toolbar{display:flex;gap:8px;margin:6px 0 9px;position:sticky;top:calc(58px + env(safe-area-inset-top));z-index:20;background:var(--bg);padding:5px 0}.search{min-width:0;flex:1;height:44px;border:1px solid var(--line);border-radius:12px;background:#fff;padding:10px 12px;outline:none;font-size:16px}.search:focus{border-color:#9aa8df;box-shadow:0 0 0 3px rgba(27,50,128,.07)}
@@ -33,6 +33,29 @@ body.locked{padding-bottom:0;overflow:hidden}body.locked>.top,body.locked>main,b
 .home-summary{margin-top:12px}.summary-controls{display:grid;grid-template-columns:1fr .72fr;gap:7px;margin-top:7px}.summary-controls .search{height:38px;min-height:38px;font-size:13px;padding:6px 9px}.summary-top{display:grid;gap:6px;margin-top:8px}.summary-row{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px solid var(--line);font-size:11px}.summary-row:last-child{border-bottom:0}.summary-row b{color:var(--blue)}
 .dochead{display:grid;grid-template-columns:62px 1fr 145px;gap:10px;align-items:center;text-align:left;border-bottom:2px solid #222;padding:0 0 7px;margin-bottom:7px}.doc-logo{width:54px;height:62px;object-fit:contain}.doc-title{text-align:center}.doc-title .company{font-size:11px;font-weight:800}.doc-title b{display:block;color:#111;font-size:18px;margin-top:2px}.doc-title span{font-size:9px;color:#555}.doc-ref{border-left:1px solid #bbb;padding-left:9px;font-size:8px;line-height:1.35}.doc-ref small{display:block;color:#666}.doc-ref strong{display:block;font-size:10px;margin:1px 0 4px}
 .return-row{border:1px solid var(--line);border-radius:12px;padding:9px;margin:8px 0}.return-row .ret-head{display:flex;justify-content:space-between;gap:8px}.return-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px}.return-grid label{font-size:9px;color:var(--muted)}.return-grid input{width:100%;min-height:40px;border:1px solid var(--line);border-radius:9px;padding:6px;text-align:center}.return-note{width:100%;min-height:40px;margin-top:7px;border:1px solid var(--line);border-radius:9px;padding:8px}
+
+/* Mobile polish: softer app title + more breathing room */
+#loansPage .head{margin:24px 4px 14px}
+#loansPage .head h3{font-size:17px;line-height:1.25}
+#loansPage .summary-controls{gap:10px;margin:0 0 12px}
+#loansPage .summary-controls .search{height:46px;min-height:46px;border-radius:13px;padding:9px 12px;font-size:15px}
+#loansPage #loanAuditStats{gap:10px;margin:0 0 16px}
+#loansPage #loanAuditStats .stat{padding:15px 13px;border-radius:16px;min-height:96px}
+#loansPage #loanAuditStats .stat b{font-size:25px}
+#loansPage #loanAuditStats .stat span{margin-top:9px;font-size:11px;line-height:1.25}
+#loansPage .filters{gap:8px;margin:0 0 14px;padding:1px 0 3px}
+#loansPage .chip{padding:9px 13px}
+#loansPage .toolbar{gap:10px;margin:0 0 16px;padding:0}
+#loansPage .toolbar .search{height:48px;border-radius:14px;padding:11px 14px}
+#loansPage #newLoanBtn{min-height:48px;border-radius:14px;padding:10px 16px}
+#loansPage .list{gap:12px}
+@media(max-width:699px){
+  .wrap{padding:14px 14px 16px}
+  .brand{gap:11px}
+  .brand-logo{width:36px;height:41px}
+  .brand small{display:block;margin-top:3px;font-size:10.5px;line-height:1.25}
+}
+
 @media print{
 @page{size:A4 portrait;margin:7mm}
 html,body{background:#fff!important;margin:0!important;padding:0!important}
@@ -94,7 +117,7 @@ const EMPTY={total:0,balance:0,issued:0,inRepair:0,pending:0,openClaims:0};
 let DATA={user:{},dashboard:{...EMPTY},items:[],loans:[],claims:[],users:[]};
 let TOKEN=localStorage.getItem(TOKEN_KEY)||'',STOCK_VERSION=0,LAST_STOCK_SYNC=0,LAST_LOAN_SYNC=0,LAST_CLAIM_SYNC=0;
 let ACTIVE='home',ITEM_LIMIT=50,LOAN_FILTER='ALL',LOAN_QTY={},LOAN_PHOTOS={},PENDING_LOAN=null,PENDING_AUTH_ACTION=null;
-const BUILD_ID='20261006-clean-v2.1.1';
+const BUILD_ID='20261006-clean-v2.1.2';
 let STOCK_LOADING=false,STOCK_SYNCING=false,LOANS_LOADING=false,CLAIMS_LOADING=false,USERS_LOADING=false,USERS_LOADED=false;
 const INFLIGHT=new Set();let SAVE_COUNT=0;
 const role=()=>String(DATA.user.role||'Viewer');
