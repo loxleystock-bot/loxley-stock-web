@@ -65,7 +65,7 @@ body>*:not(#loanPreviewModal){display:none!important}
 <div id="adminBox" class="hidden"><div class="head"><h3>ผู้ดูแลระบบ</h3><span></span></div><div class="card"><div class="row"><div class="grow"><div class="title">จัดการผู้ใช้งาน</div><div class="sub">อนุมัติผู้ใช้ กำหนด Profile และ PIN</div></div><button class="primary" onclick="openUsers()">จัดการ</button></div></div><div class="card" style="margin-top:8px"><div class="row"><div class="grow"><div class="title">อายุรูปหลักฐาน</div><div class="sub" id="photoRetentionText">ตรวจเมื่อเปิดหน้า Admin</div></div><button class="secondary" onclick="loadPhotoRetentionStatus(true)">ตรวจ</button></div></div></div>
 </section>
 <section class="page" id="itemsPage"><div class="head"><h3>วัสดุ M81</h3><span id="itemCount"></span></div><div class="toolbar"><input class="search" id="itemSearch" placeholder="ค้นหา System / Description / Location" oninput="ITEM_LIMIT=50;renderItems()"></div><div class="list" id="itemList"></div><div class="item-cart hidden" id="itemCartBar"><div><b id="itemCartCount">เลือก 0 รายการ</b><span id="itemCartQty">รวม 0 ชิ้น</span></div><button class="primary" onclick="openLoan(true)">ทำใบเบิก →</button></div></section>
-<section class="page" id="loansPage"><div class="head"><h3>ใบเบิกวัสดุ</h3><span id="loanCount"></span></div><div class="filters" id="loanFilters"><button class="chip active" data-v="ALL" onclick="setLoanFilter('ALL',this)">ทั้งหมด</button><button class="chip" data-v="PendingApproval" onclick="setLoanFilter('PendingApproval',this)">รออนุมัติ</button><button class="chip" data-v="Approved" onclick="setLoanFilter('Approved',this)">อนุมัติแล้ว</button><button class="chip" data-v="Completed" onclick="setLoanFilter('Completed',this)">เสร็จสิ้น</button></div><div class="toolbar"><input class="search" id="loanSearch" placeholder="ค้นหาเลขใบเบิก / โครงการ / ผู้ขอ" oninput="renderLoans()"><button class="primary" id="newLoanBtn" onclick="openLoan()">+ ใบเบิก</button></div><div class="list" id="loanList"></div></section>
+<section class="page" id="loansPage"><div class="head"><h3>ใบเบิกวัสดุ</h3><span id="loanCount"></span></div><div class="summary-controls"><select class="search" id="loanMonth" onchange="renderLoans()"><option value="0">ทุกเดือน</option><option value="1">มกราคม</option><option value="2">กุมภาพันธ์</option><option value="3">มีนาคม</option><option value="4">เมษายน</option><option value="5">พฤษภาคม</option><option value="6">มิถุนายน</option><option value="7">กรกฎาคม</option><option value="8">สิงหาคม</option><option value="9">กันยายน</option><option value="10">ตุลาคม</option><option value="11">พฤศจิกายน</option><option value="12">ธันวาคม</option></select><select class="search" id="loanYear" onchange="renderLoans()"></select></div><div class="stats" id="loanAuditStats"></div><div class="filters" id="loanFilters"><button class="chip active" data-v="ALL" onclick="setLoanFilter('ALL',this)">ทั้งหมด</button><button class="chip" data-v="PendingApproval" onclick="setLoanFilter('PendingApproval',this)">รออนุมัติ</button><button class="chip" data-v="ISSUE" onclick="setLoanFilter('ISSUE',this)">เบิก</button><button class="chip" data-v="BORROW" onclick="setLoanFilter('BORROW',this)">ยืม</button><button class="chip" data-v="DONE" onclick="setLoanFilter('DONE',this)">เสร็จสิ้น / คืนแล้ว</button></div><div class="toolbar"><input class="search" id="loanSearch" placeholder="ค้นหาเลขใบเบิก / โครงการ / ผู้ขอ" oninput="renderLoans()"><button class="primary" id="newLoanBtn" onclick="openLoan()">+ ใบเบิก</button></div><div class="list" id="loanList"></div></section>
 <section class="page" id="claimsPage"><div class="head"><h3>ส่งสินค้าซ่อม</h3><span id="claimCount"></span></div><div class="toolbar"><input class="search" id="claimSearch" placeholder="ค้นหาเลขส่งซ่อม / รายการ / บริษัท" oninput="renderClaims()"><button class="primary" id="newClaimBtn" onclick="openClaim()">+ ส่งซ่อม</button></div><div class="list" id="claimList"></div></section>
 
 </main>
@@ -73,11 +73,12 @@ body>*:not(#loanPreviewModal){display:none!important}
 
 <div class="modal" id="loginModal"><div class="sheet"><div style="text-align:center;margin-bottom:14px"><img src="loxley-logo.svg" alt="Loxley" style="display:block;margin:auto;width:58px;height:67px;object-fit:contain"><h3 style="margin:10px 0 3px">เข้าสู่ระบบ MA Stock</h3><div class="sub">ใช้ Username และ PIN ที่ผู้ดูแลระบบกำหนด</div></div><div class="field"><label>Username</label><input id="loginUsername" autocomplete="username" autocapitalize="none" spellcheck="false"></div><div class="field"><label>PIN 6 หลัก</label><input id="loginPin" type="password" inputmode="numeric" maxlength="6" autocomplete="current-password"></div><div class="modal-actions"><button class="primary" id="loginBtn" onclick="submitLogin()">เข้าสู่ระบบ</button></div><div class="hint login-remember">จำเครื่องนี้ 12 ชั่วโมง (720 นาที) · เปิดกลับมาแล้วระบบจะเช็กสต็อกล่าสุดอัตโนมัติ</div></div></div>
 
-<div class="modal" id="loanModal"><div class="sheet"><div class="handle"></div><div class="banner"><b>ใบเบิกวัสดุ</b><span>บริษัท ล็อกซเล่ย์ จำกัด (มหาชน) · ฝ่ายระบบขนส่ง · ออกครั้งที่ 01</span></div><div class="section">ข้อมูลผู้ขอเบิก</div><div class="field"><label>ชื่อผู้ขอเบิก</label><input id="loanRequesterName"><div class="hint" id="loanRequesterHint"></div></div><div class="grid2"><div class="field"><label>ตำแหน่ง</label><input id="loanPosition"></div><div class="field"><label>แผนก / ฝ่าย</label><input id="loanDepartment"></div></div><div class="field"><label>โทรศัพท์</label><input id="loanPhone" inputmode="tel" placeholder="เช่น 08x-xxx-xxxx"></div><div class="field"><label>ชื่องาน / ชื่อโครงการ</label><input id="loanProject" placeholder="เช่น Motorway M81"></div><div class="grid2"><div class="field"><label>สถานที่เก็บ</label><input id="loanStorageLocation" placeholder="เช่น WH-คลองเดช อาคาร ICT ชั้น 4"></div><div class="field"><label>สถานที่ใช้งาน</label><input id="loanUseLocation" placeholder="เช่น M81-5 / MA-81"></div></div><div class="field"><label>ระยะเวลาในการเบิก</label><input id="loanBorrowPeriod" placeholder="เช่น 7 วัน / จนจบงาน"></div><div class="section">ประเภทการเบิก</div><div class="opts"><label class="opt"><input type="radio" name="loanType" value="ติดตั้ง"> ติดตั้ง</label><label class="opt"><input type="radio" name="loanType" value="ส่งมอบ"> ส่งมอบ</label><label class="opt"><input type="radio" name="loanType" value="ทดสอบ"> ทดสอบ</label><label class="opt"><input type="radio" name="loanType" value="ให้ยืม" checked> ให้ยืม</label></div><div class="field"><label>อื่น ๆ</label><input id="loanTypeOther" placeholder="ระบุกรณีอื่น ๆ (ถ้ามี)"></div><div class="field"><label>เหตุผลในการขอเบิก</label><textarea id="loanReason" placeholder="เช่น นำไปแก้ไขงานระบบ WCS M81-5"></textarea></div><div class="section">รายการวัสดุ M81</div><input id="loanItemSearch" type="hidden"><div class="stock-list" id="loanItems"></div><div class="modal-actions"><button class="secondary" onclick="closeModal('loanModal')">ยกเลิก</button><button class="primary" onclick="previewDraftLoan()">ดูใบเบิกก่อนส่ง</button></div></div></div>
+<div class="modal" id="loanModal"><div class="sheet"><div class="handle"></div><div class="banner"><b>ใบเบิกวัสดุ</b><span>บริษัท ล็อกซเล่ย์ จำกัด · ฝ่ายระบบขนส่ง · ออกครั้งที่ 01</span></div><div class="section">ข้อมูลผู้ขอเบิก</div><div class="field"><label>ชื่อผู้ขอเบิก</label><input id="loanRequesterName"><div class="hint" id="loanRequesterHint"></div></div><div class="grid2"><div class="field"><label>แผนก / ฝ่าย</label><input id="loanDepartment" placeholder="เช่น 6340"></div><div class="field"><label>โทรศัพท์</label><input id="loanPhone" inputmode="tel" placeholder="เช่น 08x-xxxxxxx"></div></div><div class="field"><label>ชื่องาน / ชื่อโครงการ</label><input id="loanProject" placeholder="เช่น Motorway M81"></div><div class="grid2"><div class="field"><label>สถานที่เก็บ</label><input id="loanStorageLocation" placeholder="เช่น WH-คลองเดช อาคาร ICT ชั้น 4"></div><div class="field"><label>สถานที่ใช้งาน</label><input id="loanUseLocation" placeholder="เช่น M81-5 / MA-81"></div></div><div class="field"><label>ระยะเวลาในการเบิก</label><input id="loanBorrowPeriod" placeholder="เช่น 7 วัน / จนจบงาน"></div><div class="section">ประเภทการเบิก</div><div class="opts"><label class="opt"><input type="radio" name="loanType" value="ติดตั้ง"> ติดตั้ง</label><label class="opt"><input type="radio" name="loanType" value="ส่งมอบ"> ส่งมอบ</label><label class="opt"><input type="radio" name="loanType" value="ทดสอบ"> ทดสอบ</label><label class="opt"><input type="radio" name="loanType" value="ให้ยืม" checked> ให้ยืม</label></div><div class="field"><label>อื่น ๆ</label><input id="loanTypeOther" placeholder="ระบุกรณีอื่น ๆ (ถ้ามี)"></div><div class="field"><label>เหตุผลในการขอเบิก</label><textarea id="loanReason" placeholder="เช่น นำไปแก้ไขงานระบบ WCS M81-5"></textarea></div><div class="section">รายการวัสดุ M81</div><input id="loanItemSearch" type="hidden"><div class="stock-list" id="loanItems"></div><div class="modal-actions"><button class="secondary" onclick="closeModal('loanModal')">ยกเลิก</button><button class="primary" onclick="previewDraftLoan()">ดูใบเบิกก่อนส่ง</button></div></div></div>
 <div class="modal" id="loanPreviewModal"><div class="sheet"><div class="handle"></div><div id="loanPreviewBody"></div><div class="modal-actions" id="loanPreviewActions"></div></div></div>
+<div class="modal" id="loanPhotoModal"><div class="sheet"><div class="handle"></div><h3>ถ่ายรูปก่อนรับวัสดุ</h3><div class="banner"><b id="loanPhotoDoc">-</b><span>ต้องมีรูปจริง 1 รูปต่อ 1 รายการ เมื่อครบระบบจะตัดสต็อกอัตโนมัติ</span></div><input type="hidden" id="loanPhotoLoanId"><div id="approvedPhotoItems"></div><div class="modal-actions"><button class="secondary" onclick="closeModal('loanPhotoModal')">ยกเลิก</button><button class="primary" onclick="submitApprovedPhotos()">ส่งรูปและรับวัสดุ</button></div></div></div>
 <div class="modal image-modal" id="imageModal"><div class="image-sheet"><button class="image-close" onclick="closeModal('imageModal')" aria-label="ปิด">×</button><img id="itemImageLarge" alt=""><div class="image-caption" id="itemImageCaption"></div></div></div>
 
-<div class="modal" id="claimModal"><div class="sheet"><div class="handle"></div><div class="banner"><b>แบบฟอร์มส่งสินค้าซ่อม · STORE-03</b><span>บริษัท ล็อกซเล่ย์ จำกัด (มหาชน) · ฝ่ายระบบขนส่ง · ออกครั้งที่ 01</span></div><div class="section">ข้อมูลการส่งซ่อม</div><div class="field"><label>ส่งซ่อมที่บริษัท</label><input id="repairCompany"></div><div class="field"><label>ที่อยู่</label><textarea id="repairAddress"></textarea></div><div class="grid2"><div class="field"><label>โทร.</label><input id="repairPhone"></div><div class="field"><label>วันที่ส่งซ่อม</label><input type="date" id="repairSentDate"></div></div><div class="grid2"><label class="opt"><input type="radio" name="repairRef" value="Project" checked> Project</label><label class="opt"><input type="radio" name="repairRef" value="อื่น ๆ"> อื่น ๆ</label></div><div class="field"><label>Project / รายละเอียด</label><input id="repairReferenceValue"></div><div class="section">รายการส่งซ่อม</div><div class="field"><label>รายการ</label><select id="claimItem" onchange="updateRepairHint()"></select><div class="hint" id="repairItemHint"></div></div><div class="grid2"><div class="field"><label>Model</label><input id="repairModel"></div><div class="field"><label>S/N</label><input id="repairSerial"></div></div><div class="field"><label>จำนวน</label><input type="number" min="1" value="1" id="repairQty"></div><div class="field"><label>อาการเสีย</label><textarea id="claimIssue"></textarea></div><div class="grid2"><div class="field"><label>ผู้ส่งซ่อม</label><input id="repairSenderName"></div><div class="field"><label>ผู้รับสินค้า</label><input id="repairReceiverName"></div></div><div class="modal-actions"><button class="secondary" onclick="closeModal('claimModal')">ยกเลิก</button><button class="primary" onclick="submitClaim()">เปิดใบส่งซ่อม</button></div></div></div>
+<div class="modal" id="claimModal"><div class="sheet"><div class="handle"></div><div class="banner"><b>แบบฟอร์มส่งสินค้าซ่อม · STORE-03</b><span>บริษัท ล็อกซเล่ย์ จำกัด · ฝ่ายระบบขนส่ง · ออกครั้งที่ 01</span></div><div class="section">ข้อมูลการส่งซ่อม</div><div class="field"><label>ส่งซ่อมที่บริษัท</label><input id="repairCompany"></div><div class="field"><label>ที่อยู่</label><textarea id="repairAddress"></textarea></div><div class="grid2"><div class="field"><label>โทร.</label><input id="repairPhone"></div><div class="field"><label>วันที่ส่งซ่อม</label><input type="date" id="repairSentDate"></div></div><div class="grid2"><label class="opt"><input type="radio" name="repairRef" value="Project" checked> Project</label><label class="opt"><input type="radio" name="repairRef" value="อื่น ๆ"> อื่น ๆ</label></div><div class="field"><label>Project / รายละเอียด</label><input id="repairReferenceValue"></div><div class="section">รายการส่งซ่อม</div><div class="field"><label>รายการ</label><select id="claimItem" onchange="updateRepairHint()"></select><div class="hint" id="repairItemHint"></div></div><div class="grid2"><div class="field"><label>Model</label><input id="repairModel"></div><div class="field"><label>S/N</label><input id="repairSerial"></div></div><div class="field"><label>จำนวน</label><input type="number" min="1" value="1" id="repairQty"></div><div class="field"><label>อาการเสีย</label><textarea id="claimIssue"></textarea></div><div class="grid2"><div class="field"><label>ผู้ส่งซ่อม</label><input id="repairSenderName"></div><div class="field"><label>ผู้รับสินค้า</label><input id="repairReceiverName"></div></div><div class="modal-actions"><button class="secondary" onclick="closeModal('claimModal')">ยกเลิก</button><button class="primary" onclick="submitClaim()">เปิดใบส่งซ่อม</button></div></div></div>
 
 <div class="modal" id="updateModal"><div class="sheet"><div class="handle"></div><div class="banner"><b>ส่วนธุรการ · ติดตามการซ่อม</b><span>ข้อมูลต่อเนื่องจาก STORE-03</span></div><input type="hidden" id="updateClaimId"><div class="field"><label>สถานะงาน</label><select id="updateStatus"><option value="Open">เปิดงาน</option><option value="Sent">ส่งซ่อมแล้ว</option><option value="WaitingVendor">รอผู้ซ่อม</option><option value="WaitingParts">รออะไหล่</option><option value="Approved">อนุมัติซ่อม</option><option value="Rejected">ไม่ซ่อม</option><option value="Completed">เสร็จสิ้น</option><option value="Cancelled">ยกเลิก</option></select></div><div class="grid2"><div class="field"><label>สถานะใบเสนอราคา</label><select id="repairAdminStatus"><option value="">ยังไม่ระบุ</option><option>WARRANTY</option><option>คิดค่าซ่อม</option></select></div><div class="field"><label>เลขใบเสนอราคา</label><input id="repairQuoteNumber"></div></div><div class="grid2"><div class="field"><label>วันที่ใบเสนอราคา</label><input type="date" id="repairQuoteDate"></div><div class="field"><label>ผู้ติดต่อ</label><input id="repairContactName"></div></div><div class="grid2"><div class="field"><label>โทร.</label><input id="repairContactPhone"></div><div class="field"><label>แฟกซ์</label><input id="repairFax"></div></div><div class="field"><label>ที่อยู่ / รายละเอียดผู้เสนอราคา</label><textarea id="repairQuoteAddress"></textarea></div><div class="grid2"><div class="field"><label>ค่าเปิดเครื่อง</label><input type="number" step="0.01" id="repairCostInspection"></div><div class="field"><label>ค่าอะไหล่</label><input type="number" step="0.01" id="repairCostParts"></div></div><div class="field"><label>ค่าบริการ</label><input type="number" step="0.01" id="repairCostService"></div><div class="grid2"><div class="field"><label>สรุป</label><select id="repairDecision"><option value="">ยังไม่สรุป</option><option>ซ่อม</option><option>ไม่ซ่อม</option></select></div><div class="field"><label>ระยะเวลาซ่อม</label><input id="repairDuration"></div></div><div class="field"><label>เนื่องจาก</label><textarea id="repairDecisionReason"></textarea></div><div class="grid2"><div class="field"><label>วันที่รับเครื่อง</label><input type="date" id="repairReceivedDate"></div><div class="field"><label>ผู้อนุมัติซ่อม</label><input id="repairApproverName"></div></div><div class="field"><label>วันที่อนุมัติ</label><input type="date" id="repairApprovalDate"></div><div class="section">ติดตามงาน</div><div class="field"><label>ช่องทางติดต่อ</label><select id="updateChannel"><option>Phone</option><option>Email</option><option>Line</option><option>InPerson</option><option>Website</option><option>Other</option></select></div><div class="field"><label>รายละเอียด</label><textarea id="updateDetail"></textarea></div><div class="field"><label>ติดตามครั้งถัดไป</label><input type="date" id="updateNext"></div><div class="field"><label>สถานะวัสดุหลังปิดงาน</label><select id="updateItemStatus"><option value="">ไม่เปลี่ยน</option><option>Available</option><option>Maintenance</option><option>Lost</option><option>Retired</option></select></div><div class="modal-actions"><button class="secondary" onclick="closeModal('updateModal')">ยกเลิก</button><button class="primary" onclick="submitClaimUpdate()">บันทึก</button></div></div></div>
 
@@ -87,13 +88,13 @@ body>*:not(#loanPreviewModal){display:none!important}
 <script>
 'use strict';
 const API_URL='https://script.google.com/macros/s/AKfycbw7zd0yZqoY5iQrrQxQsGvzNWMGqADfqx0r_w93quCUoO8vTTt4OD_kQN0th5gwtimq/exec';
-const CACHE_KEY='maStockCleanV1Cache1',USER_KEY='loxleyUserV1',TOKEN_KEY='loxleyAuthToken';
+const CACHE_KEY='maStockCleanV2Cache1',USER_KEY='loxleyUserV1',TOKEN_KEY='loxleyAuthToken';
 const STOCK_STALE_MS=30000;
 const EMPTY={total:0,balance:0,issued:0,inRepair:0,pending:0,openClaims:0};
 let DATA={user:{},dashboard:{...EMPTY},items:[],loans:[],claims:[],users:[]};
 let TOKEN=localStorage.getItem(TOKEN_KEY)||'',STOCK_VERSION=0,LAST_STOCK_SYNC=0,LAST_LOAN_SYNC=0,LAST_CLAIM_SYNC=0;
 let ACTIVE='home',ITEM_LIMIT=50,LOAN_FILTER='ALL',LOAN_QTY={},LOAN_PHOTOS={},PENDING_LOAN=null,PENDING_AUTH_ACTION=null;
-const BUILD_ID='20261005-clean-v1';
+const BUILD_ID='20261005-clean-v2';
 let STOCK_LOADING=false,STOCK_SYNCING=false,LOANS_LOADING=false,CLAIMS_LOADING=false,USERS_LOADING=false,USERS_LOADED=false;
 const INFLIGHT=new Set();let SAVE_COUNT=0;
 const role=()=>String(DATA.user.role||'Viewer');
@@ -261,7 +262,7 @@ async function ensureLoans(force=false){
   if(!DATA.loans.length)document.getElementById('loanList').innerHTML='<div class="empty">กำลังโหลดประวัติ…</div>';
   try{
     const r=await api({action:'loans',token:TOKEN},18000);
-    DATA.loans=r.loans||[];DATA.dashboard.pending=Number(r.pending||0);LAST_LOAN_SYNC=Date.now();renderLoans();saveCache()
+    DATA.loans=r.loans||[];DATA.dashboard.pending=Number(r.pending||0);LAST_LOAN_SYNC=Date.now();initLoanPeriodFilters();renderLoans();saveCache()
   }catch(e){
     if(DATA.loans.length)toast('อัปเดตประวัติไม่สำเร็จ แต่ข้อมูลในเครื่องยังเปิดได้',true);
     else document.getElementById('loanList').innerHTML='<div class="empty">โหลดประวัติไม่สำเร็จ<br><button class="secondary" onclick="ensureLoans(true)">ลองใหม่</button></div>'
@@ -269,27 +270,41 @@ async function ensureLoans(force=false){
 }
 function setLoanFilter(v,b){LOAN_FILTER=v;document.querySelectorAll('#loanFilters .chip').forEach(x=>x.classList.remove('active'));b.classList.add('active');renderLoans()}
 function loanSearchText(x){return [x.DocumentNumber,x.LoanID,x.ProjectName,x.RequesterName,x.RequesterEmail,x.RequestType,x.RequestReason,x.UseLocation,x.Status].concat((x.Items||[]).map(i=>i.DescriptionSnapshot||i.ItemID)).join(' ').toLowerCase()}
-function loanCard(x){const its=(x.Items||[]).map(i=>esc((i.SystemSnapshot||'')+' · '+(i.DescriptionSnapshot||i.ItemID)+' × '+Number(i.QtyRequested||0))).join('<br>');let a='<div class="actions"><button class="secondary" onclick="showLoan(\''+esc(x.LoanID)+'\')">ดูใบเบิก</button>';if(canStock()&&x.Status==='Approved')a+='<button class="primary" onclick="handover(\''+esc(x.LoanID)+'\')">จ่ายออก</button>';if(canStock()&&['HandedOver','PartiallyReturned'].includes(x.Status))a+='<button class="secondary" onclick="openReturn(\''+esc(x.LoanID)+'\')">รับคืน</button>';a+='</div>';return '<div class="card"><div class="row"><div class="grow"><div class="asset">'+esc(x.DocumentNumber||x.LoanID)+'</div><div class="title">'+esc(x.ProjectName||x.RequestReason||'-')+'</div><div class="sub">'+esc(x.RequesterName||x.RequesterEmail||'')+(x.RequestType?' · '+esc(x.RequestType):'')+'</div><div class="sub">'+(its||'-')+'</div></div>'+badge(x.Status)+'</div><div class="meta"><span>'+fmt(x.RequestDateTime)+'</span>'+(x.UseLocation?'<span>'+esc(x.UseLocation)+'</span>':'')+'</div>'+a+'</div>'}
+function loanCard(x){
+  const its=(x.Items||[]).map(i=>esc((i.SystemSnapshot||'')+' · '+(i.DescriptionSnapshot||i.ItemID)+' × '+Number(i.QtyRequested||0))).join('<br>');
+  const isOwner=String(x.RequesterEmail||'').toLowerCase()===String(DATA.user.email||'').toLowerCase(), canPhoto=isOwner||canStock();
+  let a='<div class="actions"><button class="secondary" onclick="showLoan(\''+esc(x.LoanID)+'\')">ดูใบเบิก</button>';
+  if(canPhoto&&x.Status==='ApprovedWaitingPhoto')a+='<button class="primary" onclick="openApprovedPhotos(\''+esc(x.LoanID)+'\')">ถ่ายรูป / รับวัสดุ</button>';
+  if(canStock()&&['HandedOver','PartiallyReturned'].includes(x.Status))a+='<button class="secondary" onclick="openReturn(\''+esc(x.LoanID)+'\')">รับคืน</button>';
+  a+='</div>';
+  return '<div class="card"><div class="row"><div class="grow"><div class="asset">'+esc(x.DocumentNumber||x.LoanID)+'</div><div class="title">'+esc(x.ProjectName||x.RequestReason||'-')+'</div><div class="sub">'+esc(x.RequesterName||x.RequesterEmail||'')+(x.RequestType?' · '+esc(x.RequestType):'')+'</div><div class="sub">'+(its||'-')+'</div></div>'+badge(x.Status)+'</div><div class="meta"><span>'+fmt(x.RequestDateTime)+'</span>'+(x.UseLocation?'<span>'+esc(x.UseLocation)+'</span>':'')+'</div>'+a+'</div>'
+}
+
 function renderLoans(){
   let a=DATA.loans.slice();
-  if(LOAN_FILTER!=='ALL')a=a.filter(x=>x.Status===LOAN_FILTER);
+  const y=Number((document.getElementById('loanYear')||{}).value||0),m=Number((document.getElementById('loanMonth')||{}).value||0);
+  if(y)a=a.filter(x=>{const d=new Date(x.RequestDateTime||x.CreatedAt);return !isNaN(d)&&d.getFullYear()===y&&(!m||d.getMonth()+1===m)});
+  const base=a.slice();
+  if(LOAN_FILTER==='PendingApproval')a=a.filter(x=>x.Status==='PendingApproval');
+  else if(LOAN_FILTER==='ISSUE')a=a.filter(x=>!['ให้ยืม','ทดสอบ'].includes(String(x.RequestType||'')));
+  else if(LOAN_FILTER==='BORROW')a=a.filter(x=>['ให้ยืม','ทดสอบ'].includes(String(x.RequestType||'')));
+  else if(LOAN_FILTER==='DONE')a=a.filter(x=>['Completed','Returned'].includes(String(x.Status||'')));
   const q=(document.getElementById('loanSearch').value||'').trim().toLowerCase();
   if(q)a=a.filter(x=>loanSearchText(x).includes(q));
   document.getElementById('loanCount').textContent=a.length+' ใบ';
-  document.getElementById('loanList').innerHTML=a.map(loanCard).join('')||'<div class="empty">ยังไม่มีใบเบิกวัสดุ</div>'
+  const sum={req:0,issued:0,ret:0,borrow:0,pending:0,done:0};
+  base.forEach(x=>{if(['ให้ยืม','ทดสอบ'].includes(String(x.RequestType||'')))sum.borrow++;if(x.Status==='PendingApproval')sum.pending++;if(['Completed','Returned'].includes(String(x.Status||'')))sum.done++;(x.Items||[]).forEach(i=>{sum.req+=Number(i.QtyRequested||0);sum.issued+=Number(i.QtyIssued||0);sum.ret+=Number(i.QtyReturned||0)})});
+  const st=document.getElementById('loanAuditStats');if(st)st.innerHTML='<div class="stat"><b>'+base.length+'</b><span>จำนวนใบ</span></div><div class="stat"><b>'+sum.req+'</b><span>ขอทั้งหมด</span></div><div class="stat ok"><b>'+sum.issued+'</b><span>เบิกจริง</span></div><div class="stat"><b>'+sum.borrow+'</b><span>ใบยืม</span></div><div class="stat"><b>'+sum.ret+'</b><span>คืนแล้ว</span></div><div class="stat"><b>'+sum.pending+'</b><span>Pending</span></div>';
+  document.getElementById('loanList').innerHTML=a.map(loanCard).join('')||'<div class="empty">ยังไม่มีใบเบิกวัสดุในช่วงที่เลือก</div>'
 }
+
 function setLoanQty(id,v){const x=DATA.items.find(a=>a.ItemID===id),max=x?Number(x.Balance||0):0,n=Math.max(0,Math.min(max,Math.floor(Number(v)||0)));if(n)LOAN_QTY[id]=n;else{delete LOAN_QTY[id];delete LOAN_PHOTOS[id]}updateItemCartBar()}
 function renderLoanStock(){
   const selected=Object.entries(LOAN_QTY).map(([id,qty])=>({x:DATA.items.find(a=>a.ItemID===id&&a.Project==='M81'),qty:Number(qty||0)})).filter(o=>o.x&&o.qty>0);
   document.getElementById('loanItems').innerHTML=selected.map(o=>{
-    const x=o.x,p=LOAN_PHOTOS[x.ItemID],has=!!(p&&p.dataUrl);
+    const x=o.x;
     return '<div class="stock-row"><div><b>'+esc(x.System||'')+'</b><div class="sub">'+esc(x.Description||'')+'</div><div class="sub">'+esc(x.LocationPackingNo||'')+' · คงเหลือ <b>'+Number(x.Balance||0).toLocaleString()+'</b></div></div>'+
-      '<input data-id="'+esc(x.ItemID)+'" type="number" min="0" max="'+Number(x.Balance||0)+'" value="'+o.qty+'" inputmode="numeric" oninput="setLoanQty(this.dataset.id,this.value);renderLoanStock()">'+
-      '<div class="loan-photo-cell">'+
-        (has?'<img src="'+p.dataUrl+'" alt="รูปหลักฐาน">':'<div style="width:58px;height:58px;display:grid;place-items:center;border:1px dashed #cfd5e3;border-radius:10px;color:#8a93a8">📷</div>')+
-        '<input id="loanPhoto_'+esc(x.ItemID)+'" type="file" accept="image/*" capture="environment" class="hidden" onchange="selectLoanPhoto(\''+esc(x.ItemID)+'\',this)">'+
-        '<button type="button" class="secondary" onclick="document.getElementById(\'loanPhoto_'+esc(x.ItemID)+'\').click()">'+(has?'✓ มีรูปแล้ว · เปลี่ยนรูป':'ถ่าย / เลือกรูปของรายการนี้')+'</button>'+
-      '</div></div>'
+      '<input data-id="'+esc(x.ItemID)+'" type="number" min="0" max="'+Number(x.Balance||0)+'" value="'+o.qty+'" inputmode="numeric" oninput="setLoanQty(this.dataset.id,this.value);renderLoanStock()"></div>'
   }).join('')
 }
 async function compressLoanPhoto(file){
@@ -331,10 +346,10 @@ function openLoan(prefill=false){
     toast('บัญชีนี้ไม่มีสิทธิ์สร้างใบเบิก',true);return
   }
   if(!prefill){LOAN_QTY={};LOAN_PHOTOS={}}PENDING_LOAN=null;
-  const n=document.getElementById('loanRequesterName'),d=document.getElementById('loanDepartment'),pos=document.getElementById('loanPosition'),ph=document.getElementById('loanPhone');
+  const n=document.getElementById('loanRequesterName'),d=document.getElementById('loanDepartment'),ph=document.getElementById('loanPhone');
   const shared=String(DATA.user.profileMode||'Fixed')==='Shared',staff=canStock();
-  n.value=shared?'':(DATA.user.name||'');d.value=DATA.user.department||'';pos.value=DATA.user.position||'';ph.value=DATA.user.phone||'';
-  [n,d,pos,ph].forEach(e=>{e.readOnly=!staff&&!shared;e.classList.toggle('readonly',e.readOnly)});
+  n.value=shared?'':(DATA.user.name||'');d.value=DATA.user.department||'';ph.value=DATA.user.phone||'';
+  [n,d,ph].forEach(e=>{e.readOnly=!staff&&!shared;e.classList.toggle('readonly',e.readOnly)});
   document.getElementById('loanRequesterHint').textContent=shared?'บัญชีส่วนกลาง · กรุณากรอกชื่อผู้เบิกจริง':'ดึงข้อมูลจาก Profile อัตโนมัติ';
   document.getElementById('loanItemSearch').value='';renderLoanStock();showModal('loanModal');refreshStockIfStale(true)
 }
@@ -344,12 +359,9 @@ function buildLoan(){
   for(const it of items){
     const x=DATA.items.find(a=>a.ItemID===it.itemId);
     if(!x||x.Project!=='M81'||it.qty>Number(x.Balance||0)){toast('จำนวนที่ขอเกินคงเหลือ หรือเป็นรายการที่ไม่เปิดให้เบิก',true);return null}
-    const ph=LOAN_PHOTOS[it.itemId];
-    if(!ph||!ph.dataUrl){toast('กรุณาถ่ายรูปให้ครบทุกรายการก่อนส่งใบเบิก',true);return null}
-    it.photoDataUrl=ph.dataUrl;it.capturedAt=ph.capturedAt
   }
   const rt=document.querySelector('input[name="loanType"]:checked');
-  return {items,requesterName:document.getElementById('loanRequesterName').value.trim(),requesterDepartment:document.getElementById('loanDepartment').value.trim(),requesterPosition:document.getElementById('loanPosition').value.trim(),requesterPhone:document.getElementById('loanPhone').value.trim(),projectName:document.getElementById('loanProject').value.trim(),storageLocation:document.getElementById('loanStorageLocation').value.trim(),borrowPeriod:document.getElementById('loanBorrowPeriod').value.trim(),useLocation:document.getElementById('loanUseLocation').value.trim(),requestType:rt?rt.value:'',requestTypeOther:document.getElementById('loanTypeOther').value.trim(),requestReason:document.getElementById('loanReason').value.trim()}
+  return {items,requesterName:document.getElementById('loanRequesterName').value.trim(),requesterDepartment:document.getElementById('loanDepartment').value.trim(),requesterPosition:'',requesterPhone:document.getElementById('loanPhone').value.trim(),projectName:document.getElementById('loanProject').value.trim(),storageLocation:document.getElementById('loanStorageLocation').value.trim(),borrowPeriod:document.getElementById('loanBorrowPeriod').value.trim(),useLocation:document.getElementById('loanUseLocation').value.trim(),requestType:rt?rt.value:'',requestTypeOther:document.getElementById('loanTypeOther').value.trim(),requestReason:document.getElementById('loanReason').value.trim()}
 }
 
 function printLoan(){window.print()}
@@ -358,36 +370,75 @@ function previewHtml(x,draft=false){
   const rows=items.map((i,k)=>'<tr><td>'+(k+1)+'</td><td>'+esc(i.SystemSnapshot||'')+'</td><td>'+esc(i.DescriptionSnapshot||i.ItemID||'')+'</td><td>'+esc(i.LocationSnapshot||'')+'</td><td>'+Number(i.QtyRequested||0).toLocaleString()+'</td></tr>').join('');
   const isBorrow=['ให้ยืม','ทดสอบ'].includes(String(x.RequestType||''));
   const proofs=items.map(i=>i.Photo&&i.Photo.PhotoID?'<div class="photo-proof"><span>'+esc(i.DescriptionSnapshot||i.ItemID||'')+'</span><button type="button" class="secondary" onclick="viewLoanPhoto(\''+esc(i.Photo.PhotoID)+'\',\''+esc(i.DescriptionSnapshot||i.ItemID||'')+'\')">ดูรูป</button></div>':'').filter(Boolean).join('');
-  const requester=esc(x.RequesterName||'-'),handover=esc(x.HandoverByName||''),returner=esc(x.ReturnReceivedByName||'');
-  return '<div class="doc'+cls+'"><div class="dochead"><img class="doc-logo" src="loxley-logo.svg" alt="Loxley"><div class="doc-title"><div class="company">บริษัท ล็อกซเล่ย์ จำกัด (มหาชน)</div><b>ใบเบิกวัสดุ</b><span>ฝ่ายระบบขนส่ง · MA Stock</span></div><div class="doc-ref"><small>เลขที่เอกสาร</small><strong>'+esc(x.DocumentNumber||(draft?'ออกเลขเมื่อส่ง':'-'))+'</strong><small>วันที่</small><strong>'+fmt(x.RequestDateTime||new Date())+'</strong></div></div>'+
+  const requester=esc(x.RequesterName||''),approver=esc(x.ApproverName||''),handover=esc(x.HandoverByName||''),returner=esc(x.ReturnReceivedByName||'');
+  const requestAt=draft?'':fmt(x.RequestDateTime||x.CreatedAt),approvedAt=x.ApprovedAt?fmt(x.ApprovedAt):'',handoverAt=x.HandoverAt?fmt(x.HandoverAt):'',returnedAt=x.ReturnedAt?fmt(x.ReturnedAt):'';
+  return '<div class="doc'+cls+'"><div class="dochead"><img class="doc-logo" src="loxley-logo.svg" alt="Loxley"><div class="doc-title"><div class="company">บริษัท ล็อกซเล่ย์ จำกัด</div><b>ใบเบิกวัสดุ</b><span>ฝ่ายระบบขนส่ง · MA Stock</span></div><div class="doc-ref"><small>เลขที่เอกสาร</small><strong>'+esc(x.DocumentNumber||(draft?'ออกเลขเมื่อส่ง':'-'))+'</strong><small>วันที่ส่ง</small><strong>'+(requestAt||'ออกเวลาจริงเมื่อส่ง')+'</strong></div></div>'+
   '<div class="docgrid">'+
     '<div class="docfield"><small>ประเภท</small><strong>'+esc(x.RequestType||'-')+(x.RequestTypeOther?' · '+esc(x.RequestTypeOther):'')+'</strong></div>'+
-    '<div class="docfield"><small>ผู้ขอเบิก</small><strong>'+requester+'</strong></div>'+
-    '<div class="docfield"><small>ตำแหน่ง</small>'+esc(x.RequesterPosition||'-')+'</div>'+
-    '<div class="docfield"><small>แผนก / ฝ่าย · โทรศัพท์</small>'+esc(x.RequesterDepartment||'-')+(x.RequesterPhone?' · '+esc(x.RequesterPhone):'')+'</div>'+
+    '<div class="docfield"><small>ผู้ขอเบิก</small><strong>'+(requester||'-')+'</strong></div>'+
+    '<div class="docfield"><small>แผนก / ฝ่าย</small>'+esc(x.RequesterDepartment||'-')+'</div>'+
+    '<div class="docfield"><small>โทรศัพท์</small>'+esc(formatPhone(x.RequesterPhone||''))+'</div>'+
     '<div class="docfield span2"><small>โครงการ / สถานที่ใช้งาน</small>'+esc(x.ProjectName||'-')+(x.UseLocation?' · '+esc(x.UseLocation):'')+'</div>'+
     '<div class="docfield"><small>ระยะเวลา</small>'+esc(x.BorrowPeriod||'-')+'</div>'+
     '<div class="docfield full"><small>เหตุผล</small>'+esc(x.RequestReason||'-')+'</div>'+
   '</div>'+
   '<table class="doctable"><thead><tr><th>#</th><th>System</th><th>รายการวัสดุ</th><th>Location</th><th>จำนวน</th></tr></thead><tbody>'+rows+'</tbody></table>'+
-  '<div class="docnote">ผู้เบิกรับรองว่าได้รับวัสดุตามรายการข้างต้นถูกต้อง และกรณียืมจะนำส่งคืนตามจำนวนและสภาพที่รับไป</div>'+
-  (draft?'<div class="docnote">รูปหลักฐาน: ครบ '+items.length+'/'+items.length+' รายการ</div>':(proofs?'<div class="photo-proof-list">'+proofs+'</div>':''))+
+  (draft?'':(proofs?'<div class="photo-proof-list">'+proofs+'</div>':''))+
   '<div class="signature-grid">'+
-    '<div class="sigbox"><div class="sigrole">ผู้เบิก</div><div class="signame">'+requester+'</div><div class="sigline">ลายเซ็น / วันที่</div></div>'+
-    '<div class="sigbox"><div class="sigrole">ผู้ให้เบิก</div><div class="signame">'+(handover||'&nbsp;')+'</div><div class="sigline">ลายเซ็น / วันที่</div></div>'+
-    '<div class="sigbox"><div class="sigrole">ผู้ยืม (กรณียืม)</div><div class="signame">'+(isBorrow?requester:'&nbsp;')+'</div><div class="sigline">ลายเซ็น / วันที่</div></div>'+
-    '<div class="sigbox"><div class="sigrole">ผู้รับคืน / ผู้ให้ยืม (กรณีคืน)</div><div class="signame">'+(returner||'&nbsp;')+'</div><div class="sigline">ลายเซ็น / วันที่</div></div>'+
+    '<div class="sigbox"><div class="sigrole">ผู้เบิก</div><div class="signame">'+(requester||'&nbsp;')+'</div><div class="sigline">'+(requestAt||'&nbsp;')+'</div></div>'+
+    '<div class="sigbox"><div class="sigrole">ผู้อนุมัติ / ผู้ให้เบิก</div><div class="signame">'+(approver||handover||'&nbsp;')+'</div><div class="sigline">'+(approvedAt||handoverAt||'&nbsp;')+'</div></div>'+
+    '<div class="sigbox"><div class="sigrole">ผู้ยืม (กรณียืม)</div><div class="signame">'+(isBorrow&&handoverAt?requester:'&nbsp;')+'</div><div class="sigline">'+(isBorrow?handoverAt||'&nbsp;':'&nbsp;')+'</div></div>'+
+    '<div class="sigbox"><div class="sigrole">ผู้รับคืน (กรณีคืน)</div><div class="signame">'+(returner||'&nbsp;')+'</div><div class="sigline">'+(returnedAt||'&nbsp;')+'</div></div>'+
   '</div></div>'
 }
+
 function previewDraftLoan(){
   const p=buildLoan();if(!p)return;PENDING_LOAN=p;
-  const d={RequesterName:p.requesterName,RequesterDepartment:p.requesterDepartment,RequesterPosition:p.requesterPosition,RequesterPhone:p.requesterPhone,ProjectName:p.projectName,StorageLocation:p.storageLocation,BorrowPeriod:p.borrowPeriod,UseLocation:p.useLocation,RequestType:p.requestType,RequestTypeOther:p.requestTypeOther,RequestReason:p.requestReason,Items:p.items.map(it=>{const x=DATA.items.find(a=>a.ItemID===it.itemId)||{};return{ItemID:it.itemId,SystemSnapshot:x.System,DescriptionSnapshot:x.Description,LocationSnapshot:x.LocationPackingNo,QtyRequested:it.qty,Photo:{PhotoID:'draft'}}})};
+  const d={RequesterName:p.requesterName,RequesterDepartment:p.requesterDepartment,RequesterPhone:p.requesterPhone,ProjectName:p.projectName,StorageLocation:p.storageLocation,BorrowPeriod:p.borrowPeriod,UseLocation:p.useLocation,RequestType:p.requestType,RequestTypeOther:p.requestTypeOther,RequestReason:p.requestReason,Items:p.items.map(it=>{const x=DATA.items.find(a=>a.ItemID===it.itemId)||{};return{ItemID:it.itemId,SystemSnapshot:x.System,DescriptionSnapshot:x.Description,LocationSnapshot:x.LocationPackingNo,QtyRequested:it.qty}})};
   document.getElementById('loanPreviewBody').innerHTML=previewHtml(d,true);
   document.getElementById('loanPreviewActions').innerHTML='<button class="secondary" onclick="closeModal(\'loanPreviewModal\')">กลับไปแก้</button><button class="primary" onclick="confirmLoan()">ยืนยันส่งใบเบิก</button>';
   showModal('loanPreviewModal')
 }
+
 async function mutate(key,body,onok,timeout=30000){if(INFLIGHT.has(key)){toast('รายการนี้กำลังบันทึกอยู่');return}INFLIGHT.add(key);saving(true);try{const r=await api({token:TOKEN,...body},timeout);if(r&&r.changedItems){applyChanged(r.changedItems,r.stockVersion);setTimeout(()=>refreshStockIfStale(true),250)}if(onok)onok(r)}catch(e){if(isAuthError(e))authFail();else toast(e.message||String(e),true)}finally{INFLIGHT.delete(key);saving(false)}}
-function confirmLoan(){if(!PENDING_LOAN)return;mutate('createLoanRequest',{action:'createLoanRequest',payload:PENDING_LOAN},()=>{PENDING_LOAN=null;LOAN_QTY={};LOAN_PHOTOS={};updateItemCartBar();closeModal('loanPreviewModal');closeModal('loanModal');toast('ส่งใบเบิกพร้อมรูปหลักฐานแล้ว');LAST_LOAN_SYNC=0;go('loans');ensureLoans(true)},60000)}
+function confirmLoan(){
+  if(!PENDING_LOAN)return;
+  mutate('createLoanRequest',{action:'createLoanRequest',payload:PENDING_LOAN},()=>{
+    PENDING_LOAN=null;LOAN_QTY={};LOAN_PHOTOS={};updateItemCartBar();closeModal('loanPreviewModal');closeModal('loanModal');
+    toast('ส่งคำขอแล้ว · รออนุมัติก่อนถ่ายรูป');LAST_LOAN_SYNC=0;go('loans');ensureLoans(true)
+  },30000)
+}
+
+
+function formatPhone(v){
+  const d=String(v||'').replace(/\D/g,'');
+  return d.length===10?d.slice(0,3)+'-'+d.slice(3):String(v||'');
+}
+function initLoanPeriodFilters(){
+  const y=document.getElementById('loanYear');if(!y||y.options.length)return;
+  const now=new Date(),ys=[...new Set(DATA.loans.map(x=>{const d=new Date(x.RequestDateTime||x.CreatedAt);return isNaN(d)?0:d.getFullYear()}).filter(Boolean).concat([now.getFullYear()]))].sort((a,b)=>b-a);
+  y.innerHTML=ys.map(v=>'<option value="'+v+'">'+(v+543)+'</option>').join('');y.value=String(now.getFullYear());
+  const m=document.getElementById('loanMonth');if(m)m.value=String(now.getMonth()+1);
+}
+function openApprovedPhotos(id){
+  const x=DATA.loans.find(a=>a.LoanID===id);if(!x)return;
+  LOAN_PHOTOS={};document.getElementById('loanPhotoLoanId').value=id;document.getElementById('loanPhotoDoc').textContent=x.DocumentNumber||id;
+  document.getElementById('approvedPhotoItems').innerHTML=(x.Items||[]).map(i=>'<div class="stock-row"><div><b>'+esc(i.SystemSnapshot||'')+'</b><div class="sub">'+esc(i.DescriptionSnapshot||i.ItemID||'')+' × '+Number(i.QtyRequested||0)+'</div></div><div class="loan-photo-cell"><span id="approvedPhotoState_'+esc(i.LoanItemID)+'">ยังไม่มีรูป</span><input id="approvedPhoto_'+esc(i.LoanItemID)+'" type="file" accept="image/*" capture="environment" class="hidden" onchange="selectApprovedPhoto(\''+esc(i.LoanItemID)+'\',this)"><button class="secondary" onclick="document.getElementById(\'approvedPhoto_'+esc(i.LoanItemID)+'\').click()">ถ่าย / เลือกรูป</button></div></div>').join('');
+  showModal('loanPhotoModal')
+}
+async function selectApprovedPhoto(loanItemId,input){
+  const file=input&&input.files&&input.files[0];if(!file)return;
+  input.disabled=true;
+  try{const p=await compressLoanPhoto(file);LOAN_PHOTOS[loanItemId]=p;const s=document.getElementById('approvedPhotoState_'+loanItemId);if(s)s.textContent='✓ '+Math.round(p.size/1024)+' KB';}
+  catch(e){toast(e.message||String(e),true);input.value=''}finally{input.disabled=false}
+}
+function submitApprovedPhotos(){
+  const id=document.getElementById('loanPhotoLoanId').value,x=DATA.loans.find(a=>a.LoanID===id);if(!x)return;
+  const photos=(x.Items||[]).map(i=>{const p=LOAN_PHOTOS[i.LoanItemID];return p?{loanItemId:i.LoanItemID,photoDataUrl:p.dataUrl,capturedAt:p.capturedAt}:null}).filter(Boolean);
+  if(photos.length!==(x.Items||[]).length){toast('กรุณาถ่ายรูปให้ครบทุกรายการ',true);return}
+  mutate('approvedPhotos:'+id,{action:'submitApprovedLoanPhotos',loanId:id,photos},r=>{closeModal('loanPhotoModal');LOAN_PHOTOS={};toast(r.status==='HandedOver'?'รับวัสดุแล้ว · รอคืน':'เบิกวัสดุเสร็จสิ้นแล้ว');LAST_LOAN_SYNC=0;ensureLoans(true)},60000)
+}
+
 async function viewLoanPhoto(photoId,caption){
   if(!photoId||photoId==='draft')return;
   try{
@@ -399,7 +450,7 @@ async function viewLoanPhoto(photoId,caption){
   finally{saving(false)}
 }
 function showLoan(id){const x=DATA.loans.find(a=>a.LoanID===id);if(!x)return;document.getElementById('loanPreviewBody').innerHTML=previewHtml(x,false);let a='<button class="secondary" onclick="closeModal(\'loanPreviewModal\')">ปิด</button><button class="secondary" onclick="printLoan()">พิมพ์</button>';if(canApprove()&&x.Status==='PendingApproval')a+='<button class="danger" onclick="decideLoan(\''+esc(id)+'\',false)">ไม่อนุมัติ</button><button class="success" onclick="decideLoan(\''+esc(id)+'\',true)">อนุมัติ</button>';document.getElementById('loanPreviewActions').innerHTML=a;showModal('loanPreviewModal')}
-function decideLoan(id,yes){let reason='';if(!yes){reason=prompt('เหตุผลที่ไม่อนุมัติ')||'';if(!reason)return}mutate('decideLoan:'+id,{action:'decideLoan',loanId:id,approve:yes,reason},()=>{closeModal('loanPreviewModal');toast(yes?'อนุมัติใบเบิกแล้ว':'บันทึกไม่อนุมัติแล้ว');LAST_LOAN_SYNC=0;ensureLoans(true)})}
+function decideLoan(id,yes){let reason='';if(!yes){reason=prompt('เหตุผลที่ไม่อนุมัติ')||'';if(!reason)return}mutate('decideLoan:'+id,{action:'decideLoan',loanId:id,approve:yes,reason},()=>{closeModal('loanPreviewModal');toast(yes?'อนุมัติแล้ว · รอผู้เบิกถ่ายรูป':'บันทึกไม่อนุมัติแล้ว');LAST_LOAN_SYNC=0;ensureLoans(true)})}
 function handover(id){if(!confirm('ยืนยันจ่ายออกและหักสต็อก?'))return;mutate('handover:'+id,{action:'handoverLoan',loanId:id},()=>{toast('จ่ายออกแล้ว');LAST_LOAN_SYNC=0;ensureLoans(true)})}
 function openReturn(id){
   const x=DATA.loans.find(a=>a.LoanID===id);if(!x)return;
