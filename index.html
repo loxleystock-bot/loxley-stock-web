@@ -607,9 +607,9 @@ function tokenExpired(){try{const p=TOKEN.split('.')[0].replace(/-/g,'+').replac
 async function checkBuild(){
   try{
     const r=await fetch('version.json?t='+Date.now(),{cache:'no-store'});
-    const j=await r.json();
-    if(j&&j.build&&j.build!==BUILD_ID){
-      location.replace(location.pathname+'?v='+encodeURIComponent(j.build));return false
+    const j=await r.json(),remote=j&&(j.frontend||j.build);
+    if(remote&&remote!==BUILD_ID){
+      location.replace(location.pathname+'?v='+encodeURIComponent(remote));return false
     }
   }catch(_){}
   return true
