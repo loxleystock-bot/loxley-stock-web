@@ -117,7 +117,7 @@ const EMPTY={total:0,balance:0,issued:0,inRepair:0,pending:0,openClaims:0};
 let DATA={user:{},dashboard:{...EMPTY},items:[],loans:[],claims:[],users:[]};
 let TOKEN=localStorage.getItem(TOKEN_KEY)||'',STOCK_VERSION=0,LAST_STOCK_SYNC=0,LAST_LOAN_SYNC=0,LAST_CLAIM_SYNC=0;
 let ACTIVE='home',ITEM_LIMIT=50,LOAN_FILTER='ALL',LOAN_QTY={},LOAN_PHOTOS={},PENDING_LOAN=null,PENDING_AUTH_ACTION=null;
-const BUILD_ID='20261006-clean-v2.2.1';
+const BUILD_ID='20261006-clean-v2.2.2';
 let STOCK_LOADING=false,STOCK_SYNCING=false,LOANS_LOADING=false,CLAIMS_LOADING=false,USERS_LOADING=false,USERS_LOADED=false;
 const INFLIGHT=new Set();let SAVE_COUNT=0;
 const role=()=>String(DATA.user.role||'Viewer');
@@ -166,16 +166,7 @@ function apiIframe(body,timeout=20000){
   })
 }
 async function api(body,timeout=20000){
-  if(IOS_WEBKIT)return apiIframe(body,timeout);
-  const ctl=new AbortController(),tm=setTimeout(()=>ctl.abort(),timeout);
-  try{
-    const r=await fetch(API_URL,{method:'POST',mode:'cors',credentials:'omit',cache:'no-store',signal:ctl.signal,headers:{'Content-Type':'text/plain;charset=UTF-8'},body:JSON.stringify(body)});
-    const t=await r.text();if(!r.ok)throw new Error('API HTTP '+r.status);
-    let j;try{j=JSON.parse(t)}catch(_){throw new Error('API_BAD_RESPONSE')}
-    if(!j.ok)throw new Error(j.error||'API_ERROR');return j.result
-  }catch(e){
-    if(e&&e.name==='AbortError')throw new Error('ระบบตอบช้า กรุณาลองอีกครั้ง');throw e
-  }finally{clearTimeout(tm)}
+  return apiIframe(body,timeout)
 }
 function setAuth(on){
   document.body.classList.toggle('locked',!on);
